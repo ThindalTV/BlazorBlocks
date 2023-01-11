@@ -1,0 +1,30 @@
+﻿@using BlazorBlocks.Shared.BlockEditor.Model;
+@using BlazorBlocks.Shared.BlockEditor.Model.Editors;
+@code {
+    [Parameter]
+    public EditorColumnModel Model { get; set; }
+
+    protected void AddTitleBlock()
+    {
+        Model.Blocks.Add(new TitleBlockModel());
+    }
+
+    protected void AddRawTextBlock()
+    {
+        Model.Blocks.Add(new RawTextBlockModel());
+    }
+
+    protected void AddImageBlock()
+    {
+        Model.Blocks.Add(new ImageBlockModel());
+    }
+}
+
+@foreach(var block in Model.Blocks)
+{
+    <div><DynamicComponent Type="@block.BlazorBlockEditor" Parameters="@block.Parameters" /></div>
+    <hr />
+}
+<button @onclick="AddTitleBlock">Add Title Block</button><br />
+<button @onclick="AddRawTextBlock">Add RawText Block</button><br />
+<button @onclick="AddImageBlock">Add Image Block</button>

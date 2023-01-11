@@ -1,0 +1,51 @@
+﻿@using BlazorBlocks.Shared.BlockEditor.Internals;
+@using BlazorBlocks.Shared.BlockEditor.Model;
+<div style="background-color: #EEE">
+    <h3>Editor</h3>
+
+    @foreach (var row in Model.Rows)
+    {
+        <div class="row" style="background-color: #DDD;">
+            <div class="col-2">
+                <button @onclick="_ => AddRowBelow(row)">Add row below</button>
+                <button @onclick="_ => MoveRowUp(row)"><i class="oi oi-arrow-thick-top"></i></button>
+                <button @onclick="_ => MoveRowDown(row)"><i class="oi oi-arrow-thick-bottom"></i></button>
+            </div>
+            <div class="col-10"><EditorRow Model="@row" /></div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public EditorModel Model { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    protected void AddRowBelow(EditorRowModel row)
+    {
+        var clickedRowIndex = Model.Rows.IndexOf(row);
+        Model.Rows.Insert(clickedRowIndex + 1, new EditorRowModel() { Columns = new List<EditorColumnModel>() { new EditorColumnModel() { ColumnSize = "col-12" } } });
+    }
+
+    protected void MoveRowUp(EditorRowModel rowToMove) => MoveRow(rowToMove, -1);
+
+    protected void MoveRowDown(EditorRowModel rowToMove) => MoveRow(rowToMove, 1);
+
+    protected void MoveRow(EditorRowModel rowToMove, int offset)
+    {
+        var clickedRowIndex = Model.Rows.IndexOf(rowToMove);
+        var newPosition = clickedRowIndex + offset;
+        if( offset == 0 || newPosition < 0 || newPosition > Model.Rows.Count)
+        {
+            return;
+        }
+
+        Model.Rows.Remove(rowToMove);
+
+        Model.Rows.Insert(newPosition, rowToMove);
+    }
+}

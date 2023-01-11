@@ -1,9 +1,55 @@
-﻿@page "/"
+﻿@using BlazorBlocks.Shared.BlockEditor
+@using BlazorBlocks.Shared.BlockEditor.Model;
+@using BlazorBlocks.Shared.BlockEditor.Model.Editors;
+@page "/"
 
 <PageTitle>Index</PageTitle>
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+<hr />
+<div class="content">
+    <Editor Model="@editorModel" />
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    <button @onclick="ReRender">ReRender</button>
+    <div class="row">
+        @((MarkupString)renderContent)
+    </div>
+</div>
+@code {
+    EditorModel editorModel = new EditorModel();
+
+    string renderContent;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        var row1 = new EditorRowModel();
+        var r1c1 = new EditorColumnModel() { ColumnSize = "col-md-12" };
+        var titleBlock = new TitleBlockModel() { Title = "Title" };
+        r1c1.Blocks.Add(titleBlock);
+        row1.Columns.Add(r1c1);
+        editorModel.Rows.Add(row1);
+
+        var row2 = new EditorRowModel();
+
+        var r2c1 = new EditorColumnModel() { ColumnSize = "col-md-4" };
+        r2c1.Blocks.Add(new RawTextBlockModel() { Content = "hello from index" });
+
+        var r2c2 = new EditorColumnModel() { ColumnSize = "col-md-7" };
+        r2c2.Blocks.Add(new ImageBlockModel());
+        row2.Columns.Add(r2c1);
+        row2.Columns.Add(r2c2);
+        editorModel.Rows.Add(row2);
+
+        StateHasChanged();
+    }
+
+    protected void ReRender()
+    {
+        renderContent = editorModel.Render();
+        StateHasChanged();
+    }
+
+}
