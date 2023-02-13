@@ -1,6 +1,8 @@
 ﻿@using BlazorBlocks.Shared.BlockEditor
+@using BlazorBlocks.Shared.BlockEditor.Blocks.ImageBlock;
+@using BlazorBlocks.Shared.BlockEditor.Blocks.RawTextBlock;
+@using BlazorBlocks.Shared.BlockEditor.Blocks.TitleBlock;
 @using BlazorBlocks.Shared.BlockEditor.Model;
-@using BlazorBlocks.Shared.BlockEditor.Model.Editors;
 @page "/"
 
 <PageTitle>Index</PageTitle>
@@ -16,11 +18,21 @@ Welcome to your new app.
     <div class="row">
         @((MarkupString)renderContent)
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Serialize</h2>
+            <button @onclick="() => Import()">Load</button>
+            <button @onclick="() => Export()">Export</button>
+            <InputTextArea @bind-Value="@serialized" />
+        </div>
+    </div>
+    
 </div>
 @code {
     EditorModel editorModel = new EditorModel();
 
     string renderContent;
+    string serialized;
 
     protected override void OnInitialized()
     {
@@ -50,6 +62,17 @@ Welcome to your new app.
     {
         renderContent = editorModel.Render();
         StateHasChanged();
+    }
+
+    protected void Import()
+    {
+        editorModel.Load(serialized);
+        StateHasChanged();
+    }
+
+    protected void Export()
+    {
+        serialized = editorModel.Serialize();
     }
 
 }

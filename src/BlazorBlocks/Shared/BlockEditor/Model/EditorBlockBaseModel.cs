@@ -1,16 +1,21 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System.Text.Json.Serialization;
 
 namespace BlazorBlocks.Shared.BlockEditor.Model;
 
 public abstract class EditorBlockBaseModel : ComponentBase
 {
-    public Type BlazorBlockEditor { get; set; }
+    [JsonIgnore]
+    public Type EditorType { get; }
+
+    [JsonIgnore]
     public Dictionary<string, object> Parameters { get; set; }
 
-    public EditorBlockBaseModel()
+    public EditorBlockBaseModel(Type editorType)
     {
+        EditorType = editorType;
         Parameters = new Dictionary<string, object>() { { "Model", this } };
     }
 
-    abstract public string Render();
+    public abstract string Render();
 }

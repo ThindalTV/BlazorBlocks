@@ -1,9 +1,12 @@
-﻿@using BlazorBlocks.Shared.BlockEditor.Model;
-@using BlazorBlocks.Shared.BlockEditor.Model.Editors;
+﻿@using BlazorBlocks.Shared.BlockEditor.Blocks.ImageBlock;
+@using BlazorBlocks.Shared.BlockEditor.Blocks.RawTextBlock;
+@using BlazorBlocks.Shared.BlockEditor.Blocks.TitleBlock;
+@using BlazorBlocks.Shared.BlockEditor.Model;
 @code {
     [Parameter]
     public EditorColumnModel Model { get; set; }
 
+    // TEMP. Get from registrations
     protected void AddTitleBlock()
     {
         Model.Blocks.Add(new TitleBlockModel());
@@ -22,7 +25,7 @@
 
 @foreach(var block in Model.Blocks)
 {
-    <div><DynamicComponent Type="@block.BlazorBlockEditor" Parameters="@block.Parameters" /></div>
+    <div><DynamicComponent Type="@block.EditorType" Parameters="@block.Parameters" /></div>
     <hr />
 }
 <button @onclick="AddTitleBlock">Add Title Block</button><br />
