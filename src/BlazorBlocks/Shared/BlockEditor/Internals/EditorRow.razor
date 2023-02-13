@@ -2,11 +2,14 @@
 @code {
     [Parameter]
     public EditorRowModel Model { get; set; }
+
+    [Parameter]
+    public List<BlockRegistration> BlockTypes { get; set; }
 }
     @foreach (var column in Model.Columns)
 {
     <div class="@column.ColumnSize" style="background-color: #CCC;">
-        <EditorColumn Model="@column" />
+        <EditorColumn Model="@column" BlockTypes="@BlockTypes" />
     </div>
 }
 <div class="col-12">

@@ -11,7 +11,7 @@
                 <button @onclick="_ => MoveRowUp(row)"><i class="oi oi-arrow-thick-top"></i></button>
                 <button @onclick="_ => MoveRowDown(row)"><i class="oi oi-arrow-thick-bottom"></i></button>
             </div>
-            <div class="col-10"><EditorRow Model="@row" /></div>
+            <div class="col-10"><EditorRow Model="@row" BlockTypes="@Model.BlockRegistrations" /></div>
         </div>
     }
 </div>

@@ -11,7 +11,8 @@ namespace BlazorBlocks.Shared.BlockEditor.Model;
 public class EditorModel
 {
     public List<EditorRowModel> Rows { get; set; }
-    private readonly List<BlockRegistration> _blockRegistrations;
+    public List<BlockRegistration> BlockRegistrations { get; }
+
     private readonly JsonSerializerTypeResolver _jsonSerializerResolver;
 
     public EditorModel() : this(new List<BlockRegistration>())
@@ -21,13 +22,13 @@ public class EditorModel
 
     public EditorModel(List<BlockRegistration> editorRegistrations)
     {
-        _blockRegistrations = editorRegistrations ?? new List<BlockRegistration>();
+        BlockRegistrations = editorRegistrations ?? new List<BlockRegistration>();
 
-        _blockRegistrations.Add(new BlockRegistration(typeof(TitleBlockModel), typeof(TitleEditorBlock)));
-        _blockRegistrations.Add(new BlockRegistration(typeof(RawTextBlockModel), typeof(RawTextEditorBlock)));
-        _blockRegistrations.Add(new BlockRegistration(typeof(ImageBlockModel), typeof(ImageEditorBlock)));
+        BlockRegistrations.Add(new BlockRegistration("Title", typeof(TitleBlockModel), typeof(TitleEditorBlock)));
+        BlockRegistrations.Add(new BlockRegistration("Raw text", typeof(RawTextBlockModel), typeof(RawTextEditorBlock)));
+        BlockRegistrations.Add(new BlockRegistration("Image", typeof(ImageBlockModel), typeof(ImageEditorBlock)));
 
-        _jsonSerializerResolver = new JsonSerializerTypeResolver(_blockRegistrations);
+        _jsonSerializerResolver = new JsonSerializerTypeResolver(BlockRegistrations);
 
         Rows = new List<EditorRowModel>();
     }
@@ -54,14 +55,22 @@ public class EditorModel
     }
 }
 
-public class BlockRegistration
+public class BlockRegistration 
 {
-    public Type BlockModel { get; set; }
-    public Type EditorBlock { get; set; }
-    public BlockRegistration(Type blockModel, Type editorType)
+    public string Name { get; }
+    public Type BlockModel { get; }
+    public Type EditorBlock { get; }
+
+    public BlockRegistration(string name, Type modelType, Type editorType)
     {
-        BlockModel = blockModel;
+        Name = name;
+        BlockModel = modelType;
         EditorBlock = editorType;
+    }
+
+    internal static TBlockModel Create<TBlockModel>() where TBlockModel : EditorBlockBaseModel, new()
+    {
+        return new TBlockModel();
     }
 }
 

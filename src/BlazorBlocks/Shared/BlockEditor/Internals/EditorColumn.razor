@@ -6,6 +6,9 @@
     [Parameter]
     public EditorColumnModel Model { get; set; }
 
+        [Parameter]
+    public List<BlockRegistration> BlockTypes { get; set; }
+
     // TEMP. Get from registrations
     protected void AddTitleBlock()
     {
@@ -21,6 +24,12 @@
     {
         Model.Blocks.Add(new ImageBlockModel());
     }
+
+    protected void AddBlock(BlockRegistration blockType)
+    {
+        var blockModel = (EditorBlockBaseModel)Activator.CreateInstance(blockType.BlockModel);
+        Model.Blocks.Add(blockModel);
+    }
 }
 
 @foreach(var block in Model.Blocks)
@@ -28,6 +37,12 @@
     <div><DynamicComponent Type="@block.EditorType" Parameters="@block.Parameters" /></div>
     <hr />
 }
+
+@foreach(var blockType in BlockTypes)
+{
+    <button @onclick="() => AddBlock(blockType)">@blockType.Name</button><br />
+}
+<hr />
 <button @onclick="AddTitleBlock">Add Title Block</button><br />
 <button @onclick="AddRawTextBlock">Add RawText Block</button><br />
 <button @onclick="AddImageBlock">Add Image Block</button>
