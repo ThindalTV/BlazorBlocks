@@ -6,7 +6,7 @@
     [Parameter]
     public EditorColumnModel Model { get; set; }
 
-        [Parameter]
+    [Parameter]
     public List<BlockRegistration> BlockTypes { get; set; }
 
     // TEMP. Get from registrations
@@ -27,7 +27,8 @@
 
     protected void AddBlock(BlockRegistration blockType)
     {
-        var blockModel = (EditorBlockBaseModel)Activator.CreateInstance(blockType.BlockModel);
+        var blockModel = Activator.CreateInstance(blockType.BlockModel) as EditorBlockBaseModel;
+        if (blockModel == null) throw new InvalidOperationException($"Attempting to create a block model that is not a EditorBlockBaseModel. (It is {blockType.BlockModel.Name})");
         Model.Blocks.Add(blockModel);
     }
 }

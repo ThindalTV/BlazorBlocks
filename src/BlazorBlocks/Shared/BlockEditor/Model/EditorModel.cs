@@ -1,4 +1,5 @@
-﻿using BlazorBlocks.Shared.BlockEditor.Blocks.ImageBlock;
+﻿using BlazorBlocks.Shared.BlockEditor.Blocks;
+using BlazorBlocks.Shared.BlockEditor.Blocks.ImageBlock;
 using BlazorBlocks.Shared.BlockEditor.Blocks.RawTextBlock;
 using BlazorBlocks.Shared.BlockEditor.Blocks.TitleBlock;
 using System.Text;
@@ -55,7 +56,7 @@ public class EditorModel
     }
 }
 
-public class BlockRegistration 
+public class BlockRegistration
 {
     public string Name { get; }
     public Type BlockModel { get; }
@@ -63,14 +64,14 @@ public class BlockRegistration
 
     public BlockRegistration(string name, Type modelType, Type editorType)
     {
+        if (!modelType.IsSubclassOf(typeof(EditorBlockBaseModel)))
+        {
+            throw new ArgumentException($"{nameof(modelType)} is not derived from {nameof(EditorBlockBaseModel)}.");
+        }
+
         Name = name;
         BlockModel = modelType;
         EditorBlock = editorType;
-    }
-
-    internal static TBlockModel Create<TBlockModel>() where TBlockModel : EditorBlockBaseModel, new()
-    {
-        return new TBlockModel();
     }
 }
 
@@ -104,7 +105,7 @@ internal sealed class JsonSerializerTypeResolver : DefaultJsonTypeInfoResolver
         if (!_blockRegistrations.Any()) return jsonTypeInfo;
 
         Type baseModelType = typeof(EditorBlockBaseModel);
-        if(jsonTypeInfo.Type == baseModelType)
+        if (jsonTypeInfo.Type == baseModelType)
         {
             jsonTypeInfo.PolymorphismOptions = _polymorphismOptions;
         }
