@@ -17,7 +17,7 @@ public class ImageBlockModel : EditorBlockBaseModel
         {
             return "No image";
         }
-        return $"<img src=\"{ImageUrl}\" alt=\"{AltText}\" />";
+        return $"""<img src="{ImageUrl}" alt="{AltText}" />""";
     }
 
 }

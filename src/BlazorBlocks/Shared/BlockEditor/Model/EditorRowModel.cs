@@ -4,6 +4,9 @@ namespace BlazorBlocks.Shared.BlockEditor.Model;
 
 public class EditorRowModel
 {
+    // TODO: Temp
+    public string ColumnCollectionName { get; set; }
+
     public List<EditorColumnModel> Columns { get; set; }
 
     public EditorRowModel()

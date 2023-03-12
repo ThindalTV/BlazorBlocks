@@ -1,4 +1,6 @@
-﻿@using BlazorBlocks.Shared.BlockEditor.Blocks.ImageBlock;
+﻿@using BlazorBlocks.Shared.Component;
+
+@using BlazorBlocks.Shared.BlockEditor.Blocks.ImageBlock;
 @using BlazorBlocks.Shared.BlockEditor.Blocks.RawTextBlock;
 @using BlazorBlocks.Shared.BlockEditor.Blocks.TitleBlock;
 @using BlazorBlocks.Shared.BlockEditor.Model;
@@ -9,22 +11,47 @@
     [Parameter]
     public List<BlockRegistration> BlockTypes { get; set; }
 
+    protected bool AddNewBlockDialogOpen { get; set; } = false;
+
     protected void AddBlock(BlockRegistration blockType)
     {
         var blockModel = Activator.CreateInstance(blockType.BlockModel) as EditorBlockBaseModel;
         if (blockModel == null) throw new InvalidOperationException($"Attempting to create a block model that is not a EditorBlockBaseModel. (It is {blockType.BlockModel.Name})");
         Model.Blocks.Add(blockModel);
+        AddNewBlockDialogOpen = false;
+    }
+
+    protected void OpenAddNewBlockDialog()
+    {
+        AddNewBlockDialogOpen = true;
     }
 }
 
-@foreach(var block in Model.Blocks)
+@if (AddNewBlockDialogOpen)
 {
-    <div><DynamicComponent Type="@block.EditorType" Parameters="@block.Parameters" /></div>
+    <Dialog Title="Add new block" OnClose="() => { AddNewBlockDialogOpen = false; }">
+        @foreach (var blockType in BlockTypes)
+                {
+                    @if (blockType.Image == null)
+                    {
+                        <button @onclick="() => AddBlock(blockType)">@blockType.Name</button>
+                    }
+                    else
+                    {
+                        <img @onclick="() => AddBlock(blockType)" src="@blockType.Image" />
+                    }
+                }
+    </Dialog>
+}
+
+@foreach (var block in Model.Blocks)
+{
+    <div style="border: #000 1px solid;"><DynamicComponent Type="@block.EditorType" Parameters="@block.Parameters" /></div>
     <hr />
 }
 
-@foreach(var blockType in BlockTypes)
+@if (BlockTypes.Any())
 {
-    <button @onclick="() => AddBlock(blockType)">@blockType.Name</button><br />
+    <button @onclick="() => OpenAddNewBlockDialog()"><i class="oi oi-plus"></i></button>
 }
 <hr />
