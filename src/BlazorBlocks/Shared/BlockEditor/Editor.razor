@@ -6,13 +6,20 @@
     @foreach (var row in Model.Rows)
     {
         <div class="row" style="background-color: #DDD;">
-            <div class="col-2">
-                <button @onclick="_ => AddRowBelow(row)">Add row below</button>
-                <button @onclick="_ => MoveRowUp(row)"><i class="oi oi-arrow-thick-top"></i></button>
-                <button @onclick="_ => MoveRowDown(row)"><i class="oi oi-arrow-thick-bottom"></i></button>
+            <div class="col-1 justify-content-center align-self-center">
+                <button @onclick="_ => AddRowBelow(row)"><i class="oi oi-plus"></i></button><br />
+                @if (Model.Rows.IndexOf(row) > 0)
+                {
+                    <button @onclick="_ => MoveRowUp(row)"><i class="oi oi-arrow-thick-top"></i></button><br />
+                }
+                @if(Model.Rows.IndexOf(row) < Model.Rows.Count - 1)
+                {
+                    <button @onclick="_ => MoveRowDown(row)"><i class="oi oi-arrow-thick-bottom"></i></button>
+                }
             </div>
-            <div class="col-10"><EditorRow Model="@row" BlockTypes="@Model.BlockRegistrations" /></div>
+            <div class="col-10"><div class="row"><EditorRow Model="@row" BlockTypes="@Model.BlockRegistrations" /></div></div>
         </div>
+        <div class="row"><div class="col-12"><hr /></div></div>
     }
 </div>
 
