@@ -3,6 +3,7 @@ using BlazorBlocks.Shared.BlockEditor.Blocks.RawTextBlock;
 using BlazorBlocks.Shared.BlockEditor.Blocks.TitleBlock;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace BlazorBlocks.Shared.BlockEditor.Model;
 
@@ -10,10 +11,14 @@ public class EditorModel
 {
     public List<EditorRowModel> Rows { get; set; }
 
+    [JsonIgnore]
     public List<EditorRowModel> ColumnDefinitions { get; set; }
+
+    [JsonIgnore]
     public List<BlockRegistration> BlockRegistrations { get; }
 
     private readonly JsonSerializerTypeResolver _jsonSerializerResolver;
+    private readonly new JsonSerializerOptions _jsonSerializerOptions;
 
     public EditorModel() : this(new List<BlockRegistration>())
     {
@@ -33,6 +38,7 @@ public class EditorModel
         BlockRegistrations.Add(new BlockRegistration("Image", null, typeof(ImageBlockModel), typeof(ImageEditorBlock)));
 
         _jsonSerializerResolver = new JsonSerializerTypeResolver(BlockRegistrations);
+        _jsonSerializerOptions = new JsonSerializerOptions() { TypeInfoResolver = _jsonSerializerResolver };
 
         Rows = new List<EditorRowModel>();
     }
@@ -49,12 +55,12 @@ public class EditorModel
 
     public string Serialize()
     {
-        return JsonSerializer.Serialize(this, new JsonSerializerOptions() { TypeInfoResolver = _jsonSerializerResolver });
+        return JsonSerializer.Serialize(this, _jsonSerializerOptions);
     }
 
     public void Load(string data)
     {
-        var model = JsonSerializer.Deserialize<EditorModel>(data, new JsonSerializerOptions() { TypeInfoResolver = _jsonSerializerResolver });
+        var model = JsonSerializer.Deserialize<EditorModel>(data, _jsonSerializerOptions);
         Rows = model.Rows;
     }
     void AddDefaultColumnDefinitions()
