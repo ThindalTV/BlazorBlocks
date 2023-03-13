@@ -11,36 +11,29 @@ public class EditorModel
 {
     public List<EditorRowModel> Rows { get; set; }
 
+    // Should these two even be public? They're config metadata that could be internal, either direct or via getter function
+    // TODO: Create separate type for this
     [JsonIgnore]
-    public List<EditorRowModel> ColumnDefinitions { get; set; }
+    public List<EditorRowModel> ColumnDefinitions { get; }
 
     [JsonIgnore]
     public List<BlockRegistration> BlockRegistrations { get; }
 
-    private readonly JsonSerializerTypeResolver _jsonSerializerResolver;
-    private readonly new JsonSerializerOptions _jsonSerializerOptions;
+    private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-    public EditorModel() : this(new List<BlockRegistration>())
-    {
+    public EditorModel() : this(new List<BlockRegistration>(), new List<EditorRowModel>()) { }
 
-    }
-
-    public EditorModel(List<BlockRegistration> editorRegistrations)
+    public EditorModel(List<BlockRegistration> editorRegistrations, List<EditorRowModel> columnDefinitions)
     {
         BlockRegistrations = editorRegistrations ?? new List<BlockRegistration>();
-
-        ColumnDefinitions = new List<EditorRowModel>();
-
-        AddDefaultColumnDefinitions();
-
-        BlockRegistrations.Add(new BlockRegistration("Title", null, typeof(TitleBlockModel), typeof(TitleEditorBlock)));
-        BlockRegistrations.Add(new BlockRegistration("Raw text", "https://icon-sets.iconify.design/logo-iconify.svg", typeof(RawTextBlockModel), typeof(RawTextEditorBlock)));
-        BlockRegistrations.Add(new BlockRegistration("Image", null, typeof(ImageBlockModel), typeof(ImageEditorBlock)));
-
-        _jsonSerializerResolver = new JsonSerializerTypeResolver(BlockRegistrations);
-        _jsonSerializerOptions = new JsonSerializerOptions() { TypeInfoResolver = _jsonSerializerResolver };
+        ColumnDefinitions = columnDefinitions ?? new List<EditorRowModel>();
 
         Rows = new List<EditorRowModel>();
+
+        AddDefaultColumnDefinitions();
+        AddDefaultBlockTypes();
+
+        _jsonSerializerOptions = new JsonSerializerOptions() { TypeInfoResolver = new JsonSerializerTypeResolver(BlockRegistrations) };
     }
 
     public string Render()
@@ -61,9 +54,10 @@ public class EditorModel
     public void Load(string data)
     {
         var model = JsonSerializer.Deserialize<EditorModel>(data, _jsonSerializerOptions);
-        Rows = model.Rows;
+        Rows = model?.Rows ?? new List<EditorRowModel>();
     }
-    void AddDefaultColumnDefinitions()
+
+    private void AddDefaultColumnDefinitions()
     {
         ColumnDefinitions.Add(new EditorRowModel()
         {
@@ -94,5 +88,12 @@ public class EditorModel
                new EditorColumnModel() { ColumnSize = "col-4" }
             }
         });
+    }
+
+    private void AddDefaultBlockTypes()
+    {
+        BlockRegistrations.Add(new BlockRegistration("Title", null, typeof(TitleBlockModel), typeof(TitleEditorBlock)));
+        BlockRegistrations.Add(new BlockRegistration("Raw text", "https://icon-sets.iconify.design/logo-iconify.svg", typeof(RawTextBlockModel), typeof(RawTextEditorBlock)));
+        BlockRegistrations.Add(new BlockRegistration("Image", null, typeof(ImageBlockModel), typeof(ImageEditorBlock)));
     }
 }

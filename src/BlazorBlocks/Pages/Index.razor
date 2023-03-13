@@ -23,7 +23,7 @@ Welcome to your new app.
             <h2>Serialize</h2>
             <button @onclick="() => Import()">Load</button>
             <button @onclick="() => Export()">Export</button>
-            <InputTextArea @bind-Value="@serialized" />
+            <InputTextArea @bind-Value="@serialized" Rows="10" Cols="100" />
         </div>
     </div>
     
@@ -37,24 +37,9 @@ Welcome to your new app.
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        var row1 = new EditorRowModel();
-        var r1c1 = new EditorColumnModel() { ColumnSize = "col-md-12" };
-        var titleBlock = new TitleBlockModel() { Title = "Title" };
-        r1c1.Blocks.Add(titleBlock);
-        row1.Columns.Add(r1c1);
-        editorModel.Rows.Add(row1);
-
-        var row2 = new EditorRowModel();
-
-        var r2c1 = new EditorColumnModel() { ColumnSize = "col-md-4" };
-        r2c1.Blocks.Add(new RawTextBlockModel() { Content = "hello from index" });
-
-        var r2c2 = new EditorColumnModel() { ColumnSize = "col-md-7" };
-        r2c2.Blocks.Add(new ImageBlockModel());
-        row2.Columns.Add(r2c1);
-        row2.Columns.Add(r2c2);
-        editorModel.Rows.Add(row2);
-
+        // Read in and save some default blocks for testing
+        editorModel.Load($$$"""{"Rows":[{"ColumnCollectionName":null,"Columns":[{"ColumnSize":"col-md-12","Blocks":[{"$modelType":"TitleBlockModel","Title":"Title"}]}]},{"ColumnCollectionName":null,"Columns":[{"ColumnSize":"col-md-4","Blocks":[{"$modelType":"RawTextBlockModel","Content":"hello from index"}]},{"ColumnSize":"col-md-7","Blocks":[{"$modelType":"ImageBlockModel","ImageUrl":"","AltText":""}]}]}]}""");
+        serialized = editorModel.Serialize();
         StateHasChanged();
     }
 
