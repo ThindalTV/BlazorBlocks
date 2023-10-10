@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace BlazorBlocks.BlockEditor.Blocks;
+namespace BlazorBlocks.Blocks;
 
 public class BaseEditor<T> : ComponentBase
 {

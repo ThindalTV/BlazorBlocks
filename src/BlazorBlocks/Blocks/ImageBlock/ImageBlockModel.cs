@@ -1,6 +1,6 @@
 ﻿using BlazorBlocks.BlockEditor.Model;
 
-namespace BlazorBlocks.BlockEditor.Blocks.ImageBlock;
+namespace BlazorBlocks.Blocks.ImageBlock;
 
 public class ImageBlockModel : EditorBlockBaseModel
 {

@@ -1,6 +1,6 @@
-﻿using BlazorBlocks.BlockEditor.Blocks.ImageBlock;
-using BlazorBlocks.BlockEditor.Blocks.TitleBlock;
-using BlazorBlocks.BlockEditor.Blocks.RawTextBlock;
+﻿using BlazorBlocks.Blocks.ImageBlock;
+using BlazorBlocks.Blocks.TitleBlock;
+using BlazorBlocks.Blocks.RawTextBlock;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;

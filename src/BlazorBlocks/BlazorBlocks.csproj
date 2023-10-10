@@ -20,13 +20,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="BlockEditor\Blocks\ImageBlock\ImageEditorBlock.razor">
+    <Content Update="Blocks\ImageBlock\ImageEditorBlock.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
-    <Content Update="BlockEditor\Blocks\RawTextBlock\RawTextEditorBlock.razor">
+    <Content Update="Blocks\RawTextBlock\RawTextEditorBlock.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
-    <Content Update="BlockEditor\Blocks\TitleBlock\TitleEditorBlock.razor">
+    <Content Update="Blocks\TitleBlock\TitleEditorBlock.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
     <Content Update="BlockEditor\Editor.razor">

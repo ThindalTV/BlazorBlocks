@@ -1,6 +1,6 @@
 ﻿using BlazorBlocks.BlockEditor.Model;
 
-namespace BlazorBlocks.BlockEditor.Blocks.TitleBlock;
+namespace BlazorBlocks.Blocks.TitleBlock;
 
 public partial class TitleBlockModel : EditorBlockBaseModel
 {

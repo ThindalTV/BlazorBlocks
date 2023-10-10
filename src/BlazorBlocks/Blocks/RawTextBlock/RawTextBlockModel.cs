@@ -1,6 +1,6 @@
 ﻿using BlazorBlocks.BlockEditor.Model;
 
-namespace BlazorBlocks.BlockEditor.Blocks.RawTextBlock;
+namespace BlazorBlocks.Blocks.RawTextBlock;
 
 public class RawTextBlockModel : EditorBlockBaseModel
 {
