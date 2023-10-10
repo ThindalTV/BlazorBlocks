@@ -1,0 +1,88 @@
+﻿@using BlazorBlocks.Test.WASM.Shared.Component;
+@using BlazorBlocks.Test.WASM.Shared.BlockEditor.Internals;
+@using BlazorBlocks.Shared.BlockEditor.Model;
+
+@code {
+    [Parameter]
+    public EditorModel Model { get; set; }
+
+    protected bool AddNewRowDialogVisible = false;
+    protected EditorRowModel RowAddingBelow = null;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    protected void ShowNewRowDialog(EditorRowModel rowToAddBelow)
+    {
+        AddNewRowDialogVisible = true;
+        RowAddingBelow = rowToAddBelow;
+
+    }
+
+    protected void AddRowBelow(EditorRowModel rowDefinition)
+    {
+        var clickedRowIndex = Model.Rows.IndexOf(RowAddingBelow);
+        var insertRow = new EditorRowModel();
+        foreach( var col in rowDefinition.Columns)
+        {
+            insertRow.Columns.Add(new EditorColumnModel() { ColumnSize = col.ColumnSize });
+        }
+        Model.Rows.Insert(clickedRowIndex + 1, insertRow);
+        RowAddingBelow = null;
+        AddNewRowDialogVisible = false;
+    }
+
+    protected void MoveRowUp(EditorRowModel rowToMove) => MoveRow(rowToMove, -1);
+
+    protected void MoveRowDown(EditorRowModel rowToMove) => MoveRow(rowToMove, 1);
+
+    protected void MoveRow(EditorRowModel rowToMove, int offset)
+    {
+        var clickedRowIndex = Model.Rows.IndexOf(rowToMove);
+        var newPosition = clickedRowIndex + offset;
+        if (offset == 0 || newPosition < 0 || newPosition > Model.Rows.Count)
+        {
+            return;
+        }
+
+        Model.Rows.Remove(rowToMove);
+
+        Model.Rows.Insert(newPosition, rowToMove);
+    }
+}
+
+@if (AddNewRowDialogVisible)
+{
+    <Dialog Title="Add new row" OnClose="() => AddNewRowDialogVisible = false">
+        @foreach( var colDefinition in Model.ColumnDefinitions)
+        {
+            <button @onclick="() => AddRowBelow(colDefinition)">@colDefinition.ColumnCollectionName</button>
+        }
+    </Dialog>
+}
+
+<div style="background-color: #EEE">
+    <h3>Editor</h3>
+
+    @foreach (var row in Model.Rows)
+    {
+        <div class="row" style="background-color: #DDD;">
+            <div class="col-1 justify-content-center align-self-center">
+                <button @onclick="_ => ShowNewRowDialog(row)"><i class="oi oi-plus"></i></button><br />
+                @if (Model.Rows.IndexOf(row) > 0)
+                {
+                    <button @onclick="_ => MoveRowUp(row)"><i class="oi oi-arrow-thick-top"></i></button><br />
+                }
+                @if(Model.Rows.IndexOf(row) < Model.Rows.Count - 1)
+                {
+                    <button @onclick="_ => MoveRowDown(row)"><i class="oi oi-arrow-thick-bottom"></i></button>
+                }
+            </div>
+            <div class="col-10"><div class="row"><EditorRow Model="@row" BlockTypes="@Model.BlockRegistrations" /></div></div>
+        </div>
+        <div class="row"><div class="col-12"><hr /></div></div>
+    }
+</div>
+

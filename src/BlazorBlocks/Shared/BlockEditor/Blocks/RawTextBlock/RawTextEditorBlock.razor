@@ -1,0 +1,17 @@
+﻿@using BlazorBlocks.Shared.BlockEditor.Blocks;
+@using BlazorBlocks.Shared.BlockEditor.Blocks.RawTextBlock;
+@inherits BaseEditor<RawTextBlockModel>
+@code {
+
+}
+
+<textarea @bind="Model.Content">
+</textarea>
+
+@code {
+    void ContentChangedEvent(ChangeEventArgs e)
+    {
+        Model.Content = e.Value.ToString();
+        StateHasChanged();
+    }
+}

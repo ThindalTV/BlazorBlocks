@@ -1,0 +1,7 @@
+﻿@using BlazorBlocks.Shared.BlockEditor.Blocks;
+@using BlazorBlocks.Shared.BlockEditor.Blocks.TitleBlock;
+
+@inherits BaseEditor<TitleBlockModel>
+<h3>TitleEditorBlock</h3>
+<label for="titleText">Title</label>
+<input type="text" id="titleText" @bind="Model.Title" />
