@@ -15,16 +15,23 @@ Welcome to your new app.
 <div class="content">
     <Editor Model="@editorModel" />
 
-    <button @onclick="ReRender">ReRender</button>
-    <div class="row">
+    <hr /><hr /><hr /><hr />
+    <button @onclick="ReRender">ReRender</button> <br/>
+    Render test zone:
+    <div class="row p-5" style="border: 1px solid #000;">
         @((MarkupString)renderContent)
     </div>
+
+    <hr /><hr /><hr /><hr />
+
+
     <div class="row">
-        <div class="col-md-12">
-            <h2>Serialize</h2>
-            <button @onclick="() => Import()">Load</button>
-            <button @onclick="() => Export()">Export</button>
-            <InputTextArea @bind-Value="@serialized" Rows="10" Cols="100" />
+        Serialization controls:
+        <div class="p-5" style="border: 1px solid #000;">
+            
+            <button @onclick="() => Import()" class="btn btn-primary">Load</button>
+            <button @onclick="() => Export()" class="btn btn-primary float-end">Export</button><br />
+            <InputTextArea class="form-control" @bind-Value="@serialized" Rows="10" Cols="100" />
         </div>
     </div>
     
