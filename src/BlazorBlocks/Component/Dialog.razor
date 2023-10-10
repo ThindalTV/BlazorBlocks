@@ -1,6 +1,4 @@
-﻿<h3>Dialog</h3>
-
-@code {
+﻿@code {
     [Parameter]
     public string? Title { get; set; }
 
@@ -17,14 +15,16 @@
         return Task.CompletedTask;
     }
 }
+
+
 <div class="dialogContainer">
     <div class="dialog">
-        <div class="dialogTitle"><h1>@(Title ?? String.Empty)</h1></div>
+        <div class="dialogTitle"><h2>@(Title ?? String.Empty)</h2></div>
         <div class="dialogContent">
             @ChildContent
         </div>
         <div class="dialogButtons">
-            <button @onclick="async () => { await OnClose.InvokeAsync(); }"><i class="oi oi-x"></i></button>
+            <button class="btn btn-danger" @onclick="async () => { await OnClose.InvokeAsync(); }"><i class="oi oi-x"></i> Close</button>
         </div>
     </div>
 </div>

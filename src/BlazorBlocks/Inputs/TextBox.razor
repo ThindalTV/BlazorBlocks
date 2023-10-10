@@ -1,0 +1,12 @@
+﻿<h3>TextBox</h3>
+
+<label for="input">@Title</label>
+<input type="text" id="input" @bind="Value" />
+
+@code {
+    [Parameter, EditorRequired]
+    public string Title { get; set; }
+    
+    [Parameter]
+    public string Value { get; set; }
+}

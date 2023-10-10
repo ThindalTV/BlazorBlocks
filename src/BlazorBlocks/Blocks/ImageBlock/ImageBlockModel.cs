@@ -4,6 +4,8 @@ namespace BlazorBlocks.Blocks.ImageBlock;
 
 public class ImageBlockModel : EditorBlockBaseModel
 {
+    public override string EditorName => "Image";
+
     public string ImageUrl { get; set; } = string.Empty;
     public string AltText { get; set; } = string.Empty;
     public ImageBlockModel() : base(typeof(ImageEditorBlock))
@@ -16,7 +18,7 @@ public class ImageBlockModel : EditorBlockBaseModel
         {
             return "No image";
         }
-        return $"""<img src="{ImageUrl}" alt="{AltText}" />""";
+        return $"""<img src="{ImageUrl}" alt="{AltText}" /><br />""";
     }
 
-}
+}   

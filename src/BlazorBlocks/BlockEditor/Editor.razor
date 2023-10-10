@@ -58,33 +58,30 @@
     <Dialog Title="Add new row" OnClose="() => AddNewRowDialogVisible = false">
         @foreach (var colDefinition in Model.ColumnDefinitions)
         {
-            <button @onclick="() => AddRowBelow(colDefinition)">@colDefinition.ColumnCollectionName</button>
+            <button class="btn btn-info me-2" @onclick="() => AddRowBelow(colDefinition)">@colDefinition.ColumnCollectionName</button>
         }
     </Dialog>
 }
 
-<div style="background-color: #EEE">
+<div>
     <h3>Editor</h3>
-
     @foreach (var row in Model.Rows)
     {
-        <div class="row" style="background-color: #DDD;">
-            <div class="col-1 justify-content-center align-self-center">
-                <button @onclick="_ => ShowNewRowDialog(row)"><i class="oi oi-plus"></i></button><br />
+        <div class="row mb-3">
+            <div class="col-2 justify-content-center align-self-center">
                 @if (Model.Rows.IndexOf(row) > 0)
                 {
-                    <button @onclick="_ => MoveRowUp(row)"><i class="oi oi-arrow-thick-top"></i></button>
-
-                    <br />
+                    <button style="margin-right: 10px;" class="btn btn-success" @onclick="_ => MoveRowUp(row)"><i class="oi oi-arrow-thick-top"></i></button>
                 }
                 @if (Model.Rows.IndexOf(row) < Model.Rows.Count - 1)
                 {
-                    <button @onclick="_ => MoveRowDown(row)"><i class="oi oi-arrow-thick-bottom"></i></button>
+                    <button class="btn btn-success" @onclick="_ => MoveRowDown(row)"><i class="oi oi-arrow-thick-bottom"></i></button>
                 }
+                <br />
+                <button class="btn btn-primary" @onclick="_ => ShowNewRowDialog(row)"><i class="oi oi-plus"></i> Add new row</button><br />
             </div>
             <div class="col-10"><div class="row"><EditorRow Model="@row" BlockTypes="@Model.BlockRegistrations" /></div></div>
         </div>
-        <div class="row"><div class="col-12"><hr /></div></div>
     }
 </div>
 

@@ -4,6 +4,8 @@ namespace BlazorBlocks.Blocks.TitleBlock;
 
 public partial class TitleBlockModel : EditorBlockBaseModel
 {
+    public override string EditorName => "Title";
+
     public string Title { get; set; } = string.Empty;
 
     public TitleBlockModel() : base(typeof(TitleEditorBlock))

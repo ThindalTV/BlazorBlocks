@@ -88,6 +88,16 @@ public class EditorModel
                new EditorColumnModel() { ColumnSize = "col-4" }
             }
         });
+
+        ColumnDefinitions.Add(new EditorRowModel()
+        {
+            ColumnCollectionName = "1+2 columns",
+            Columns = new List<EditorColumnModel>
+            {
+               new EditorColumnModel() { ColumnSize = "col-4" },
+               new EditorColumnModel() { ColumnSize = "col-8" }
+            }
+        });
     }
 
     private void AddDefaultBlockTypes()

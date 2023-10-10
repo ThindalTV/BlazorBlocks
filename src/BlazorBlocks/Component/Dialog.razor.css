@@ -1,5 +1,5 @@
 ﻿.dialogContainer {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -14,6 +14,18 @@
 .dialog {
     background-color: #FFF;
     padding: 1rem;
+}
+
+.dialogTitle h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+.dialogTitle {
+    border-bottom: #000 1px dashed;
+    padding-bottom: 0rem;
+    margin-bottom: 1rem;
 }
 
 .dialogContent * {

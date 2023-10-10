@@ -8,6 +8,8 @@ public abstract class EditorBlockBaseModel : ComponentBase
     [JsonIgnore]
     public Type EditorType { get; }
 
+    [JsonIgnore] public abstract string EditorName { get; }
+
     [JsonIgnore]
     public Dictionary<string, object> Parameters { get; set; }
 

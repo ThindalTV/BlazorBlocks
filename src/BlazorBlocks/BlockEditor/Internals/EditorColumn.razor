@@ -31,27 +31,36 @@
 {
     <Dialog Title="Add new block" OnClose="() => { AddNewBlockDialogOpen = false; }">
         @foreach (var blockType in BlockTypes)
-                {
-                    @if (blockType.Image == null)
-                    {
-                        <button @onclick="() => AddBlock(blockType)">@blockType.Name</button>
-                    }
-                    else
-                    {
-                        <img @onclick="() => AddBlock(blockType)" src="@blockType.Image" />
-                    }
-                }
+        {
+            @if (blockType.Image == null)
+            {
+                <button @onclick="() => AddBlock(blockType)">@blockType.Name</button>
+            }
+            else
+            {
+                <img @onclick="() => AddBlock(blockType)" src="@blockType.Image" />
+            }
+        }
     </Dialog>
 }
 
 @foreach (var block in Model.Blocks)
 {
-    <div style="border: #000 1px solid;"><DynamicComponent Type="@block.EditorType" Parameters="@block.Parameters" /></div>
-    <hr />
+    <div class="row">
+        <div class="col-1" style="background-color:red;">
+            @block.EditorName
+            <button>Move up</button>
+            <button>Move down</button>
+        </div>
+        <div class="text-center col-11" style="border-bottom: 1px #ccc dashed; padding: 1rem;">
+            <DynamicComponent Type="@block.EditorType" Parameters="@block.Parameters" />
+        </div>
+    </div>
 }
 
 @if (BlockTypes.Any())
 {
-    <button @onclick="() => OpenAddNewBlockDialog()"><i class="oi oi-plus"></i></button>
+    <div class="text-center mt-2 mb-2">
+        <button style="margin-left: auto; margin-right: auto;" class="btn btn-warning" @onclick="() => OpenAddNewBlockDialog()"><i class="oi oi-plus"></i> Add block to column</button>
+    </div>
 }
-<hr />

@@ -9,13 +9,10 @@
 }
     @foreach (var column in Model.Columns)
 {
-    <div class="@column.ColumnSize" style="background-color: #CCC;">
+    <div class="@column.ColumnSize" style="border: #EFEFEF 1px solid;">
         <EditorColumn Model="@column" BlockTypes="@BlockTypes" />
     </div>
 }
-<div class="col-12">
-    <hr />
-</div>
 
 @code {
 
