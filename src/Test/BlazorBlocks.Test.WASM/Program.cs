@@ -1,4 +1,4 @@
-using BlazorBlocks;
+using BlazorBlocks.Test.WASM;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 

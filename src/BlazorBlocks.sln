@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBlocks", "BlazorBlocks\BlazorBlocks.csproj", "{55EF4E2F-231F-47B5-8592-2FB8B00D4CC5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{F0B3ADBF-595D-41E8-8201-65147BEF8759}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBlocks.Test.WASM", "Test\BlazorBlocks.Test.WASM\BlazorBlocks.Test.WASM.csproj", "{EA1328D8-55C9-49BF-8FA6-0C303778DBCA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,13 +13,16 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{55EF4E2F-231F-47B5-8592-2FB8B00D4CC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{55EF4E2F-231F-47B5-8592-2FB8B00D4CC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{55EF4E2F-231F-47B5-8592-2FB8B00D4CC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{55EF4E2F-231F-47B5-8592-2FB8B00D4CC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA1328D8-55C9-49BF-8FA6-0C303778DBCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA1328D8-55C9-49BF-8FA6-0C303778DBCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA1328D8-55C9-49BF-8FA6-0C303778DBCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA1328D8-55C9-49BF-8FA6-0C303778DBCA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EA1328D8-55C9-49BF-8FA6-0C303778DBCA} = {F0B3ADBF-595D-41E8-8201-65147BEF8759}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {488FABD8-1414-4031-BF73-B7AF4F813E52}

@@ -1,4 +1,5 @@
 ﻿using BlazorBlocks.Shared.BlockEditor.Model;
+using BlazorBlocks.Test.WASM.Shared.BlockEditor.Blocks.RawTextBlock;
 
 namespace BlazorBlocks.Shared.BlockEditor.Blocks.RawTextBlock;
 
