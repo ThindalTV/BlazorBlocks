@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -20,25 +20,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Shared\BlockEditor\Blocks\ImageBlock\ImageEditorBlock.razor">
+    <Content Update="BlockEditor\Blocks\ImageBlock\ImageEditorBlock.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
-    <Content Update="Shared\BlockEditor\Blocks\RawTextBlock\RawTextEditorBlock.razor">
+    <Content Update="BlockEditor\Blocks\RawTextBlock\RawTextEditorBlock.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
-    <Content Update="Shared\BlockEditor\Blocks\TitleBlock\TitleEditorBlock.razor">
+    <Content Update="BlockEditor\Blocks\TitleBlock\TitleEditorBlock.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
-    <Content Update="Shared\BlockEditor\Editor.razor">
+    <Content Update="BlockEditor\Editor.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
-    <Content Update="Shared\BlockEditor\Internals\EditorColumn.razor">
+    <Content Update="BlockEditor\Internals\EditorColumn.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
-    <Content Update="Shared\BlockEditor\Internals\EditorRow.razor">
+    <Content Update="BlockEditor\Internals\EditorRow.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
-    <Content Update="Shared\Component\Dialog.razor">
+    <Content Update="Component\Dialog.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
   </ItemGroup>
