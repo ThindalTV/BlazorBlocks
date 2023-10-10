@@ -1,14 +1,11 @@
-﻿using BlazorBlocks.Shared.BlockEditor.Blocks.ImageBlock;
-using BlazorBlocks.Shared.BlockEditor.Blocks.RawTextBlock;
-using BlazorBlocks.Shared.BlockEditor.Blocks.TitleBlock;
-using BlazorBlocks.Test.WASM.Shared.BlockEditor.Blocks.ImageBlock;
-using BlazorBlocks.Test.WASM.Shared.BlockEditor.Blocks.RawTextBlock;
-using BlazorBlocks.Test.WASM.Shared.BlockEditor.Blocks.TitleBlock;
+﻿using BlazorBlocks.BlockEditor.Blocks.ImageBlock;
+using BlazorBlocks.BlockEditor.Blocks.TitleBlock;
+using BlazorBlocks.BlockEditor.Blocks.RawTextBlock;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace BlazorBlocks.Shared.BlockEditor.Model;
+namespace BlazorBlocks.BlockEditor.Model;
 
 public class EditorModel
 {

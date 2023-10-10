@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
-namespace BlazorBlocks.Shared.BlockEditor.Model;
+namespace BlazorBlocks.BlockEditor.Model;
 
 public abstract class EditorBlockBaseModel : ComponentBase
 {

@@ -1,7 +1,6 @@
-﻿using BlazorBlocks.Shared.BlockEditor.Model;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 
-namespace BlazorBlocks.Shared.BlockEditor.Blocks;
+namespace BlazorBlocks.BlockEditor.Blocks;
 
 public class BaseEditor<T> : ComponentBase
 {

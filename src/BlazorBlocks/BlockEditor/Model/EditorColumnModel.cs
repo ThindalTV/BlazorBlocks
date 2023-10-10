@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace BlazorBlocks.Shared.BlockEditor.Model;
+namespace BlazorBlocks.BlockEditor.Model;
 
 public class EditorColumnModel
 {

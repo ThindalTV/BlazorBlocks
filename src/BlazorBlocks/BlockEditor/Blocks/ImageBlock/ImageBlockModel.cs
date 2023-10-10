@@ -1,8 +1,6 @@
-﻿using BlazorBlocks.Shared.BlockEditor.Model;
-using BlazorBlocks.Test.WASM.Shared.BlockEditor.Blocks.ImageBlock;
-using System.Text.Json.Serialization;
+﻿using BlazorBlocks.BlockEditor.Model;
 
-namespace BlazorBlocks.Shared.BlockEditor.Blocks.ImageBlock;
+namespace BlazorBlocks.BlockEditor.Blocks.ImageBlock;
 
 public class ImageBlockModel : EditorBlockBaseModel
 {

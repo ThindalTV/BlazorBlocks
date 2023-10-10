@@ -1,7 +1,6 @@
-﻿using BlazorBlocks.Shared.BlockEditor.Model;
-using BlazorBlocks.Test.WASM.Shared.BlockEditor.Blocks.TitleBlock;
+﻿using BlazorBlocks.BlockEditor.Model;
 
-namespace BlazorBlocks.Shared.BlockEditor.Blocks.TitleBlock;
+namespace BlazorBlocks.BlockEditor.Blocks.TitleBlock;
 
 public partial class TitleBlockModel : EditorBlockBaseModel
 {

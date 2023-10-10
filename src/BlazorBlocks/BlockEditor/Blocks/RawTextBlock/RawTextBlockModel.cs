@@ -1,7 +1,6 @@
-﻿using BlazorBlocks.Shared.BlockEditor.Model;
-using BlazorBlocks.Test.WASM.Shared.BlockEditor.Blocks.RawTextBlock;
+﻿using BlazorBlocks.BlockEditor.Model;
 
-namespace BlazorBlocks.Shared.BlockEditor.Blocks.RawTextBlock;
+namespace BlazorBlocks.BlockEditor.Blocks.RawTextBlock;
 
 public class RawTextBlockModel : EditorBlockBaseModel
 {

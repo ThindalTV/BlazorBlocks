@@ -2,7 +2,8 @@
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 
-namespace BlazorBlocks.Shared.BlockEditor.Model;
+namespace BlazorBlocks.BlockEditor.Model;
+
 internal sealed class JsonSerializerTypeResolver : DefaultJsonTypeInfoResolver
 {
     private readonly List<BlockRegistration> _blockRegistrations;
