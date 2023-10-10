@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace BlazorBlocks.BlockEditor.Model;
+namespace BlazorBlocks.Model;
 
 public class EditorModel
 {

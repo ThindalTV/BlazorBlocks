@@ -1,4 +1,4 @@
-﻿using BlazorBlocks.BlockEditor.Model;
+﻿using BlazorBlocks.Model;
 
 namespace BlazorBlocks.Blocks.RawTextBlock;
 

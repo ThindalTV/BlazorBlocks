@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 
-namespace BlazorBlocks.BlockEditor.Model;
+namespace BlazorBlocks.Model;
 
 internal sealed class JsonSerializerTypeResolver : DefaultJsonTypeInfoResolver
 {

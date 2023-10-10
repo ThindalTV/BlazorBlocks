@@ -1,6 +1,6 @@
 ﻿@using BlazorBlocks.Component;
 @using BlazorBlocks.BlockEditor.Internals;
-@using BlazorBlocks.BlockEditor.Model;
+@using BlazorBlocks.Model;
 
 @code {
     [Parameter]
@@ -25,7 +25,7 @@
     {
         var clickedRowIndex = Model.Rows.IndexOf(RowAddingBelow);
         var insertRow = new EditorRowModel();
-        foreach( var col in rowDefinition.Columns)
+        foreach (var col in rowDefinition.Columns)
         {
             insertRow.Columns.Add(new EditorColumnModel() { ColumnSize = col.ColumnSize });
         }
@@ -56,7 +56,7 @@
 @if (AddNewRowDialogVisible)
 {
     <Dialog Title="Add new row" OnClose="() => AddNewRowDialogVisible = false">
-        @foreach( var colDefinition in Model.ColumnDefinitions)
+        @foreach (var colDefinition in Model.ColumnDefinitions)
         {
             <button @onclick="() => AddRowBelow(colDefinition)">@colDefinition.ColumnCollectionName</button>
         }
@@ -73,9 +73,11 @@
                 <button @onclick="_ => ShowNewRowDialog(row)"><i class="oi oi-plus"></i></button><br />
                 @if (Model.Rows.IndexOf(row) > 0)
                 {
-                    <button @onclick="_ => MoveRowUp(row)"><i class="oi oi-arrow-thick-top"></i></button><br />
+                    <button @onclick="_ => MoveRowUp(row)"><i class="oi oi-arrow-thick-top"></i></button>
+
+                    <br />
                 }
-                @if(Model.Rows.IndexOf(row) < Model.Rows.Count - 1)
+                @if (Model.Rows.IndexOf(row) < Model.Rows.Count - 1)
                 {
                     <button @onclick="_ => MoveRowDown(row)"><i class="oi oi-arrow-thick-bottom"></i></button>
                 }

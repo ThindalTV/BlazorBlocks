@@ -1,4 +1,4 @@
-﻿namespace BlazorBlocks.BlockEditor.Model;
+﻿namespace BlazorBlocks.Model;
 
 public class BlockRegistration
 {
