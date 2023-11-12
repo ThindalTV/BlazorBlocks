@@ -36,7 +36,7 @@ public class EditorModel
         _jsonSerializerOptions = new JsonSerializerOptions() { TypeInfoResolver = new JsonSerializerTypeResolver(BlockRegistrations) };
     }
 
-    public string Render()
+    public string GetHTML()
     {
         var sb = new StringBuilder();
         foreach (var row in Rows)
@@ -46,7 +46,7 @@ public class EditorModel
         return sb.ToString();
     }
 
-    public string Serialize()
+    public string GetJson()
     {
         return JsonSerializer.Serialize(this, _jsonSerializerOptions);
     }

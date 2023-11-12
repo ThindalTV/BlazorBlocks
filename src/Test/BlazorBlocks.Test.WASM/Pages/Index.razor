@@ -47,13 +47,13 @@ Welcome to your new app.
         base.OnInitialized();
         // Read in and save some default blocks for testing
         editorModel.Load($$$"""{"Rows":[{"ColumnCollectionName":null,"Columns":[{"ColumnSize":"col-md-12","Blocks":[{"$modelType":"TitleBlockModel","Title":"Title"}]}]},{"ColumnCollectionName":null,"Columns":[{"ColumnSize":"col-md-4","Blocks":[{"$modelType":"RawTextBlockModel","Content":"hello from index"}]},{"ColumnSize":"col-md-7","Blocks":[{"$modelType":"ImageBlockModel","ImageUrl":"","AltText":""}]}]}]}""");
-        serialized = editorModel.Serialize();
+        serialized = editorModel.GetJson();
         StateHasChanged();
     }
 
     protected void ReRender()
     {
-        renderContent = editorModel.Render();
+        renderContent = editorModel.GetHTML();
         StateHasChanged();
     }
 
@@ -65,7 +65,7 @@ Welcome to your new app.
 
     protected void Export()
     {
-        serialized = editorModel.Serialize();
+        serialized = editorModel.GetJson();
     }
 
 }
