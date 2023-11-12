@@ -16,7 +16,7 @@ Welcome to your new app.
     <Editor Model="@editorModel" />
 
     <hr /><hr /><hr /><hr />
-    <button @onclick="ReRender">ReRender</button> <br/>
+    <button @onclick="ReRender">Render HTML</button> <br/>
     Render test zone:
     <div class="row p-5" style="border: 1px solid #000;">
         @((MarkupString)renderContent)
@@ -29,8 +29,8 @@ Welcome to your new app.
         Serialization controls:
         <div class="p-5" style="border: 1px solid #000;">
             
-            <button @onclick="() => Import()" class="btn btn-primary">Load</button>
-            <button @onclick="() => Export()" class="btn btn-primary float-end">Export</button><br />
+            <button @onclick="() => Import()" class="btn btn-primary">Load from json</button>
+            <button @onclick="() => Export()" class="btn btn-primary float-end">Export to json</button><br />
             <InputTextArea class="form-control" @bind-Value="@serialized" Rows="10" Cols="100" />
         </div>
     </div>

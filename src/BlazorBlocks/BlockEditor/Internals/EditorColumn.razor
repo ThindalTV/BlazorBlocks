@@ -46,14 +46,14 @@
 
 @foreach (var block in Model.Blocks)
 {
-    <div class="row">
-        <div class="col-1" style="background-color:red;">
-            @block.EditorName
-            <button>Move up</button>
-            <button>Move down</button>
-            <button>Delete</button>
+    <div style="display: flex; flex-direction: row;">
+        <div style="background-color:red; width: 100px; overflow-x: hidden;">
+            @block.EditorName<br />
+            <button class="btn btn-success"><i class="oi oi-arrow-thick-top"></i></button><br />
+            <button class="btn btn-success"><i class="oi oi-arrow-thick-bottom"></i></button><br />
+            <button class="btn btn-danger"><i class="oi oi-x"></i></button>
         </div>
-        <div class="text-center col-11" style="border-bottom: 1px #ccc dashed; padding: 1rem;">
+        <div class="text-center" style="border-bottom: 1px #ccc dashed; padding: 1rem; flex: 1;">
             <DynamicComponent Type="@block.EditorType" Parameters="@block.Parameters" />
         </div>
     </div>

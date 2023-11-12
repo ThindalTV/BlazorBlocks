@@ -64,23 +64,18 @@
 }
 
 <div>
-    <h3>Editor</h3>
+    <h3>Blazor Blocks Editor</h3>
     @foreach (var row in Model.Rows)
     {
-        <div class="row mb-3">
-            <div class="col-2 justify-content-center align-self-center">
-                @if (Model.Rows.IndexOf(row) > 0)
-                {
-                    <button style="margin-right: 10px;" class="btn btn-success" @onclick="_ => MoveRowUp(row)"><i class="oi oi-arrow-thick-top"></i></button>
-                }
-                @if (Model.Rows.IndexOf(row) < Model.Rows.Count - 1)
-                {
-                    <button class="btn btn-success" @onclick="_ => MoveRowDown(row)"><i class="oi oi-arrow-thick-bottom"></i></button>
-                }
-                <br />
+        <div style="display: flex; flex-direction: row; border-bottom: 1px solid #ccc; padding-top: 10px; padding-bottom: 10px;">
+            <div style="width: 150px; border-right: 1px dashed #ccc;">
+                <button class="btn btn-success" @onclick="_ => MoveRowUp(row)"><i class="oi oi-arrow-thick-top"></i></button><br />
+                <button class="btn btn-success" @onclick="_ => MoveRowDown(row)"><i class="oi oi-arrow-thick-bottom"></i></button><br />
                 <button class="btn btn-primary" @onclick="_ => ShowNewRowDialog(row)"><i class="oi oi-plus"></i> Add new row</button><br />
             </div>
-            <div class="col-10"><div class="row"><EditorRow Model="@row" BlockTypes="@Model.BlockRegistrations" /></div></div>
+            <div style="flex: 1;" class="row">
+                <EditorRow Model="@row" BlockTypes="@Model.BlockRegistrations" />
+            </div>
         </div>
     }
 </div>
