@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{F0B3ADBF-5
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBlocks.Test.WASM", "Test\BlazorBlocks.Test.WASM\BlazorBlocks.Test.WASM.csproj", "{EA1328D8-55C9-49BF-8FA6-0C303778DBCA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorBlocks", "BlazorBlocks\BlazorBlocks.csproj", "{448F6520-9C7A-4A47-89B7-CD3F942DA574}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBlocks", "BlazorBlocks\BlazorBlocks.csproj", "{448F6520-9C7A-4A47-89B7-CD3F942DA574}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

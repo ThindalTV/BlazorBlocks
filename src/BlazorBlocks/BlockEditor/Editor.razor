@@ -42,7 +42,7 @@
     {
         var clickedRowIndex = Model.Rows.IndexOf(rowToMove);
         var newPosition = clickedRowIndex + offset;
-        if (offset == 0 || newPosition < 0 || newPosition > Model.Rows.Count)
+        if (offset == 0 || newPosition < 0 || newPosition >= Model.Rows.Count)
         {
             return;
         }
@@ -67,16 +67,13 @@
     <h3>Blazor Blocks Editor</h3>
     @foreach (var row in Model.Rows)
     {
-        <div style="display: flex; flex-direction: row; border-bottom: 1px solid #ccc; padding-top: 10px; padding-bottom: 10px;">
-            <div style="width: 150px; border-right: 1px dashed #ccc;">
-                <button class="btn btn-success" @onclick="_ => MoveRowUp(row)"><i class="oi oi-arrow-thick-top"></i></button><br />
-                <button class="btn btn-success" @onclick="_ => MoveRowDown(row)"><i class="oi oi-arrow-thick-bottom"></i></button><br />
-                <button class="btn btn-primary" @onclick="_ => ShowNewRowDialog(row)"><i class="oi oi-plus"></i> Add new row</button><br />
-            </div>
-            <div style="flex: 1;" class="row">
-                <EditorRow Model="@row" BlockTypes="@Model.BlockRegistrations" />
-            </div>
-        </div>
+        <EditorRow Model="@row"
+            BlockTypes="@Model.BlockRegistrations"
+            OnAddRow="r => ShowNewRowDialog(r)"
+            OnMoveRowDown="r => MoveRowDown(r)"
+            OnMoveRowUp="r => MoveRowUp(r)"
+                   CanMoveUp="r => IndexOfRow(r) > 0"
+                   CanMoveDown="r => IndexOfRow(r) < Model.Rows.Count" />
     }
 </div>
 

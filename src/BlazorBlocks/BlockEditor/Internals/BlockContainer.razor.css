@@ -1,0 +1,23 @@
+.blockContainer {
+    --border-radius: 5px;
+}
+
+.blockContainer + .blockContainer {
+    margin-top: 1rem;
+}
+
+.blockControl {
+    position: relative;
+    bottom: -1px;
+    padding: .5rem;
+    display: inline-block;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    border: 1px solid #AAA;
+    border-bottom: 1px #FFF dotted;
+}
+
+.blockContent {
+    border-radius: 0 var(--border-radius) var(--border-radius) var(--border-radius);
+    border: 1px #AAA solid;
+    padding: 1rem;
+}

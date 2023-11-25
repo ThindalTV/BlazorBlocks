@@ -1,19 +1,37 @@
 ﻿@using BlazorBlocks.Model;
 
 @code {
-    [Parameter]
+    [Parameter, EditorRequired]
     public EditorRowModel Model { get; set; }
 
-    [Parameter]
+    [Parameter, EditorRequired]
     public List<BlockRegistration> BlockTypes { get; set; }
-}
-    @foreach (var column in Model.Columns)
-{
-    <div class="@column.ColumnSize" style="border: #EFEFEF 1px solid;">
-        <EditorColumn Model="@column" BlockTypes="@BlockTypes" />
-    </div>
+
+    [Parameter, EditorRequired]
+    public EventCallback<EditorRowModel> OnAddRow { get; set; }
+
+    [Parameter, EditorRequired]
+    public EventCallback<EditorRowModel> OnMoveRowUp { get; set; }
+
+    [Parameter, EditorRequired]
+    public EventCallback<EditorRowModel> OnMoveRowDown { get; set; }
+
+    protected bool _canMoveUp;
 }
 
+<div class="editorRow">
+    <div class="editorRowControls">
+        <button class="btn btn-success" @onclick="_ => OnMoveRowUp.InvokeAsync(Model)"><i class="oi oi-arrow-thick-top"></i></button>
+        <button class="btn btn-success" @onclick="_ => OnMoveRowDown.InvokeAsync(Model)"><i class="oi oi-arrow-thick-bottom"></i></button>
+        <button class="btn btn-primary" @onclick="_ => OnAddRow.InvokeAsync(Model)"><i class="oi oi-plus"></i></button>
+    </div>
+    <div style="flex: 1;" class="row">
+        @foreach (var column in Model.Columns)
+        {
+            <EditorColumn Model="@column" BlockTypes="@BlockTypes" />
+        }
+    </div>
+</div>
 @code {
     protected override void OnInitialized()
     {

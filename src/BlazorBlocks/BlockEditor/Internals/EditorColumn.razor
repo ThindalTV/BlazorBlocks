@@ -43,25 +43,17 @@
         }
     </Dialog>
 }
+<div class="@Model.ColumnSize editorColumn">
+    @foreach (var block in Model.Blocks)
+    {
+        <BlockContainer BlockType="@block.EditorType" Attributes="@block.Parameters" BlockName="@block.EditorName" />
+    }
 
-@foreach (var block in Model.Blocks)
-{
-    <div style="display: flex; flex-direction: row;">
-        <div style="background-color:red; width: 100px; overflow-x: hidden;">
-            @block.EditorName<br />
-            <button class="btn btn-success"><i class="oi oi-arrow-thick-top"></i></button><br />
-            <button class="btn btn-success"><i class="oi oi-arrow-thick-bottom"></i></button><br />
-            <button class="btn btn-danger"><i class="oi oi-x"></i></button>
+    @if (BlockTypes.Any())
+    {
+        <div class="text-center mt-2 mb-2">
+            <button class="btn btn-primary addBlock" @onclick="() => OpenAddNewBlockDialog()"><i class="oi oi-plus"></i> Block</button>
         </div>
-        <div class="text-center" style="border-bottom: 1px #ccc dashed; padding: 1rem; flex: 1;">
-            <DynamicComponent Type="@block.EditorType" Parameters="@block.Parameters" />
-        </div>
-    </div>
-}
+    }
+</div>
 
-@if (BlockTypes.Any())
-{
-    <div class="text-center mt-2 mb-2">
-        <button style="margin-left: auto; margin-right: auto;" class="btn btn-warning" @onclick="() => OpenAddNewBlockDialog()"><i class="oi oi-plus"></i> Add block to column</button>
-    </div>
-}

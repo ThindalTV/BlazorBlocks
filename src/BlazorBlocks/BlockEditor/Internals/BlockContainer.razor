@@ -1,0 +1,22 @@
+﻿@code {
+    [Parameter, EditorRequired]
+    public string BlockName { get; set; }
+
+    [Parameter, EditorRequired]
+    public Type BlockType { get; set; }
+
+    [Parameter, EditorRequired]
+    public IDictionary<string, object> Attributes { get; set; }
+}
+
+<div class="blockContainer">
+    <div class="blockControl">
+        @BlockName
+        <button class="btn btn-success"><i class="oi oi-arrow-thick-top"></i></button>
+        <button class="btn btn-success"><i class="oi oi-arrow-thick-bottom"></i></button>
+        <button class="btn btn-danger"><i class="oi oi-x"></i></button>
+    </div>
+    <div class="text-center blockContent">
+        <DynamicComponent Type="@BlockType" Parameters="@Attributes" />
+    </div>
+</div>
