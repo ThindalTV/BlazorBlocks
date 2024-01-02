@@ -21,3 +21,7 @@
     border: 1px #AAA solid;
     padding: 1rem;
 }
+
+.blockControl button {
+    margin-left: 3px;
+}

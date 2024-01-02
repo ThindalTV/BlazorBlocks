@@ -3,17 +3,19 @@
 @using BlazorBlocks.Model;
 
 @code {
+    /// <summary>
+    /// Represents the editor component for the Blazor Blocks.
+    /// </summary>
     [Parameter]
     public EditorModel Model { get; set; }
 
     protected bool AddNewRowDialogVisible = false;
-    protected EditorRowModel RowAddingBelow = null;
+    protected EditorRowModel? RowAddingBelow = null;
 
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-    }
-
+    /// <summary>
+    /// Shows the dialog to add a new row below the specified row.
+    /// </summary>
+    /// <param name="rowToAddBelow">The row to add the new row below.</param>
     protected void ShowNewRowDialog(EditorRowModel rowToAddBelow)
     {
         AddNewRowDialogVisible = true;
@@ -21,8 +23,17 @@
 
     }
 
+    /// <summary>
+    /// Adds a new row below the specified row.
+    /// </summary>
+    /// <param name="rowDefinition">The row definition to add.</param>
     protected void AddRowBelow(EditorRowModel rowDefinition)
     {
+        if(RowAddingBelow == null)
+        {
+            return;
+        }
+
         var clickedRowIndex = Model.Rows.IndexOf(RowAddingBelow);
         var insertRow = new EditorRowModel();
         foreach (var col in rowDefinition.Columns)
@@ -34,11 +45,31 @@
         AddNewRowDialogVisible = false;
     }
 
+    /// <summary>
+    /// Gets the index of the specified row.
+    /// </summary>
+    /// <param name="row">The row to get the index of.</param>
+    /// <returns>The index of the row.</returns>
+    protected int IndexOfRow(EditorRowModel row) => Model.Rows.IndexOf(row);
+
+    /// <summary>
+    /// Moves the specified row up.
+    /// </summary>
+    /// <param name="rowToMove">The row to move up.</param>
     protected void MoveRowUp(EditorRowModel rowToMove) => MoveRow(rowToMove, -1);
 
+    /// <summary>
+    /// Moves the specified row down.
+    /// </summary>
+    /// <param name="rowToMove">The row to move down.</param>
     protected void MoveRowDown(EditorRowModel rowToMove) => MoveRow(rowToMove, 1);
 
-    protected void MoveRow(EditorRowModel rowToMove, int offset)
+    /// <summary>
+    /// Moves the specified row by the specified offset.
+    /// </summary>
+    /// <param name="rowToMove">The row to move.</param>
+    /// <param name="offset">The offset to move the row by.</param>
+    private void MoveRow(EditorRowModel rowToMove, int offset)
     {
         var clickedRowIndex = Model.Rows.IndexOf(rowToMove);
         var newPosition = clickedRowIndex + offset;
@@ -50,6 +81,15 @@
         Model.Rows.Remove(rowToMove);
 
         Model.Rows.Insert(newPosition, rowToMove);
+    }
+
+    /// <summary>
+    /// Deletes the specified row.
+    /// </summary>
+    /// <param name="rowToDelete">The row to delete.</param>
+    protected void DeleteRow(EditorRowModel rowToDelete)
+    {
+        Model.Rows.Remove(rowToDelete);
     }
 }
 
@@ -68,12 +108,15 @@
     @foreach (var row in Model.Rows)
     {
         <EditorRow Model="@row"
-            BlockTypes="@Model.BlockRegistrations"
-            OnAddRow="r => ShowNewRowDialog(r)"
-            OnMoveRowDown="r => MoveRowDown(r)"
-            OnMoveRowUp="r => MoveRowUp(r)"
-                   CanMoveUp="r => IndexOfRow(r) > 0"
-                   CanMoveDown="r => IndexOfRow(r) < Model.Rows.Count" />
+                   BlockTypes="@Model.BlockRegistrations"
+                   OnAddRow="r => ShowNewRowDialog(r)"
+                   OnMoveRowDown="r => MoveRowDown(r)"
+                   OnMoveRowUp="r => MoveRowUp(r)"
+                   OnDeleteRow="r => DeleteRow(r)"
+                   CanMoveUp="IndexOfRow(row) > 0"
+                   CanMoveDown="IndexOfRow(row) < Model.Rows.Count-1" />
     }
 </div>
 
+@code {
+}

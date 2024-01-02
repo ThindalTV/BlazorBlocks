@@ -1,22 +1,68 @@
-﻿@code {
-    [Parameter, EditorRequired]
-    public string BlockName { get; set; }
+﻿@using BlazorBlocks.Model
+@code {
 
     [Parameter, EditorRequired]
-    public Type BlockType { get; set; }
+    public EditorBlockBaseModel Model { get; set; }
+
+    public string BlockName { get => Model?.EditorName; }
+
+    public Type BlockType { get => Model?.EditorType; }
+
+    public IDictionary<string, object> Attributes { get => Model?.Parameters; }
 
     [Parameter, EditorRequired]
-    public IDictionary<string, object> Attributes { get; set; }
+    public EventCallback<EditorBlockBaseModel> OnMoveUp { get; set; }
+
+    [Parameter, EditorRequired]
+    public EventCallback<EditorBlockBaseModel> OnMoveDown { get; set; }
+
+    [Parameter, EditorRequired]
+    public EventCallback<EditorBlockBaseModel> OnDelete { get; set; }
+
+    [Parameter]
+    public bool CanMoveUp { get; set; }
+
+    [Parameter]
+    public bool CanMoveDown { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    protected void MoveBlockUp()
+    {
+        OnMoveUp.InvokeAsync(Model);
+    }
+
+    protected void MoveBlockDown()
+    {
+        OnMoveDown.InvokeAsync(Model);
+    }
+
+    protected void DeleteBlock()
+    {
+        OnDelete.InvokeAsync(Model);
+    }
 }
 
-<div class="blockContainer">
-    <div class="blockControl">
-        @BlockName
-        <button class="btn btn-success"><i class="oi oi-arrow-thick-top"></i></button>
-        <button class="btn btn-success"><i class="oi oi-arrow-thick-bottom"></i></button>
-        <button class="btn btn-danger"><i class="oi oi-x"></i></button>
+@if (BlockType != null && Attributes != null)
+{
+    <div class="blockContainer">
+        <div class="blockControl">
+            @BlockName
+            @if (CanMoveUp)
+            {
+                <button class="btn btn-success" @onclick="() => MoveBlockUp()"><i class="oi oi-arrow-thick-top"></i></button>
+            }
+            @if (CanMoveDown)
+            {
+                <button class="btn btn-success" @onclick="() => MoveBlockDown()"><i class="oi oi-arrow-thick-bottom"></i></button>
+            }
+            <button class="btn btn-danger" @onclick="() => DeleteBlock()"><i class="oi oi-trash"></i></button>
+        </div>
+        <div class="text-center blockContent">
+            <DynamicComponent Type="@BlockType" Parameters="@Attributes" />
+        </div>
     </div>
-    <div class="text-center blockContent">
-        <DynamicComponent Type="@BlockType" Parameters="@Attributes" />
-    </div>
-</div>
+}

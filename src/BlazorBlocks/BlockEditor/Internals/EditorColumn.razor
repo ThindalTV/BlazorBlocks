@@ -25,6 +25,33 @@
     {
         AddNewBlockDialogOpen = true;
     }
+
+protected void MoveBlockUp(EditorBlockBaseModel block)
+    {
+        var index = Model.Blocks.IndexOf(block);
+        if (index > 0)
+        {
+            Model.Blocks.RemoveAt(index);
+            Model.Blocks.Insert(index - 1, block);
+        }
+    }
+
+protected void MoveBlockDown(EditorBlockBaseModel block)
+    {
+        var index = Model.Blocks.IndexOf(block);
+        if (index < Model.Blocks.Count - 1)
+        {
+            Model.Blocks.RemoveAt(index);
+            Model.Blocks.Insert(index + 1, block);
+        }
+    }
+
+protected void DeleteBlock(EditorBlockBaseModel block)
+    {
+        Model.Blocks.Remove(block);
+    }
+
+    private int IndexOfBlock(EditorBlockBaseModel block) => Model.Blocks.IndexOf(block);
 }
 
 @if (AddNewBlockDialogOpen)
@@ -46,7 +73,13 @@
 <div class="@Model.ColumnSize editorColumn">
     @foreach (var block in Model.Blocks)
     {
-        <BlockContainer BlockType="@block.EditorType" Attributes="@block.Parameters" BlockName="@block.EditorName" />
+        <BlockContainer
+                        Model="@block"
+                        OnMoveUp="b => MoveBlockUp(b)"
+                        OnMoveDown="b => MoveBlockDown(b)"
+                        OnDelete="b => DeleteBlock(b)"
+                        CanMoveUp="IndexOfBlock(block) > 0"
+                        CanMoveDown="IndexOfBlock(block) < Model.Blocks.Count-1" />
     }
 
     @if (BlockTypes.Any())

@@ -16,14 +16,30 @@
     [Parameter, EditorRequired]
     public EventCallback<EditorRowModel> OnMoveRowDown { get; set; }
 
-    protected bool _canMoveUp;
+    [Parameter, EditorRequired]
+    public EventCallback<EditorRowModel> OnDeleteRow { get; set; }
+
+    [Parameter]
+    public bool CanMoveUp { get; set; }
+
+    [Parameter]
+    public bool CanMoveDown { get; set; }
 }
 
 <div class="editorRow">
     <div class="editorRowControls">
-        <button class="btn btn-success" @onclick="_ => OnMoveRowUp.InvokeAsync(Model)"><i class="oi oi-arrow-thick-top"></i></button>
-        <button class="btn btn-success" @onclick="_ => OnMoveRowDown.InvokeAsync(Model)"><i class="oi oi-arrow-thick-bottom"></i></button>
+        @if (CanMoveUp)
+        {
+            <button class="btn btn-success" @onclick="_ => OnMoveRowUp.InvokeAsync(Model)"><i class="oi oi-arrow-thick-top"></i></button>
+        }
+        @if (CanMoveDown)
+        {
+            <button class="btn btn-success" @onclick="_ => OnMoveRowDown.InvokeAsync(Model)"><i class="oi oi-arrow-thick-bottom"></i></button>
+        }
+
         <button class="btn btn-primary" @onclick="_ => OnAddRow.InvokeAsync(Model)"><i class="oi oi-plus"></i></button>
+
+        <button class="btn btn-danger" @onclick="_ => OnDeleteRow.InvokeAsync(Model)"><i class="oi oi-trash"></i></button>
     </div>
     <div style="flex: 1;" class="row">
         @foreach (var column in Model.Columns)
