@@ -26,8 +26,8 @@
     /// <summary>
     /// Adds a new row below the specified row.
     /// </summary>
-    /// <param name="rowDefinition">The row definition to add.</param>
-    protected void AddRowBelow(EditorRowModel rowDefinition)
+    /// <param name="rowRegistration">The row definition to add.</param>
+    protected void AddRowBelow(RowRegistration rowRegistration)
     {
         if(RowAddingBelow == null)
         {
@@ -36,9 +36,9 @@
 
         var clickedRowIndex = Model.Rows.IndexOf(RowAddingBelow);
         var insertRow = new EditorRowModel();
-        foreach (var col in rowDefinition.Columns)
+        foreach (var col in rowRegistration.Columns)
         {
-            insertRow.Columns.Add(new EditorColumnModel() { ColumnSize = col.ColumnSize });
+            insertRow.Columns.Add(new EditorColumnModel() { ColumnSize = col.ColumnClass });
         }
         Model.Rows.Insert(clickedRowIndex + 1, insertRow);
         RowAddingBelow = null;
@@ -96,9 +96,9 @@
 @if (AddNewRowDialogVisible)
 {
     <Dialog Title="Add new row" OnClose="() => AddNewRowDialogVisible = false">
-        @foreach (var colDefinition in Model.ColumnDefinitions)
+        @foreach (var colDefinition in BlockRegistrationService.RegisteredRows)
         {
-            <button class="btn btn-info me-2" @onclick="() => AddRowBelow(colDefinition)">@colDefinition.ColumnCollectionName</button>
+            <button class="btn btn-info me-2" @onclick="() => AddRowBelow(colDefinition)">@colDefinition.Name</button>
         }
     </Dialog>
 }
