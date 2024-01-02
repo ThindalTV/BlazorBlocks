@@ -34,7 +34,7 @@ internal sealed class JsonSerializerTypeResolver : DefaultJsonTypeInfoResolver
         if (!_blockRegistrations.Any()) return jsonTypeInfo;
 
         Type baseBlockType = typeof(EditorBlockBaseModel);
-        if (jsonTypeInfo.Type == baseBlockType && jsonTypeInfo.PolymorphismOptions == null)
+        if (jsonTypeInfo.Type == baseBlockType && jsonTypeInfo.PolymorphismOptions == null && !jsonTypeInfo.IsReadOnly)
         {
             jsonTypeInfo.PolymorphismOptions = _polymorphismOptions;
         }

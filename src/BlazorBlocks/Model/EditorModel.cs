@@ -23,7 +23,7 @@ public class EditorModel
 
     public EditorModel() : this(new List<BlockRegistration>(), new List<EditorRowModel>()) { }
 
-    public EditorModel(List<BlockRegistration> editorRegistrations, List<EditorRowModel> columnDefinitions)
+    public EditorModel(List<BlockRegistration>? editorRegistrations = null, List<EditorRowModel>? columnDefinitions = null)
     {
         BlockRegistrations = editorRegistrations ?? new List<BlockRegistration>();
         ColumnDefinitions = columnDefinitions ?? new List<EditorRowModel>();

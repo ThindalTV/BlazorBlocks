@@ -3,6 +3,7 @@
 @using BlazorBlocks.Blocks.RawTextBlock;
 @using BlazorBlocks.Blocks.TitleBlock;
 @using BlazorBlocks.Model;
+@using BlazorBlocks.Test.WASM.CustomBlocks.TestBlock
 
 @page "/"
 
@@ -39,7 +40,12 @@ Welcome to your new app.
     
 </div>
 @code {
-    EditorModel editorModel = new EditorModel();
+    EditorModel editorModel = new EditorModel(
+        new List<BlockRegistration>()
+        {
+            new BlockRegistration("Test Block", null, typeof(TestBlockModel), typeof(TestBlockEditor))
+        }
+    );
 
     string renderContent;
     string serialized;
