@@ -4,6 +4,7 @@ namespace BlazorBlocks.Model;
 
 public class EditorColumnModel
 {
+    // TODO: Replace this with column classname
     public string? ColumnSize { get; set; }
 
     public List<EditorBlockBaseModel> Blocks { get; set; }
