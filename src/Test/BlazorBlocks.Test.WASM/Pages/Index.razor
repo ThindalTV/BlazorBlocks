@@ -40,12 +40,7 @@ Welcome to your new app.
     
 </div>
 @code {
-    EditorModel editorModel = new EditorModel(
-        new List<BlockRegistration>()
-        {
-            new BlockRegistration("Test Block", null, typeof(TestBlockModel), typeof(TestBlockEditor))
-        }
-    );
+    EditorModel editorModel = new EditorModel();
 
     string renderContent;
     string serialized;

@@ -1,6 +1,6 @@
 ﻿namespace BlazorBlocks.Model;
 
-public class BlockRegistration
+public record BlockRegistration
 {
     public string Name { get; }
 

@@ -6,11 +6,11 @@ namespace BlazorBlocks.Model;
 
 internal sealed class JsonSerializerTypeResolver : DefaultJsonTypeInfoResolver
 {
-    private readonly List<BlockRegistration> _blockRegistrations;
+    private readonly IReadOnlyList<BlockRegistration> _blockRegistrations;
     private readonly JsonPolymorphismOptions _polymorphismOptions;
-    public JsonSerializerTypeResolver(List<BlockRegistration> blockRegistrations)
+    public JsonSerializerTypeResolver(IReadOnlyList<BlockRegistration> blockRegistrations)
     {
-        _blockRegistrations = blockRegistrations ?? new List<BlockRegistration>();
+        _blockRegistrations = blockRegistrations;
 
         var jsonTypes = _blockRegistrations.Select(reg => new JsonDerivedType(reg.BlockModel, reg.BlockModel.Name)).ToList() ?? new List<JsonDerivedType>();
 

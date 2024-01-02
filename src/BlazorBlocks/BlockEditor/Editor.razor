@@ -108,7 +108,6 @@
     @foreach (var row in Model.Rows)
     {
         <EditorRow Model="@row"
-                   BlockTypes="@Model.BlockRegistrations"
                    OnAddRow="r => ShowNewRowDialog(r)"
                    OnMoveRowDown="r => MoveRowDown(r)"
                    OnMoveRowUp="r => MoveRowUp(r)"

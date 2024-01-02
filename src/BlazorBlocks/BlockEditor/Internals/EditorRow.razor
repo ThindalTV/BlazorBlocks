@@ -5,9 +5,6 @@
     public EditorRowModel Model { get; set; }
 
     [Parameter, EditorRequired]
-    public List<BlockRegistration> BlockTypes { get; set; }
-
-    [Parameter, EditorRequired]
     public EventCallback<EditorRowModel> OnAddRow { get; set; }
 
     [Parameter, EditorRequired]
@@ -44,7 +41,7 @@
     <div style="flex: 1;" class="row">
         @foreach (var column in Model.Columns)
         {
-            <EditorColumn Model="@column" BlockTypes="@BlockTypes" />
+            <EditorColumn Model="@column" />
         }
     </div>
 </div>
