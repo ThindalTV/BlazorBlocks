@@ -13,6 +13,9 @@ public abstract class BlazorBlocksEditorBlockBaseModel : ComponentBase
     [JsonIgnore]
     public Dictionary<string, object> Parameters { get; set; }
 
+    [JsonIgnore]
+    public Action OnUpdated { get; set; }
+
     public BlazorBlocksEditorBlockBaseModel(Type editorType)
     {
         EditorType = editorType;

@@ -15,7 +15,7 @@
     {
         var blockModel = Activator.CreateInstance(blockType.BlockModel) as BlazorBlocksEditorBlockBaseModel;
         if (blockModel == null) throw new InvalidOperationException($"Attempting to create a block model that is not a EditorBlockBaseModel. (It is {blockType.BlockModel.Name})");
-        Model.Blocks.Add(blockModel);
+        Model.AddBlock(blockModel, Model.Blocks.Count);
         AddNewBlockDialogOpen = false;
     }
 
@@ -24,29 +24,27 @@
         AddNewBlockDialogOpen = true;
     }
 
-protected void MoveBlockUp(BlazorBlocksEditorBlockBaseModel block)
+    protected void MoveBlockUp(BlazorBlocksEditorBlockBaseModel block)
     {
         var index = Model.Blocks.IndexOf(block);
         if (index > 0)
         {
-            Model.Blocks.RemoveAt(index);
-            Model.Blocks.Insert(index - 1, block);
+            Model.MoveBlock(block, index - 1);
         }
     }
 
-protected void MoveBlockDown(BlazorBlocksEditorBlockBaseModel block)
+    protected void MoveBlockDown(BlazorBlocksEditorBlockBaseModel block)
     {
         var index = Model.Blocks.IndexOf(block);
         if (index < Model.Blocks.Count - 1)
         {
-            Model.Blocks.RemoveAt(index);
-            Model.Blocks.Insert(index + 1, block);
+            Model.MoveBlock(block, index + 1);
         }
     }
 
 protected void DeleteBlock(BlazorBlocksEditorBlockBaseModel block)
     {
-        Model.Blocks.Remove(block);
+        Model.RemoveBlock(block);
     }
 
     private int IndexOfBlock(BlazorBlocksEditorBlockBaseModel block) => Model.Blocks.IndexOf(block);

@@ -1,10 +1,14 @@
 ﻿using System.Text;
+using System.Text.Json.Serialization;
 
 namespace BlazorBlocks.Model;
 
 public class EditorRowModel
 {
     public List<EditorColumnModel> Columns { get; set; }
+
+    [JsonIgnore]
+    public Action OnUpdated { get; set; }
 
     public EditorRowModel()
     {
@@ -21,5 +25,16 @@ public class EditorRowModel
         }
         sb.Append("</div>");
         return sb.ToString();
+    }
+
+    public void ColumnsSet()
+    {
+        foreach (var column in Columns)
+        {
+            column.OnUpdated = () =>
+            {
+                OnUpdated?.Invoke();
+            };
+        }
     }
 }

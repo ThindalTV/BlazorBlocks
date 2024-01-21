@@ -40,7 +40,12 @@
         {
             insertRow.Columns.Add(new EditorColumnModel() { ColumnSize = col.ColumnClass });
         }
-        Model.Rows.Insert(clickedRowIndex + 1, insertRow);
+
+        insertRow.ColumnsSet();
+
+        Model.AddRow(insertRow, clickedRowIndex + 1);
+
+        
         RowAddingBelow = null;
         AddNewRowDialogVisible = false;
     }
@@ -78,9 +83,7 @@
             return;
         }
 
-        Model.Rows.Remove(rowToMove);
-
-        Model.Rows.Insert(newPosition, rowToMove);
+        Model.MoveRow(rowToMove, newPosition);
     }
 
     /// <summary>
@@ -89,7 +92,8 @@
     /// <param name="rowToDelete">The row to delete.</param>
     protected void DeleteRow(EditorRowModel rowToDelete)
     {
-        Model.Rows.Remove(rowToDelete);
+        // Add warning dialog here
+        Model.RemoveRow(rowToDelete);
     }
 }
 

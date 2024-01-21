@@ -2,7 +2,7 @@
 }
 
     .editorColumn + .editorColumn {
-        border-left: 1px solid #F00;
+        border-left: 1px solid #CCC;
     }
 
 .addBlock {
