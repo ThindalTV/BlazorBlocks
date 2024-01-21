@@ -11,9 +11,9 @@
 
     protected bool AddNewBlockDialogOpen { get; set; } = false;
 
-    protected void AddBlock(BlockRegistration blockType)
+    protected void AddBlock(BlazorBlocksBlockRegistration blockType)
     {
-        var blockModel = Activator.CreateInstance(blockType.BlockModel) as EditorBlockBaseModel;
+        var blockModel = Activator.CreateInstance(blockType.BlockModel) as BlazorBlocksEditorBlockBaseModel;
         if (blockModel == null) throw new InvalidOperationException($"Attempting to create a block model that is not a EditorBlockBaseModel. (It is {blockType.BlockModel.Name})");
         Model.Blocks.Add(blockModel);
         AddNewBlockDialogOpen = false;
@@ -24,7 +24,7 @@
         AddNewBlockDialogOpen = true;
     }
 
-protected void MoveBlockUp(EditorBlockBaseModel block)
+protected void MoveBlockUp(BlazorBlocksEditorBlockBaseModel block)
     {
         var index = Model.Blocks.IndexOf(block);
         if (index > 0)
@@ -34,7 +34,7 @@ protected void MoveBlockUp(EditorBlockBaseModel block)
         }
     }
 
-protected void MoveBlockDown(EditorBlockBaseModel block)
+protected void MoveBlockDown(BlazorBlocksEditorBlockBaseModel block)
     {
         var index = Model.Blocks.IndexOf(block);
         if (index < Model.Blocks.Count - 1)
@@ -44,12 +44,12 @@ protected void MoveBlockDown(EditorBlockBaseModel block)
         }
     }
 
-protected void DeleteBlock(EditorBlockBaseModel block)
+protected void DeleteBlock(BlazorBlocksEditorBlockBaseModel block)
     {
         Model.Blocks.Remove(block);
     }
 
-    private int IndexOfBlock(EditorBlockBaseModel block) => Model.Blocks.IndexOf(block);
+    private int IndexOfBlock(BlazorBlocksEditorBlockBaseModel block) => Model.Blocks.IndexOf(block);
 }
 
 @if (AddNewBlockDialogOpen)

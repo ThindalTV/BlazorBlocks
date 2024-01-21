@@ -7,11 +7,11 @@ public class EditorColumnModel
     // TODO: Replace this with column classname
     public string? ColumnSize { get; set; }
 
-    public List<EditorBlockBaseModel> Blocks { get; set; }
+    public List<BlazorBlocksEditorBlockBaseModel> Blocks { get; set; }
 
     public EditorColumnModel()
     {
-        Blocks = new List<EditorBlockBaseModel>();
+        Blocks = new List<BlazorBlocksEditorBlockBaseModel>();
     }
 
     public string Render()

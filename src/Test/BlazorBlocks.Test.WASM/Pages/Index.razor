@@ -14,7 +14,7 @@
 Welcome to your new app.
 <hr />
 <div class="content">
-    <Editor Model="@editorModel" />
+    <BlazorBlocksEditor Model="@editorModel" />
     <hr />
     Editor above this line
     <hr />
@@ -40,10 +40,10 @@ Welcome to your new app.
     
 </div>
 @code {
-    EditorModel editorModel = new EditorModel();
+    BlazorBlocksEditorModel editorModel = new BlazorBlocksEditorModel();
 
-    string renderContent;
-    string serialized;
+    string? renderContent;
+    string? serialized;
 
     protected override void OnInitialized()
     {

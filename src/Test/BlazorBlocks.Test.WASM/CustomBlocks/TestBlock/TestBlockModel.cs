@@ -2,7 +2,7 @@
 
 namespace BlazorBlocks.Test.WASM.CustomBlocks.TestBlock;
 
-public class TestBlockModel : EditorBlockBaseModel
+public class TestBlockModel : BlazorBlocksEditorBlockBaseModel
 {
     public override string EditorName => "Custom Test Block";
 

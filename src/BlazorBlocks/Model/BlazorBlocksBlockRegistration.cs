@@ -1,6 +1,6 @@
 ﻿namespace BlazorBlocks.Model;
 
-public record BlockRegistration
+public record BlazorBlocksBlockRegistration
 {
     public string Name { get; }
 
@@ -9,11 +9,11 @@ public record BlockRegistration
     public Type BlockModel { get; }
     public Type EditorBlock { get; }
 
-    public BlockRegistration(string name, string? image, Type modelType, Type editorType)
+    public BlazorBlocksBlockRegistration(string name, string? image, Type modelType, Type editorType)
     {
-        if (!modelType.IsSubclassOf(typeof(EditorBlockBaseModel)))
+        if (!modelType.IsSubclassOf(typeof(BlazorBlocksEditorBlockBaseModel)))
         {
-            throw new ArgumentException($"{nameof(modelType)} is not derived from {nameof(EditorBlockBaseModel)}.");
+            throw new ArgumentException($"{nameof(modelType)} is not derived from {nameof(BlazorBlocksEditorBlockBaseModel)}.");
         }
 
         Name = name;

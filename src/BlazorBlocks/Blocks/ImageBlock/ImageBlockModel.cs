@@ -2,7 +2,7 @@
 
 namespace BlazorBlocks.Blocks.ImageBlock;
 
-public class ImageBlockModel : EditorBlockBaseModel
+public class ImageBlockModel : BlazorBlocksEditorBlockBaseModel
 {
     public override string EditorName => "Image";
 

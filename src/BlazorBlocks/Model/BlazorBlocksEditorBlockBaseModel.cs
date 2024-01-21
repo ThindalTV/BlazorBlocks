@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace BlazorBlocks.Model;
 
-public abstract class EditorBlockBaseModel : ComponentBase
+public abstract class BlazorBlocksEditorBlockBaseModel : ComponentBase
 {
     [JsonIgnore]
     public Type EditorType { get; }
@@ -13,7 +13,7 @@ public abstract class EditorBlockBaseModel : ComponentBase
     [JsonIgnore]
     public Dictionary<string, object> Parameters { get; set; }
 
-    public EditorBlockBaseModel(Type editorType)
+    public BlazorBlocksEditorBlockBaseModel(Type editorType)
     {
         EditorType = editorType;
         Parameters = new Dictionary<string, object>() { { "Model", this } };

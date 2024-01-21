@@ -10,17 +10,17 @@ namespace BlazorBlocks;
 /// </summary>
 public static class BlockRegistrationService
 {
-    private static List<BlockRegistration> _registeredBlocks { get; } = new List<BlockRegistration>();
+    private static List<BlazorBlocksBlockRegistration> _registeredBlocks { get; } = new List<BlazorBlocksBlockRegistration>();
     private static List<RowRegistration> _registeredRows { get; } = new List<RowRegistration>();
 
-    internal static IReadOnlyList<BlockRegistration> RegisteredBlocks => _registeredBlocks;
+    internal static IReadOnlyList<BlazorBlocksBlockRegistration> RegisteredBlocks => _registeredBlocks;
     internal static IReadOnlyList<RowRegistration> RegisteredRows => _registeredRows;
 
     /// <summary>
     /// Registers a block.
     /// </summary>
     /// <param name="block">The block to register.</param>
-    private static void RegisterBlock(BlockRegistration block)
+    private static void RegisterBlock(BlazorBlocksBlockRegistration block)
     {
         _registeredBlocks.Add(block);
     }
@@ -54,7 +54,7 @@ public static class BlockRegistrationService
     /// <param name="blockRegistrations">The block registrations to add.</param>
     /// <param name="includeDefaultBlocks">Whether to include the default blocks.</param>
     /// <returns>The updated service collection.</returns>
-    public static IServiceCollection AddBlazorBlocks(this IServiceCollection services, List<BlockRegistration> blockRegistrations, bool includeDefaultBlocks = false)
+    public static IServiceCollection AddBlazorBlocks(this IServiceCollection services, List<BlazorBlocksBlockRegistration> blockRegistrations, bool includeDefaultBlocks = false)
     {
         AddDefaultRows();
 
@@ -102,7 +102,7 @@ public static class BlockRegistrationService
     /// <param name="rowRegistrations">The row registrations to add.</param>
     /// <param name="includeDefaults">Whether to include the default blocks and rows.</param>
     /// <returns>The updated service collection.</returns>
-    public static IServiceCollection AddBlazorBlocks(this IServiceCollection services, List<BlockRegistration> blockRegistrations, List<RowRegistration> rowRegistrations, bool includeDefaults = true)
+    public static IServiceCollection AddBlazorBlocks(this IServiceCollection services, List<BlazorBlocksBlockRegistration> blockRegistrations, List<RowRegistration> rowRegistrations, bool includeDefaults = true)
     {
         if (includeDefaults)
         {
@@ -147,8 +147,8 @@ public static class BlockRegistrationService
     private static void AddDefaultBlocks()
     {
         // Add default block types
-        RegisterBlock(new BlockRegistration("Text", null, typeof(TitleBlockModel), typeof(TitleEditorBlock)));
-        RegisterBlock(new BlockRegistration("Image", null, typeof(ImageBlockModel), typeof(ImageEditorBlock)));
-        RegisterBlock(new BlockRegistration("Raw text", "https://icon-sets.iconify.design/logo-iconify.svg", typeof(RawTextBlockModel), typeof(RawTextEditorBlock)));
+        RegisterBlock(new BlazorBlocksBlockRegistration("Text", null, typeof(TitleBlockModel), typeof(TitleEditorBlock)));
+        RegisterBlock(new BlazorBlocksBlockRegistration("Image", null, typeof(ImageBlockModel), typeof(ImageEditorBlock)));
+        RegisterBlock(new BlazorBlocksBlockRegistration("Raw text", "https://icon-sets.iconify.design/logo-iconify.svg", typeof(RawTextBlockModel), typeof(RawTextEditorBlock)));
     }
 }

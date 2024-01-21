@@ -2,7 +2,7 @@
 
 namespace BlazorBlocks.Blocks.TitleBlock;
 
-public partial class TitleBlockModel : EditorBlockBaseModel
+public partial class TitleBlockModel : BlazorBlocksEditorBlockBaseModel
 {
     public override string EditorName => "Title";
 

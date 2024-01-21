@@ -2,7 +2,7 @@
 @code {
 
     [Parameter, EditorRequired]
-    public EditorBlockBaseModel Model { get; set; }
+    public BlazorBlocksEditorBlockBaseModel Model { get; set; }
 
     public string BlockName { get => Model?.EditorName; }
 
@@ -11,13 +11,13 @@
     public IDictionary<string, object> Attributes { get => Model?.Parameters; }
 
     [Parameter, EditorRequired]
-    public EventCallback<EditorBlockBaseModel> OnMoveUp { get; set; }
+    public EventCallback<BlazorBlocksEditorBlockBaseModel> OnMoveUp { get; set; }
 
     [Parameter, EditorRequired]
-    public EventCallback<EditorBlockBaseModel> OnMoveDown { get; set; }
+    public EventCallback<BlazorBlocksEditorBlockBaseModel> OnMoveDown { get; set; }
 
     [Parameter, EditorRequired]
-    public EventCallback<EditorBlockBaseModel> OnDelete { get; set; }
+    public EventCallback<BlazorBlocksEditorBlockBaseModel> OnDelete { get; set; }
 
     [Parameter]
     public bool CanMoveUp { get; set; }

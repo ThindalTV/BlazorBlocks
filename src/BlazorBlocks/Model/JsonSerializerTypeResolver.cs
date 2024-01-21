@@ -6,9 +6,9 @@ namespace BlazorBlocks.Model;
 
 internal sealed class JsonSerializerTypeResolver : DefaultJsonTypeInfoResolver
 {
-    private readonly IReadOnlyList<BlockRegistration> _blockRegistrations;
+    private readonly IReadOnlyList<BlazorBlocksBlockRegistration> _blockRegistrations;
     private readonly JsonPolymorphismOptions _polymorphismOptions;
-    public JsonSerializerTypeResolver(IReadOnlyList<BlockRegistration> blockRegistrations)
+    public JsonSerializerTypeResolver(IReadOnlyList<BlazorBlocksBlockRegistration> blockRegistrations)
     {
         _blockRegistrations = blockRegistrations;
 
@@ -33,7 +33,7 @@ internal sealed class JsonSerializerTypeResolver : DefaultJsonTypeInfoResolver
 
         if (!_blockRegistrations.Any()) return jsonTypeInfo;
 
-        Type baseBlockType = typeof(EditorBlockBaseModel);
+        Type baseBlockType = typeof(BlazorBlocksEditorBlockBaseModel);
         if (jsonTypeInfo.Type == baseBlockType && jsonTypeInfo.PolymorphismOptions == null && !jsonTypeInfo.IsReadOnly)
         {
             jsonTypeInfo.PolymorphismOptions = _polymorphismOptions;

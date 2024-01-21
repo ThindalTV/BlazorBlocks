@@ -2,7 +2,7 @@
 
 namespace BlazorBlocks.Blocks.RawTextBlock;
 
-public class RawTextBlockModel : EditorBlockBaseModel
+public class RawTextBlockModel : BlazorBlocksEditorBlockBaseModel
 {
     public override string EditorName => "Raw Text";
 

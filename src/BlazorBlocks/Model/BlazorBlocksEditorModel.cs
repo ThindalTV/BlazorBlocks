@@ -3,13 +3,13 @@ using System.Text.Json;
 
 namespace BlazorBlocks.Model;
 
-public class EditorModel
+public class BlazorBlocksEditorModel
 {
     public List<EditorRowModel> Rows { get; set; }
 
     private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-    public EditorModel()
+    public BlazorBlocksEditorModel()
     {
         Rows = new List<EditorRowModel>();
 
@@ -33,7 +33,7 @@ public class EditorModel
 
     public void Load(string data)
     {
-        var model = JsonSerializer.Deserialize<EditorModel>(data, _jsonSerializerOptions);
+        var model = JsonSerializer.Deserialize<BlazorBlocksEditorModel>(data, _jsonSerializerOptions);
         Rows = model?.Rows ?? new List<EditorRowModel>();
     }
 }

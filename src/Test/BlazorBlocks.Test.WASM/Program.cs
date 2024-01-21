@@ -12,9 +12,9 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-builder.Services.AddBlazorBlocks(new List<BlockRegistration>()
+builder.Services.AddBlazorBlocks(new List<BlazorBlocksBlockRegistration>()
 {
-    new BlockRegistration("Test Block", null, typeof(TestBlockModel), typeof(TestBlockEditor))
+    new BlazorBlocksBlockRegistration("Test Block", null, typeof(TestBlockModel), typeof(TestBlockEditor))
 }, true);
 
 await builder.Build().RunAsync();

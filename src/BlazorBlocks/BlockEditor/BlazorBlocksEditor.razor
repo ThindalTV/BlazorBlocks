@@ -6,8 +6,8 @@
     /// <summary>
     /// Represents the editor component for the Blazor Blocks.
     /// </summary>
-    [Parameter]
-    public EditorModel Model { get; set; }
+    [Parameter, EditorRequired]
+    public BlazorBlocksEditorModel? Model { get; set; }
 
     protected bool AddNewRowDialogVisible = false;
     protected EditorRowModel? RowAddingBelow = null;
