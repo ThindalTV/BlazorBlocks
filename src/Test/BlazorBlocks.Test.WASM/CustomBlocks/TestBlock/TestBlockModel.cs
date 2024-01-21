@@ -6,7 +6,7 @@ public class TestBlockModel : BlazorBlocksEditorBlockBaseModel
 {
     public override string EditorName => "Custom Test Block";
 
-    public string Content { get; set; }
+    public string? Content { get; set; }
 
     public TestBlockModel() : base(typeof(TestBlockEditor))
     {
