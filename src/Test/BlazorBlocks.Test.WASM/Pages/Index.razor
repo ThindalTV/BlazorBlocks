@@ -22,7 +22,7 @@ Welcome to your new app.
     <button @onclick="ReRender">Render HTML</button> <br/>
     Render test zone:
     <div class="row p-5" style="border: 1px solid #000;">
-        @((MarkupString)renderContent)
+        @((MarkupString)(renderContent ?? ""))
     </div>
 
     <hr /><hr /><hr /><hr />
@@ -62,7 +62,7 @@ Welcome to your new app.
 
     protected void Import()
     {
-        editorModel.Load(serialized);
+        editorModel.Load(serialized ?? "");
         StateHasChanged();
     }
 
