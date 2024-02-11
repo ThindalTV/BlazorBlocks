@@ -30,7 +30,7 @@
     /// Adds a new row below the specified row.
     /// </summary>
     /// <param name="rowRegistration">The row definition to add.</param>
-    protected void AddRowBelow(RowRegistration rowRegistration)
+    protected async Task AddRowBelow(RowRegistration rowRegistration)
     {
         if (RowAddingBelow == null)
         {
@@ -49,6 +49,7 @@
 
         RowAddingBelow = null;
         AddNewRowDialogVisible = false;
+        await OnModelUpdated.InvokeAsync();
     }
 
     /// <summary>
@@ -62,20 +63,20 @@
     /// Moves the specified row up.
     /// </summary>
     /// <param name="rowToMove">The row to move up.</param>
-    protected void MoveRowUp(EditorRowModel rowToMove) => MoveRow(rowToMove, -1);
+    protected async Task MoveRowUp(EditorRowModel rowToMove) => await MoveRow(rowToMove, -1);
 
     /// <summary>
     /// Moves the specified row down.
     /// </summary>
     /// <param name="rowToMove">The row to move down.</param>
-    protected void MoveRowDown(EditorRowModel rowToMove) => MoveRow(rowToMove, 1);
+    protected async Task MoveRowDown(EditorRowModel rowToMove) => await MoveRow(rowToMove, 1);
 
     /// <summary>
     /// Moves the specified row by the specified offset.
     /// </summary>
     /// <param name="rowToMove">The row to move.</param>
     /// <param name="offset">The offset to move the row by.</param>
-    private void MoveRow(EditorRowModel rowToMove, int offset)
+    private async Task MoveRow(EditorRowModel rowToMove, int offset)
     {
         var clickedRowIndex = Model.Rows.IndexOf(rowToMove);
         var newPosition = clickedRowIndex + offset;
@@ -85,16 +86,18 @@
         }
 
         Model.MoveRow(rowToMove, newPosition);
+        await OnModelUpdated.InvokeAsync();
     }
 
     /// <summary>
     /// Deletes the specified row.
     /// </summary>
     /// <param name="rowToDelete">The row to delete.</param>
-    protected void DeleteRow(EditorRowModel rowToDelete)
+    protected async Task DeleteRow(EditorRowModel rowToDelete)
     {
         // Add warning dialog here
         Model.RemoveRow(rowToDelete);
+        await OnModelUpdated.InvokeAsync();
     }
     }
 

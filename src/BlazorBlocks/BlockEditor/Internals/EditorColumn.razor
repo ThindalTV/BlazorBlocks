@@ -9,14 +9,18 @@
     [Parameter, EditorRequired]
     public required EditorColumnModel Model { get; set; }
 
+    [CascadingParameter]
+    public required BlazorBlocksEditor Editor { get; set; }
+
     protected bool AddNewBlockDialogOpen { get; set; } = false;
 
-    protected void AddBlock(BlazorBlocksBlockRegistration blockType)
+    protected async Task AddBlock(BlazorBlocksBlockRegistration blockType)
     {
         var blockModel = Activator.CreateInstance(blockType.BlockModel) as BlazorBlocksEditorBlockBaseModel;
         if (blockModel == null) throw new InvalidOperationException($"Attempting to create a block model that is not a EditorBlockBaseModel. (It is {blockType.BlockModel.Name})");
         Model.AddBlock(blockModel, Model.Blocks.Count);
         AddNewBlockDialogOpen = false;
+        await Editor.OnModelUpdated.InvokeAsync();
     }
 
     protected void OpenAddNewBlockDialog()
@@ -24,27 +28,30 @@
         AddNewBlockDialogOpen = true;
     }
 
-    protected void MoveBlockUp(BlazorBlocksEditorBlockBaseModel block)
+    protected async Task MoveBlockUp(BlazorBlocksEditorBlockBaseModel block)
     {
         var index = Model.Blocks.IndexOf(block);
         if (index > 0)
         {
             Model.MoveBlock(block, index - 1);
+            await Editor.OnModelUpdated.InvokeAsync();
         }
     }
 
-    protected void MoveBlockDown(BlazorBlocksEditorBlockBaseModel block)
+    protected async Task MoveBlockDown(BlazorBlocksEditorBlockBaseModel block)
     {
         var index = Model.Blocks.IndexOf(block);
         if (index < Model.Blocks.Count - 1)
         {
             Model.MoveBlock(block, index + 1);
+            await Editor.OnModelUpdated.InvokeAsync();
         }
     }
 
-protected void DeleteBlock(BlazorBlocksEditorBlockBaseModel block)
+protected async Task DeleteBlock(BlazorBlocksEditorBlockBaseModel block)
     {
         Model.RemoveBlock(block);
+        await Editor.OnModelUpdated.InvokeAsync();
     }
 
     private int IndexOfBlock(BlazorBlocksEditorBlockBaseModel block) => Model.Blocks.IndexOf(block);
