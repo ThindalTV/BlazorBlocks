@@ -1,0 +1,9 @@
+﻿.title-control {
+    width: 100%;
+    margin-bottom: 10px;
+    border-radius: .25rem;
+    border: 1px solid #ced4da;
+    display: block;
+    padding: .4rem .5rem;
+    line-height: 1.5;
+}

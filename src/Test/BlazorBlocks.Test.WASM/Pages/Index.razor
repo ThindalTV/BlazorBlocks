@@ -52,6 +52,8 @@ Welcome to your new app.
         editorModel.Load($$$"""{"Rows":[{"Columns":[{"ColumnSize":"col-md-12","Blocks":[{"$modelType":"TitleBlockModel","EditorName":"Title","Title":"Title"}]}]},{"Columns":[{"ColumnSize":"col-md-4","Blocks":[{"$modelType":"RawTextBlockModel","EditorName":"Raw Text","Content":"hello from index"}]},{"ColumnSize":"col-md-7","Blocks":[{"$modelType":"ImageBlockModel","EditorName":"Image","ImageUrl":"","AltText":""}]}]},{"Columns":[{"ColumnSize":"col-3","Blocks":[]},{"ColumnSize":"col-3","Blocks":[]},{"ColumnSize":"col-3","Blocks":[]},{"ColumnSize":"col-3","Blocks":[]}]}]}""");
         serialized = editorModel.GetJson();
 
+        OnModelUpdated();
+
         StateHasChanged();
     }
 

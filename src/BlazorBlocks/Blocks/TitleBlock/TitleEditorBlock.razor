@@ -1,8 +1,37 @@
-﻿@using BlazorBlocks.BlockEditor
+﻿@using Microsoft.AspNetCore.Components.Forms;
+
+@using BlazorBlocks.BlockEditor;
 @using BlazorBlocks.Blocks;
 @using BlazorBlocks.Blocks.TitleBlock;
-@using BlazorBlocks.Model
+@using BlazorBlocks.Model;
 
 @inherits BaseEditor<TitleBlockModel>
-<input class="form-control" style="width: 100%; height: 7rem; text-align: center; font-size: 4rem;"
-       @bind="@Model.Title" @bind:after="OnValuesChanged" />
+<div>
+    <label for="titleSize">Title Size</label>
+    <select class="title-control" @onchange="TitleSizeChanged" id="titleSize">
+        @foreach (TitleSizeEnum size in Enum.GetValues(typeof(TitleSizeEnum)))
+        {
+            var selected = size == Model.TitleSize;
+
+            <option value="@size" selected="@selected">@size</option>
+        }
+    </select>
+</div>
+
+<div>
+    <label for="titleText">Title Text</label>
+    <input class="title-control" style="width: 100%; height: 7rem; text-align: center; font-size: 4rem;"
+           @bind="@Model.Title" @bind:after="OnValuesChanged" />
+</div>
+
+
+
+
+
+@code {
+    private async Task TitleSizeChanged(ChangeEventArgs e)
+    {
+        Model.TitleSize = (TitleSizeEnum)Enum.Parse(typeof(TitleSizeEnum), e.Value.ToString());
+        await OnValuesChanged();
+    }
+}
