@@ -3,17 +3,5 @@
 
 @inherits BaseEditor<RawTextBlockModel>
 
-@code {
-
-}
-
-<textarea @bind="Model.Content">
+<textarea @bind="Model.Content" @bind:after="OnValuesChanged">
 </textarea>
-
-@code {
-    void ContentChangedEvent(ChangeEventArgs e)
-    {
-        Model.Content = e.Value.ToString();
-        StateHasChanged();
-    }
-}

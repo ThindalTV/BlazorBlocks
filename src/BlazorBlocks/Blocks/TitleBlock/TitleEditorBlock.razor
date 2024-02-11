@@ -1,15 +1,8 @@
-﻿@using BlazorBlocks.Blocks;
+﻿@using BlazorBlocks.BlockEditor
+@using BlazorBlocks.Blocks;
 @using BlazorBlocks.Blocks.TitleBlock;
+@using BlazorBlocks.Model
 
 @inherits BaseEditor<TitleBlockModel>
 <input class="form-control" style="width: 100%; height: 7rem; text-align: center; font-size: 4rem;"
-       value="@Model.Title" @onchange="(e) => FieldChanged((string)e.Value)" />
-
-@code {
-
-    protected void FieldChanged(string val)
-    {
-        Model.Title = val;
-        Model?.OnUpdated?.Invoke();
-    }
-}
+       @bind="@Model.Title" @bind:after="OnValuesChanged" />

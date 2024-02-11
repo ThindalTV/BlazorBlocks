@@ -32,6 +32,9 @@ BlazorBlocks provides an intuitive interface for creating and editing web page c
 4. Export blocks to reuse
 5. Extend BlazorBlocks with custom block types to add new functionality
 
+## Writing a new block type
+To Be Documented... Example in [TestBlockEditor](src/BlazorBlocks.Test.WASM/CustomBlocks/TestBlock/BlazorBlocks.TestBlockEditor.razor)]
+
 ## Contributing
 
 Contributions are welcome!

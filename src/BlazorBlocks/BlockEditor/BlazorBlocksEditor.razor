@@ -7,7 +7,10 @@
     /// Represents the editor component for the Blazor Blocks.
     /// </summary>
     [Parameter, EditorRequired]
-    public BlazorBlocksEditorModel? Model { get; set; }
+    public required BlazorBlocksEditorModel Model { get; set; }
+
+    [Parameter]
+    public EventCallback OnModelUpdated { get; set; }
 
     protected bool AddNewRowDialogVisible = false;
     protected EditorRowModel? RowAddingBelow = null;
@@ -29,7 +32,7 @@
     /// <param name="rowRegistration">The row definition to add.</param>
     protected void AddRowBelow(RowRegistration rowRegistration)
     {
-        if(RowAddingBelow == null)
+        if (RowAddingBelow == null)
         {
             return;
         }
@@ -41,11 +44,9 @@
             insertRow.Columns.Add(new EditorColumnModel() { ColumnSize = col.ColumnClass });
         }
 
-        insertRow.ColumnsSet();
-
         Model.AddRow(insertRow, clickedRowIndex + 1);
 
-        
+
         RowAddingBelow = null;
         AddNewRowDialogVisible = false;
     }
@@ -95,9 +96,9 @@
         // Add warning dialog here
         Model.RemoveRow(rowToDelete);
     }
-}
+    }
 
-@if (AddNewRowDialogVisible)
+    @if (AddNewRowDialogVisible)
 {
     <Dialog Title="Add new row" OnClose="() => AddNewRowDialogVisible = false">
         @foreach (var colDefinition in BlockRegistrationService.RegisteredRows)
@@ -109,17 +110,16 @@
 
 <div>
     <h3>Blazor Blocks Editor</h3>
-    @foreach (var row in Model.Rows)
-    {
-        <EditorRow Model="@row"
-                   OnAddRow="r => ShowNewRowDialog(r)"
-                   OnMoveRowDown="r => MoveRowDown(r)"
-                   OnMoveRowUp="r => MoveRowUp(r)"
-                   OnDeleteRow="r => DeleteRow(r)"
-                   CanMoveUp="IndexOfRow(row) > 0"
-                   CanMoveDown="IndexOfRow(row) < Model.Rows.Count-1" />
-    }
+    <CascadingValue Value="this">
+        @foreach (var row in Model.Rows)
+        {
+            <EditorRow Model="@row"
+                       OnAddRow="r => ShowNewRowDialog(r)"
+                       OnMoveRowDown="r => MoveRowDown(r)"
+                       OnMoveRowUp="r => MoveRowUp(r)"
+                       OnDeleteRow="r => DeleteRow(r)"
+                       CanMoveUp="IndexOfRow(row) > 0"
+                       CanMoveDown="IndexOfRow(row) < Model.Rows.Count-1" />
+        }
+    </CascadingValue>
 </div>
-
-@code {
-}

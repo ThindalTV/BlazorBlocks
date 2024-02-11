@@ -2,19 +2,19 @@
 
 @code {
     [Parameter, EditorRequired]
-    public EditorRowModel Model { get; set; }
+    public required EditorRowModel Model { get; set; }
 
     [Parameter, EditorRequired]
-    public EventCallback<EditorRowModel> OnAddRow { get; set; }
+    public required EventCallback<EditorRowModel> OnAddRow { get; set; }
 
     [Parameter, EditorRequired]
-    public EventCallback<EditorRowModel> OnMoveRowUp { get; set; }
+    public required EventCallback<EditorRowModel> OnMoveRowUp { get; set; }
 
     [Parameter, EditorRequired]
-    public EventCallback<EditorRowModel> OnMoveRowDown { get; set; }
+    public required EventCallback<EditorRowModel> OnMoveRowDown { get; set; }
 
     [Parameter, EditorRequired]
-    public EventCallback<EditorRowModel> OnDeleteRow { get; set; }
+    public required EventCallback<EditorRowModel> OnDeleteRow { get; set; }
 
     [Parameter]
     public bool CanMoveUp { get; set; }

@@ -2,13 +2,13 @@
 @code {
 
     [Parameter, EditorRequired]
-    public BlazorBlocksEditorBlockBaseModel Model { get; set; }
+    public required BlazorBlocksEditorBlockBaseModel Model { get; set; }
 
-    public string BlockName { get => Model?.EditorName; }
+    public string BlockName { get => Model.EditorName; }
 
-    public Type BlockType { get => Model?.EditorType; }
+    public Type BlockType { get => Model.EditorType; }
 
-    public IDictionary<string, object> Attributes { get => Model?.Parameters; }
+    public IDictionary<string, object> Attributes { get => Model.Parameters; }
 
     [Parameter, EditorRequired]
     public EventCallback<BlazorBlocksEditorBlockBaseModel> OnMoveUp { get; set; }

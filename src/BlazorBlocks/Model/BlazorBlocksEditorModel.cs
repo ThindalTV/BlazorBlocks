@@ -17,10 +17,6 @@ public class BlazorBlocksEditorModel
     /// </summary>
     public List<EditorRowModel> Rows { get; set; }
 
-    [JsonIgnore]
-    public Action<string, string>? OnUpdated { get; set; }
-
-
     private readonly JsonSerializerOptions _jsonSerializerOptions;
 
     /// <summary>
@@ -31,15 +27,6 @@ public class BlazorBlocksEditorModel
         Rows = new List<EditorRowModel>();
 
         _jsonSerializerOptions = new JsonSerializerOptions() { TypeInfoResolver = new JsonSerializerTypeResolver(BlockRegistrationService.RegisteredBlocks) };
-
-
-
-
-        /*if(OnUpdated != null )
-        {
-            // when we're updated...
-            OnUpdated(GetHTML(), GetJson());
-        }*/
     }
 
     /// <summary>
@@ -83,19 +70,11 @@ public class BlazorBlocksEditorModel
 
     public void RemoveRow(EditorRowModel editorRowModel)
     {
-        editorRowModel.OnUpdated = null;
         Rows.Remove(editorRowModel);
     }
 
     public void AddRow(EditorRowModel editorRowModel, int index)
     {
-        // TODO: Add update tracking on row
-        editorRowModel.OnUpdated = RowUpdated;
         Rows.Insert(index, editorRowModel);
-    }
-
-    private void RowUpdated()
-    {
-        OnUpdated?.Invoke(GetHTML(), GetJson());
     }
 }

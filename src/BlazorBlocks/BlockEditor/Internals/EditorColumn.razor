@@ -6,8 +6,8 @@
 @using BlazorBlocks
 
 @code {
-    [Parameter]
-    public EditorColumnModel Model { get; set; }
+    [Parameter, EditorRequired]
+    public required EditorColumnModel Model { get; set; }
 
     protected bool AddNewBlockDialogOpen { get; set; } = false;
 
