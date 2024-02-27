@@ -23,5 +23,9 @@
 }
 
 .blockControl button {
-    margin-left: 3px;
+    margin-left: 15px;
+}
+
+.blockControl button + button {
+    margin-left: 5px;
 }

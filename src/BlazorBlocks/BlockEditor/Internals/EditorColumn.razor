@@ -48,48 +48,91 @@
         }
     }
 
-protected async Task DeleteBlock(BlazorBlocksEditorBlockBaseModel block)
+    protected async Task DeleteBlock(BlazorBlocksEditorBlockBaseModel block)
     {
         Model.RemoveBlock(block);
         await Editor.OnModelUpdated.InvokeAsync();
     }
 
     private int IndexOfBlock(BlazorBlocksEditorBlockBaseModel block) => Model.Blocks.IndexOf(block);
+
+    private bool Moveable => Model.Blocks.Count > 1;
+
+
+    string DropZoneText = "DROPZONE";
+
+    public void SetReadyToDrop()
+    {
+        DropZoneText = "Enter";
+        StateHasChanged();
+    }
+
+    public void SetDrop()
+    {
+        DropZoneText = "Drop";
+        StateHasChanged();
+    }
+
+    public void SetEnd()
+    {
+        DropZoneText = "Ended";
+        StateHasChanged();
+    }
+
+    public void SetOver()
+    {
+        DropZoneText = "Over";
+        StateHasChanged();
+    }
 }
 
 @if (AddNewBlockDialogOpen)
 {
-    <Dialog Title="Add new block" OnClose="() => { AddNewBlockDialogOpen = false; }">
+                <Dialog Title="Add new block" OnClose="() => { AddNewBlockDialogOpen = false; }">
         @foreach (var blockType in BlockRegistrationService.RegisteredBlocks)
         {
             @if (blockType.Image == null)
             {
-                <button @onclick="() => AddBlock(blockType)">@blockType.Name</button>
+                                                    <button @onclick="() => AddBlock(blockType)">@blockType.Name</button>
             }
             else
             {
-                <img @onclick="() => AddBlock(blockType)" src="@blockType.Image" />
+                                                    <img @onclick="() => AddBlock(blockType)" src="@blockType.Image" />
             }
         }
-    </Dialog>
+                </Dialog>
+
 }
+
 <div class="@Model.ColumnClass editorColumn">
     @foreach (var block in Model.Blocks)
     {
-        <BlockContainer
-                        Model="@block"
-                        OnMoveUp="b => MoveBlockUp(b)"
-                        OnMoveDown="b => MoveBlockDown(b)"
-                        OnDelete="b => DeleteBlock(b)"
-                        CanMoveUp="IndexOfBlock(block) > 0"
-                        CanMoveDown="IndexOfBlock(block) < Model.Blocks.Count-1" />
+        @if (Moveable)
+        {
+                    <div style="height: 50px; background-color: green;"
+            @ondragenter:preventDefault
+            @ondragleave:preventDefault
+            @ondragover:preventDefault
+                    @ondragenter="() => { SetReadyToDrop(); }"
+                                                            @ondragend="() => { SetEnd(); }"
+                                                            @ondragover="() => { SetOver(); }"
+                                                            @ondrop="() => { SetDrop(); }">@DropZoneText</div>
+        }
+                                    <BlockContainer
+                                                        Moveable="@Moveable"
+                                                    Model="@block"
+                                                    OnMoveUp="b => MoveBlockUp(b)"
+                                                    OnMoveDown="b => MoveBlockDown(b)"
+                                                    OnDelete="b => DeleteBlock(b)"
+                                                    CanMoveUp="IndexOfBlock(block) > 0"
+                                                    CanMoveDown="IndexOfBlock(block) < Model.Blocks.Count-1" />
     }
 
     @if (BlockRegistrationService.RegisteredBlocks.Any())
     {
-        <div class="text-center mt-2 mb-2">
-            <button class="btn btn-primary addBlock" @onclick="() => OpenAddNewBlockDialog()"><i class="oi oi-plus"></i> Block</button>
-        </div>
+                                        <div class="text-center mt-2 mb-2">
+                                            <button class="btn btn-primary addBlock" @onclick="() => OpenAddNewBlockDialog()"><i class="oi oi-plus"></i> Block</button>
+                                        </div>
     }
 </div>
 

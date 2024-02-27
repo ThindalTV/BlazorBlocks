@@ -17,7 +17,11 @@
 }
 
     .rowControls button {
-        margin-left: 3px;
+        margin-left: 13px;
+    }
+
+    .rowControls button + button {
+        margin-left: 5px;
     }
 
 .rowContent {

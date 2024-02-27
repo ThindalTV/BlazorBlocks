@@ -21,6 +21,9 @@
     [Parameter, EditorRequired]
     public EventCallback<BlazorBlocksEditorBlockBaseModel> OnDelete { get; set; }
 
+    [Parameter, EditorRequired]
+    public bool Moveable { get; set; }
+
     [Parameter]
     public bool CanMoveUp { get; set; }
 
@@ -51,7 +54,7 @@
 @if (BlockType != null && Attributes != null)
 {
     <div class="blockContainer">
-        <div class="blockControl">
+        <div class="blockControl" draggable="@(Moveable ? "true" : null)" >
             @BlockName
             @if (CanMoveUp)
             {
