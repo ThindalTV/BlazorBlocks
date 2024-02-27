@@ -7,7 +7,7 @@ namespace BlazorBlocks.Model;
 public class EditorColumnModel
 {
     // TODO: Replace this with column classname
-    public string? ColumnSize { get; set; }
+    public string? ColumnClass { get; set; }
 
     public List<BlazorBlocksEditorBlockBaseModel> Blocks { get; set; }
 
@@ -19,7 +19,7 @@ public class EditorColumnModel
     public string Render()
     {
         var sb = new StringBuilder();
-        sb.Append($"""<div class="{ColumnSize}">""");
+        sb.Append($"""<div class="{ColumnClass}">""");
         foreach (var block in Blocks)
         {
             sb.Append(block.Render());

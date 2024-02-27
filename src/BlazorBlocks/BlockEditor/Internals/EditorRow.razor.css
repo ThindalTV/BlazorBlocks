@@ -1,24 +1,29 @@
-.editorRow {
-    display: flex;
-    flex-direction: row;
-    padding-top: 10px;
-    padding-bottom: 10px;
+.rowContainer {
+    --border-radius: 5px;
 }
 
-.editorRow + .editorRow {
-    border-top: 1px solid #ccc;
-}
-
-.editorRowControls {
-    width: 3rem;
-    margin-right: 1rem;
-}
-
-    .editorRowControls > button {
-        display: block;
-        width: 90%;
+    .rowContainer + .rowContainer {
+        margin-top: 1rem;
     }
 
-.editorRowControls > button + button {
-    margin-top: 0.2rem;
+.rowControls {
+    position: relative;
+    bottom: -1px;
+    padding: .5rem;
+    display: inline-block;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    border: 1px solid #AAA;
+    border-bottom: 1px #FFF dotted;
+}
+
+    .rowControls button {
+        margin-left: 3px;
+    }
+
+.rowContent {
+    border-radius: 0 var(--border-radius) var(--border-radius) var(--border-radius);
+    border: 1px #AAA solid;
+    padding: 1rem;
+    display: flex;
+    flex-wrap: wrap;
 }

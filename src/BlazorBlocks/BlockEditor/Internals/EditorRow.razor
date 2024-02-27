@@ -23,8 +23,9 @@
     public bool CanMoveDown { get; set; }
 }
 
-<div class="editorRow">
-    <div class="editorRowControls">
+<div class="rowContainer">
+    <div class="rowControls">
+        @Model.RowTypeName
         @if (CanMoveUp)
         {
             <button class="btn btn-success" @onclick="_ => OnMoveRowUp.InvokeAsync(Model)"><i class="oi oi-arrow-thick-top"></i></button>
@@ -38,7 +39,7 @@
 
         <button class="btn btn-danger" @onclick="_ => OnDeleteRow.InvokeAsync(Model)"><i class="oi oi-trash"></i></button>
     </div>
-    <div style="flex: 1;" class="row">
+    <div class="rowContent">
         @foreach (var column in Model.Columns)
         {
             <EditorColumn Model="@column" />

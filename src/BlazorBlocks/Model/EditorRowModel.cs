@@ -6,9 +6,12 @@ public class EditorRowModel
 {
     public List<EditorColumnModel> Columns { get; set; }
 
+    public string RowTypeName { get; set; }
+
     public EditorRowModel()
     {
         Columns = new List<EditorColumnModel>();
+        RowTypeName = "Blergh";
     }
 
     public string Render()

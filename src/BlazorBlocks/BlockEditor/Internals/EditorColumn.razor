@@ -73,7 +73,7 @@ protected async Task DeleteBlock(BlazorBlocksEditorBlockBaseModel block)
         }
     </Dialog>
 }
-<div class="@Model.ColumnSize editorColumn">
+<div class="@Model.ColumnClass editorColumn">
     @foreach (var block in Model.Blocks)
     {
         <BlockContainer

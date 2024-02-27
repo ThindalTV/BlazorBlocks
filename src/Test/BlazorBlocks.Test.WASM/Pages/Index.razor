@@ -40,16 +40,22 @@ Welcome to your new app.
     
 </div>
 @code {
-    BlazorBlocksEditorModel editorModel = new BlazorBlocksEditorModel();
+        BlazorBlocksEditorModel editorModel = new BlazorBlocksEditorModel();
 
-    string? renderContent;
-    string? serialized;
+        string? renderContent;
+        string? serialized;
+
+
+
+        string testContent = 
+        """{"Rows":[{"Columns":[{"ColumnClass":"col-md-12","Blocks":[{"$modelType":"TitleBlockModel","EditorName":"Title","TitleSize":0,"Title":"Title"}]}],"RowTypeName":"1 column"},{"Columns":[{"ColumnClass":"col-md-4","Blocks":[{"$modelType":"RawTextBlockModel","EditorName":"Raw Text","Content":"hello from index"}]},{"ColumnClass":"col-md-7","Blocks":[{"$modelType":"ImageBlockModel","EditorName":"Image","ImageUrl":"a","AltText":""}]}],"RowTypeName":"2 columns"},{"Columns":[{"ColumnClass":"col-3","Blocks":[]},{"ColumnClass":"col-3","Blocks":[]},{"ColumnClass":"col-3","Blocks":[]},{"ColumnClass":"col-3","Blocks":[]}],"RowTypeName":"4 columns"}]}""";
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         // Read in and save some default blocks for testing
-        editorModel.Load($$$"""{"Rows":[{"Columns":[{"ColumnSize":"col-md-12","Blocks":[{"$modelType":"TitleBlockModel","EditorName":"Title","Title":"Title"}]}]},{"Columns":[{"ColumnSize":"col-md-4","Blocks":[{"$modelType":"RawTextBlockModel","EditorName":"Raw Text","Content":"hello from index"}]},{"ColumnSize":"col-md-7","Blocks":[{"$modelType":"ImageBlockModel","EditorName":"Image","ImageUrl":"","AltText":""}]}]},{"Columns":[{"ColumnSize":"col-3","Blocks":[]},{"ColumnSize":"col-3","Blocks":[]},{"ColumnSize":"col-3","Blocks":[]},{"ColumnSize":"col-3","Blocks":[]}]}]}""");
+        editorModel.Load(testContent);
+        
         serialized = editorModel.GetJson();
 
         OnModelUpdated();
