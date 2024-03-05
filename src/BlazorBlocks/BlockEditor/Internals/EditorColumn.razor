@@ -71,7 +71,7 @@
     // TODO: Will be removed when we have a proper visual indicator
     Dictionary<BlazorBlocksEditorBlockBaseModel, string> DropZoneTexts = new Dictionary<BlazorBlocksEditorBlockBaseModel, string>();
 
-    public void SetDrop(BlazorBlocksEditorBlockBaseModel blockBelow)
+    public void SetDrop(BlazorBlocksEditorBlockBaseModel? blockBelow)
     {
         if (DropService == null || DropService.DraggedBlock == null)
             return;
@@ -102,7 +102,7 @@
     }
 
     // TODO: Rename this
-    public void SetDragLeft(BlazorBlocksEditorBlockBaseModel blockBelow)
+    public void SetDragLeft(BlazorBlocksEditorBlockBaseModel? blockBelow)
     {
         // TODO: Reset the visual drop indicator
         if (blockBelow == null)
@@ -116,7 +116,7 @@
 
     public void SetOver() { }
 
-    public bool CanDrop(BlazorBlocksEditorBlockBaseModel blockBelow)
+    public bool CanDrop(BlazorBlocksEditorBlockBaseModel? blockBelow)
     {
         // TODO: Reset the visual drop indicator
         if (DropService != null && DropService.DraggedBlock != null)
@@ -178,7 +178,7 @@
                  @ondragover:preventDefault="CanDrop(block)"
                  @ondragenter="() => { SetReadyToDrop(); }"
                  @ondragleave="() => { SetDragLeft(block); }"
-                 @ondragover="() => { SetOver(); }"
+                 @ondragover="() => { }"
                  @ondrop="() => { SetDrop(block); }">
                 @if (DropZoneTexts.ContainsKey(block))
                 {
@@ -207,7 +207,7 @@
              @ondragover:preventDefault="CanDrop(null)"
              @ondragenter="() => { SetReadyToDrop(); }"
              @ondragleave="() => {SetDragLeft(null); }"
-             @ondragover="() => { SetOver(); }"
+             @ondragover="() => { }"
              @ondrop="() => { SetDrop(null); }">
             LAST DROPZONE
         </div>
