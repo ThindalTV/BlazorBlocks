@@ -1,5 +1,9 @@
 ﻿@using BlazorBlocks.Model
+@using BlazorBlocks.Support
 @code {
+    [Inject]
+    internal DragService? DragService { get; set; }
+
 
     [Parameter, EditorRequired]
     public required BlazorBlocksEditorBlockBaseModel Model { get; set; }
@@ -49,12 +53,20 @@
     {
         OnDelete.InvokeAsync(Model);
     }
+
+    protected void StartDrag()
+    {
+        if (DragService != null)
+        {
+            DragService.DraggedBlock = Model;
+        }
+    }
 }
 
 @if (BlockType != null && Attributes != null)
 {
     <div class="blockContainer">
-        <div class="blockControl" draggable="@(Moveable ? "true" : null)" >
+        <div class="blockControl" draggable="@(Moveable ? "true" : null)" @ondragstart="@(() => StartDrag())">
             @BlockName
             @if (CanMoveUp)
             {

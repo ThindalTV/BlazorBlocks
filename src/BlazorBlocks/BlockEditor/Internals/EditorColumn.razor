@@ -4,6 +4,10 @@
 @using BlazorBlocks.Blocks.TitleBlock;
 @using BlazorBlocks.Model;
 @using BlazorBlocks
+@using BlazorBlocks.Support
+@using Microsoft.JSInterop
+
+@inject DragService DropService
 
 @code {
     [Parameter, EditorRequired]
@@ -59,48 +63,107 @@
     private bool Moveable => Model.Blocks.Count > 1;
 
 
-    string DropZoneText = "DROPZONE";
-
     public void SetReadyToDrop()
     {
-        DropZoneText = "Enter";
         StateHasChanged();
     }
 
-    public void SetDrop()
+    // TODO: Will be removed when we have a proper visual indicator
+    Dictionary<BlazorBlocksEditorBlockBaseModel, string> DropZoneTexts = new Dictionary<BlazorBlocksEditorBlockBaseModel, string>();
+
+    public void SetDrop(BlazorBlocksEditorBlockBaseModel blockBelow)
     {
-        DropZoneText = "Drop";
+        if (DropService == null || DropService.DraggedBlock == null)
+            return;
+
+        // TODO: Check that the dragged block is in the same column as the block below
+        // TODO: Enable dropping between different columns(later)
+
+        // Get the index of the block below, if we can't find it, we're dropping at the end of the list
+        var index = Model.Blocks.IndexOf(blockBelow);
+        if (index == -1)
+        {
+            index = Model.Blocks.Count - 1;
+        }
+
+        // If the block below is the same as the dragged block, we can't drop
+        if (blockBelow != null && index == Model.Blocks.IndexOf(DropService.DraggedBlock) + 1)
+            return;
+
+        // Move the block within the column
+        Model.MoveBlock(DropService.DraggedBlock, index);
+
+        if (index != Model.Blocks.Count && blockBelow != null)
+        {
+            // TODO: Reset the visual drop indicator
+            DropZoneTexts[blockBelow] = "Dropped " + DropService.DraggedBlock.EditorName;
+        }
         StateHasChanged();
     }
 
-    public void SetEnd()
+    // TODO: Rename this
+    public void SetDragLeft(BlazorBlocksEditorBlockBaseModel blockBelow)
     {
-        DropZoneText = "Ended";
+        // TODO: Reset the visual drop indicator
+        if (blockBelow == null)
+        {
+            return;
+        }
+
+        DropZoneTexts[blockBelow] = "Left";
         StateHasChanged();
     }
 
-    public void SetOver()
+    public void SetOver() { }
+
+    public bool CanDrop(BlazorBlocksEditorBlockBaseModel blockBelow)
     {
-        DropZoneText = "Over";
-        StateHasChanged();
+        // TODO: Reset the visual drop indicator
+        if (DropService != null && DropService.DraggedBlock != null)
+        {
+            var dragObject = DropService.DraggedBlock;
+
+            // If the block below is the same as the dragged block, we can't drop
+            if (Object.ReferenceEquals(blockBelow, dragObject))
+            {
+                return false;
+            }
+
+            // If the block below is the block above the dragged block, we can drop
+            if (blockBelow == null && Model.Blocks.IndexOf(dragObject) == Model.Blocks.Count - 1)
+            {
+                return false;
+            }
+
+            // If the block below is the block after the dragged block, we can't drop
+            if (blockBelow != null && Model.Blocks.IndexOf(blockBelow) == Model.Blocks.IndexOf(dragObject) + 1)
+            {
+                return false;
+            }
+
+            // TODO: Remove the DropZoneText and show a visual indicator of where the block will be dropped
+
+            return true;
+        }
+        return false;
     }
 }
 
 @if (AddNewBlockDialogOpen)
 {
-                <Dialog Title="Add new block" OnClose="() => { AddNewBlockDialogOpen = false; }">
+    <Dialog Title="Add new block" OnClose="() => { AddNewBlockDialogOpen = false; }">
         @foreach (var blockType in BlockRegistrationService.RegisteredBlocks)
         {
             @if (blockType.Image == null)
             {
-                                                    <button @onclick="() => AddBlock(blockType)">@blockType.Name</button>
+                <button @onclick="() => AddBlock(blockType)">@blockType.Name</button>
             }
             else
             {
-                                                    <img @onclick="() => AddBlock(blockType)" src="@blockType.Image" />
+                <img @onclick="() => AddBlock(blockType)" src="@blockType.Image" />
             }
         }
-                </Dialog>
+    </Dialog>
 
 }
 
@@ -109,30 +172,52 @@
     {
         @if (Moveable)
         {
-                    <div style="height: 50px; background-color: green;"
-            @ondragenter:preventDefault
-            @ondragleave:preventDefault
-            @ondragover:preventDefault
-                    @ondragenter="() => { SetReadyToDrop(); }"
-                                                            @ondragend="() => { SetEnd(); }"
-                                                            @ondragover="() => { SetOver(); }"
-                                                            @ondrop="() => { SetDrop(); }">@DropZoneText</div>
+            <div style="height: 50px; background-color: green;"
+                 @ondragenter:preventDefault="true"
+                 @ondragleave:preventDefault="true"
+                 @ondragover:preventDefault="CanDrop(block)"
+                 @ondragenter="() => { SetReadyToDrop(); }"
+                 @ondragleave="() => { SetDragLeft(block); }"
+                 @ondragover="() => { SetOver(); }"
+                 @ondrop="() => { SetDrop(block); }">
+                @if (DropZoneTexts.ContainsKey(block))
+                {
+                    <div>@DropZoneTexts[block]</div>
+                }
+                else
+                {
+                    <div>NotSet</div>
+                }
+            </div>
         }
-                                    <BlockContainer
-                                                        Moveable="@Moveable"
-                                                    Model="@block"
-                                                    OnMoveUp="b => MoveBlockUp(b)"
-                                                    OnMoveDown="b => MoveBlockDown(b)"
-                                                    OnDelete="b => DeleteBlock(b)"
-                                                    CanMoveUp="IndexOfBlock(block) > 0"
-                                                    CanMoveDown="IndexOfBlock(block) < Model.Blocks.Count-1" />
+        <BlockContainer Moveable="@Moveable"
+                        Model="@block"
+                        OnMoveUp="b => MoveBlockUp(b)"
+                        OnMoveDown="b => MoveBlockDown(b)"
+                        OnDelete="b => DeleteBlock(b)"
+                        CanMoveUp="IndexOfBlock(block) > 0"
+                        CanMoveDown="IndexOfBlock(block) < Model.Blocks.Count-1" />
+    }
+
+    @if (Moveable)
+    {
+        <div style="height: 50px; background-color: green;"
+        @ondragenter:preventDefault
+        @ondragleave:preventDefault
+             @ondragover:preventDefault="CanDrop(null)"
+             @ondragenter="() => { SetReadyToDrop(); }"
+             @ondragleave="() => {SetDragLeft(null); }"
+             @ondragover="() => { SetOver(); }"
+             @ondrop="() => { SetDrop(null); }">
+            LAST DROPZONE
+        </div>
     }
 
     @if (BlockRegistrationService.RegisteredBlocks.Any())
     {
-                                        <div class="text-center mt-2 mb-2">
-                                            <button class="btn btn-primary addBlock" @onclick="() => OpenAddNewBlockDialog()"><i class="oi oi-plus"></i> Block</button>
-                                        </div>
+        <div class="text-center mt-2 mb-2">
+            <button class="btn btn-primary addBlock" @onclick="() => OpenAddNewBlockDialog()"><i class="oi oi-plus"></i> Block</button>
+        </div>
     }
 </div>
 

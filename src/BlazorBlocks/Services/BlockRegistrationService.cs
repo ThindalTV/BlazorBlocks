@@ -2,6 +2,7 @@
 using BlazorBlocks.Blocks.RawTextBlock;
 using BlazorBlocks.Blocks.TitleBlock;
 using BlazorBlocks.Model;
+using BlazorBlocks.Support;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BlazorBlocks;
@@ -68,6 +69,8 @@ public static class BlockRegistrationService
             RegisterBlock(block);
         }
 
+        services = RegisterServices(services);
+
         return services;
     }
 
@@ -120,6 +123,20 @@ public static class BlockRegistrationService
             RegisterRow(row);
         }
 
+        return services;
+    }
+
+    private static bool IsRegistered<T>(IServiceCollection services)
+    {
+        return services.Any(x => x.ServiceType == typeof(T));
+    }
+
+    private static IServiceCollection RegisterServices(IServiceCollection services)
+    {
+        if(!IsRegistered<DragService>(services))
+        {
+            services.AddScoped<DragService>();
+        }
         return services;
     }
 

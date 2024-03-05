@@ -40,16 +40,15 @@ Welcome to your new app.
     
 </div>
 @code {
-        BlazorBlocksEditorModel editorModel = new BlazorBlocksEditorModel();
+    BlazorBlocksEditorModel editorModel = new BlazorBlocksEditorModel();
 
-        string? renderContent;
-        string? serialized;
+    string? renderContent;
+    string? serialized;
 
 
 
-        string testContent = 
-        """{"Rows":[{"Columns":[{"ColumnClass":"col-md-12","Blocks":[{"$modelType":"TitleBlockModel","EditorName":"Title","TitleSize":0,"Title":"Title"}]}],"RowTypeName":"1 column"},{"Columns":[{"ColumnClass":"col-md-4","Blocks":[{"$modelType":"RawTextBlockModel","EditorName":"Raw Text","Content":"hello from index"}]},{"ColumnClass":"col-md-7","Blocks":[{"$modelType":"ImageBlockModel","EditorName":"Image","ImageUrl":"a","AltText":""}]}],"RowTypeName":"2 columns"},{"Columns":[{"ColumnClass":"col-3","Blocks":[]},{"ColumnClass":"col-3","Blocks":[]},{"ColumnClass":"col-3","Blocks":[]},{"ColumnClass":"col-3","Blocks":[]}],"RowTypeName":"4 columns"}]}""";
-
+    string testContent =
+    """{"Rows":[{"Columns":[{"ColumnClass":"col-md-12","Blocks":[{"$modelType":"TitleBlockModel","EditorName":"Title","TitleSize":0,"Title":"Titleabc"},{"$modelType":"RawTextBlockModel","EditorName":"Raw Text","Content":"Raw text goes here"}]}],"RowTypeName":"1 column"},{"Columns":[{"ColumnClass":"col-md-4","Blocks":[{"$modelType":"RawTextBlockModel","EditorName":"Raw Text","Content":"hello from index"}]},{"ColumnClass":"col-md-7","Blocks":[{"$modelType":"ImageBlockModel","EditorName":"Image","ImageUrl":"https://i.imgur.com/uk8EhoS.png","AltText":"https://i.imgur.com/uk8EhoS.png"}]}],"RowTypeName":"2 columns"},{"Columns":[{"ColumnClass":"col-3","Blocks":[]},{"ColumnClass":"col-3","Blocks":[]},{"ColumnClass":"col-3","Blocks":[]},{"ColumnClass":"col-3","Blocks":[{"$modelType":"TestBlockModel","EditorName":"Custom Test Block","Content":"testy testy"}]}],"RowTypeName":"4 columns"}]}""";
     protected override void OnInitialized()
     {
         base.OnInitialized();
