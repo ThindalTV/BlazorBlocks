@@ -5,17 +5,17 @@ namespace BlazorBlocks.Support;
 internal class DragService
 {
     private BlazorBlocksEditorBlockBaseModel? _draggedBlock;
-    public Func<bool, Task>? DragObjectChanged { get; set; }
+    public Func<bool, Task>? DraggedBlockChanged { get; set; }
     public BlazorBlocksEditorBlockBaseModel? DraggedBlock
     {
         get => _draggedBlock;
-        set { _draggedBlock = value; DragObjectChanged?.Invoke(value != null); }
+        set { _draggedBlock = value; DraggedBlockChanged?.Invoke(value != null); }
     }
 
-    private EditorRow? _draggedRow;
+    private EditorRowModel? _draggedRow;
     public Func<bool, Task>? DragRowChanged { get; set; }
 
-    public EditorRow? DraggedRow
+    public EditorRowModel? DraggedRow
     {
         get => _draggedRow;
         set { _draggedRow = value; DragRowChanged?.Invoke(value != null); }

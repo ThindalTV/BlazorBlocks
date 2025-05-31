@@ -1,0 +1,32 @@
+.dragContainer {
+    --border-radius: 5px;
+}
+
+    .dragContainer + .dragContainer {
+        margin-top: 1rem;
+    }
+
+.dragHeader {
+    position: relative;
+    bottom: -1px;
+    padding: .5rem;
+    display: inline-block;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    border: 1px solid #AAA;
+    border-bottom: 1px #FFF dotted;
+}
+
+.dragHandle {
+
+}
+
+.dragContent {
+    border-radius: 0 var(--border-radius) var(--border-radius) var(--border-radius);
+    border: 1px #AAA solid;
+    padding: 1rem;
+}
+
+.collapsed {
+    display: none;
+}
+

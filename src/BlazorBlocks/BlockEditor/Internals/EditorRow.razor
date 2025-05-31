@@ -5,32 +5,12 @@
     public required EditorRowModel Model { get; set; }
 
     [Parameter, EditorRequired]
-    public required EventCallback<EditorRowModel> OnMoveRowUp { get; set; }
-
-    [Parameter, EditorRequired]
-    public required EventCallback<EditorRowModel> OnMoveRowDown { get; set; }
-
-    [Parameter, EditorRequired]
     public required EventCallback<EditorRowModel> OnDeleteRow { get; set; }
-
-    [Parameter]
-    public bool CanMoveUp { get; set; }
-
-    [Parameter]
-    public bool CanMoveDown { get; set; }
 }
 
 <div class="rowContainer">
     <div class="rowControls">
         @Model.RowTypeName
-        @if (CanMoveUp)
-        {
-            <button class="btn btn-success" @onclick="_ => OnMoveRowUp.InvokeAsync(Model)"><i class="oi oi-arrow-thick-top"></i></button>
-        }
-        @if (CanMoveDown)
-        {
-            <button class="btn btn-success" @onclick="_ => OnMoveRowDown.InvokeAsync(Model)"><i class="oi oi-arrow-thick-bottom"></i></button>
-        }
 
         <button class="btn btn-danger" @onclick="_ => OnDeleteRow.InvokeAsync(Model)"><i class="oi oi-trash"></i></button>
     </div>
@@ -41,9 +21,3 @@
         }
     </div>
 </div>
-@code {
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-    }
-}

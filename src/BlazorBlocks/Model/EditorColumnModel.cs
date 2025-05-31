@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace BlazorBlocks.Model;
 
-public class EditorColumnModel
+public class EditorColumnModel : EditorModel
 {
     // TODO: Replace this with column classname
     public string? ColumnClass { get; set; }

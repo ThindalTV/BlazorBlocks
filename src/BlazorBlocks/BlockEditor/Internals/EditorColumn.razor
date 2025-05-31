@@ -155,7 +155,7 @@
 
     protected override void OnInitialized()
     {
-        DropService.DragObjectChanged += async (dragging) =>
+        DropService.DraggedBlockChanged += async (dragging) =>
         {
             Dragging = dragging;
             await InvokeAsync(StateHasChanged);

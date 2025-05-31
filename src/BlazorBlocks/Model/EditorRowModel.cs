@@ -2,8 +2,9 @@
 
 namespace BlazorBlocks.Model;
 
-public class EditorRowModel
+public class EditorRowModel : EditorModel
 {
+    
     public List<EditorColumnModel> Columns { get; set; }
 
     public string RowTypeName { get; set; }

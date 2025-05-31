@@ -1,0 +1,59 @@
+.addRow {
+    display: flex;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+    .addRow * {
+        display: flex;
+    }
+
+.sides {
+    flex: 1;
+    height: 50%;
+    border-bottom: 1px solid #666;
+}
+
+.left {
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 0.5rem;
+    margin-left: 0.5rem;
+}
+
+.center {
+    border: 1px solid #666;
+    color: #666;
+    border-radius: 50%;
+    text-align: center;
+    aspect-ratio: 1 / 1;
+    width: 3rem;
+    font-size: 2rem;
+    align-items: center;
+    justify-content: center;
+    background: #FFF;
+    cursor: pointer;
+    margin: 0 0.5rem;
+}
+
+.right {
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.strike {
+    text-decoration: line-through;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.rowBeingDragged {
+    opacity: 0.5;
+    background-color: #f0f0f0;
+}
+
+    .draggingOver {
+        background-color: #f00;
+    }

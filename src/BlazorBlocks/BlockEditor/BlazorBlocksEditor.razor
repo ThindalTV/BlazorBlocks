@@ -2,6 +2,7 @@
 @using BlazorBlocks.BlockEditor.Internals;
 @using BlazorBlocks.Model;
 @using BlazorBlocks.Component.Dialogs
+@using BlazorBlocks.Support
 
 @code {
     /// <summary>
@@ -98,28 +99,65 @@
         Model.RemoveRow(rowToDelete);
         await OnModelUpdated.InvokeAsync();
     }
+
+    protected async Task RowDropped(ObjectDroppedResult dropObject)
+    {
+        Console.WriteLine($"Dropping at {dropObject.Index}");
+        if(dropObject.Model == null)
+        {
+            Console.WriteLine("Invalid drop object or index.");
+            return;
+        }
+        Console.WriteLine($"Row dropped: {dropObject.Model.GetType().Name} at index {dropObject.Index}");
+        if (dropObject.Model is not EditorRowModel droppedRow)
+        {
+            return;
+        }
+
+        // Find the placement of the row now
+        var oldIndex = Model.Rows.IndexOf(droppedRow);
+
+        Console.WriteLine($"Old index: {oldIndex}");
+        // If the row is being dropped on itself, do nothing
+        if (oldIndex == dropObject.Index)
+        {
+            return;
+        }
+
+        // If the row is being dropped on a different index, move it
+        if (oldIndex < dropObject.Index)
+        {
+            // We're moving down, insert at new index then remove the old one
+            Model.Rows.Insert(dropObject.Index, droppedRow);
+            Model.Rows.RemoveAt(oldIndex);
+        }
+        else
+        {
+            // We're moving up, remove the old one then insert at new index
+            Model.Rows.RemoveAt(oldIndex);
+            Model.Rows.Insert(dropObject.Index, droppedRow);
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
 }
 
-<NewRowDialog
-    InsertIndex="@(NewRowIndex ?? 0)"
-    Visible="AddNewRowDialogVisible"
-    OnRowSelected="(selectedResult) => NewRowSelected(selectedResult.RowType, selectedResult.InsertIndex)" />
+<NewRowDialog InsertIndex="@(NewRowIndex ?? 0)"
+              Visible="AddNewRowDialogVisible"
+              OnRowSelected="(selectedResult) => NewRowSelected(selectedResult.RowType, selectedResult.InsertIndex)" />
 
 <div>
     <h3>Blazor Blocks Editor</h3>
     <CascadingValue Value="this">
         @for (int r = 0; r < Model.Rows.Count; r++)
         {
-        var row = Model.Rows[r];
-        <AddRow Index="@r" OnClicked="AddClicked" />
-        <EditorRow Model="@row"
-                   OnMoveRowDown="r => MoveRowDown(r)"
-                   OnMoveRowUp="r => MoveRowUp(r)"
-                   OnDeleteRow="r => DeleteRow(r)"
-                   CanMoveUp="IndexOfRow(row) > 0"
-                   CanMoveDown="IndexOfRow(row) < Model.Rows.Count - 1" />
-
+            var row = Model.Rows[r];
+            <AddRow Index="@r" OnClicked="AddClicked" OnDropped="RowDropped" ObjectType="DragObjectType.Row" />
+            <DraggableContainer Model="@row" ObjectType="DragObjectType.Row" Title="@row.RowTypeName" Draggable="Model.Rows.Count > 1">
+                <EditorRow Model="@row"
+                           OnDeleteRow="r => DeleteRow(r)"/>
+            </DraggableContainer>
         }
-        <AddRow Index="Model.Rows.Count" OnClicked="AddClicked" />
+        <AddRow Index="Model.Rows.Count" OnClicked="AddClicked" OnDropped="RowDropped" ObjectType="DragObjectType.Row" />
     </CascadingValue>
 </div>

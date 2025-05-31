@@ -12,7 +12,6 @@
 }
 
 @code {
-    public record NewRowDialogResult(RowRegistration RowType, int InsertIndex);
 
     [Parameter, EditorRequired] public bool Visible { get; set; }
     [Parameter] public EventCallback<bool> VisibleChanged { get; set; }

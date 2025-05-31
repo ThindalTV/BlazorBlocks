@@ -1,0 +1,72 @@
+﻿@using BlazorBlocks.Model
+@using BlazorBlocks.Support
+
+@inject DragService DragService
+
+<div class="dragContainer">
+    <div class="dragHeader">
+        <span class="collapseButton" @onclick="OnCollapseClicked">Collapse/Uncollapse</span>
+        <span class="dragTitle">@Title</span>
+        @if (Draggable)
+        {
+            <span class="dragHandle" draggable="true" @ondragstart="@(() => StartDrag())" @ondragend="@(() => EndDrag())">
+                DRAGHANDLE
+                @*@onclick="() => DropService.StartDrag(ObjectType, Title)"*@
+                <i class="fa fa-arrows-alt"></i>
+            </span>
+        }
+    </div>
+    <div class="@(_collapsed ? "collapsed ": "")dragContent">
+    @ChildContent
+    </div>
+
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public required RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public required string Title { get; set; }
+
+    [Parameter]
+    public DragObjectType ObjectType { get; set; }
+
+    [Parameter]
+    public EditorModel Model { get; set; }
+
+    [Parameter]
+    public bool Draggable { get; set; }
+
+    private bool _collapsed;
+
+    protected void StartDrag()
+    {
+        if (DragService != null)
+        {
+            DragService.DraggedRow = (EditorRowModel)Model;
+        }
+    }
+
+    protected void EndDrag()
+    {
+        if (DragService != null && DragService.DraggedRow != null)
+        {
+            DragService.DraggedRow = null;
+        }
+    }
+
+    protected async Task OnCollapseClicked()
+    {
+        // TODO: Bug, for some reason the collapsed state is locked to the index of the row, not the row itself.
+        // IE, collapse first row, move second row up. The collapsed item is now expanded, and the other one is collapsed.
+        // Item 1 collapsed, position 1
+        // Item 2 open, position 2
+        // Move 2 up
+        // Item 2 collapsed, position 1
+        // Item 1 open, position 2
+
+        _collapsed = !_collapsed;
+        await InvokeAsync(StateHasChanged);
+    }
+}
