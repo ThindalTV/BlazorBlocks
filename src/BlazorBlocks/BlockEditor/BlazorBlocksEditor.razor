@@ -1,6 +1,7 @@
 ﻿@using BlazorBlocks.Component;
 @using BlazorBlocks.BlockEditor.Internals;
 @using BlazorBlocks.Model;
+@using BlazorBlocks.Component.Dialogs
 
 @code {
     /// <summary>
@@ -20,13 +21,10 @@
 
     private int? NewRowIndex;
 
-    private async Task NewRowSelected(RowRegistration? rowReg)
+    private async Task NewRowSelected(RowRegistration rowReg, int addIndex)
     {
         HideDialog();
-        if (rowReg is null || NewRowIndex is null)
-        {
-            return;
-        }
+
         // For now, assume we always add the same row type
         // TODO: Show dialog to select row type
 
@@ -39,7 +37,7 @@
             insertRow.Columns.Add(new EditorColumnModel { ColumnClass = col.ColumnClass });
         }
 
-        Model.AddRow(insertRow, NewRowIndex.Value);
+        Model.AddRow(insertRow, addIndex);
     }
 
     private async Task AddClicked(int index)
@@ -102,15 +100,10 @@
     }
 }
 
-@if (AddNewRowDialogVisible)
-{
-    <Dialog Title="Add new row" OnClose="HideDialog">
-        @foreach (var colDefinition in BlockRegistrationService.RegisteredRows)
-        {
-            <button class="btn btn-info me-2" @onclick="() => NewRowSelected(colDefinition)">@colDefinition.Name</button>
-        }
-    </Dialog>
-}
+<NewRowDialog
+    InsertIndex="@(NewRowIndex ?? 0)"
+    Visible="AddNewRowDialogVisible"
+    OnRowSelected="(selectedResult) => NewRowSelected(selectedResult.RowType, selectedResult.InsertIndex)" />
 
 <div>
     <h3>Blazor Blocks Editor</h3>

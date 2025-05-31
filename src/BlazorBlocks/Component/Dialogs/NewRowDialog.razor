@@ -1,0 +1,40 @@
+﻿@using BlazorBlocks.Model
+<h3>NewRowDialog</h3>
+
+@if (Visible)
+{
+    <Dialog Title="Add new row" OnClose="HideDialog">
+        @foreach (var rowRegistration in BlockRegistrationService.RegisteredRows)
+        {
+            <button class="btn btn-info me-2" @onclick="() => ItemClicked(rowRegistration)">@rowRegistration.Name</button>
+        }
+    </Dialog>
+}
+
+@code {
+    public record NewRowDialogResult(RowRegistration RowType, int InsertIndex);
+
+    [Parameter, EditorRequired] public bool Visible { get; set; }
+    [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
+
+    [Parameter, EditorRequired] public required int InsertIndex { get; set; }
+
+    [Parameter, EditorRequired] public required EventCallback<NewRowDialogResult> OnRowSelected { get; set; }
+
+    private async Task ItemClicked(RowRegistration rowType)
+    {
+        await HideDialog();
+
+        if (!OnRowSelected.HasDelegate)
+        {
+            return;
+        }
+        await OnRowSelected.InvokeAsync(new NewRowDialogResult(rowType, InsertIndex));
+    }
+
+    private async Task HideDialog()
+    {
+        Visible = false;
+        await VisibleChanged.InvokeAsync(Visible);
+    }
+}

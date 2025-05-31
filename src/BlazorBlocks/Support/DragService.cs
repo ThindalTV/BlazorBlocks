@@ -12,5 +12,12 @@ internal class DragService
         set { _draggedBlock = value; DragObjectChanged?.Invoke(value != null); }
     }
 
-    public EditorRow? DraggedRow { get; set; }
+    private EditorRow? _draggedRow;
+    public Func<bool, Task>? DragRowChanged { get; set; }
+
+    public EditorRow? DraggedRow
+    {
+        get => _draggedRow;
+        set { _draggedRow = value; DragRowChanged?.Invoke(value != null); }
+    }
 }
