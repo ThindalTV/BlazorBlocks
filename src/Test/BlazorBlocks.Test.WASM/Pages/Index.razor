@@ -4,6 +4,7 @@
 @using BlazorBlocks.Blocks.TitleBlock;
 @using BlazorBlocks.Model;
 @using BlazorBlocks.Test.WASM.CustomBlocks.TestBlock
+@using BlazorBlocks.BlockEditor.Internals
 
 @page "/"
 
@@ -14,30 +15,37 @@
 Welcome to your new app.
 <hr />
 <div class="content">
-    <BlazorBlocksEditor Model="@editorModel" OnModelUpdated="() => OnModelUpdated()" />
     <hr />
-    Editor above this line
-    <hr />
-    Previews below this line
+
     <button @onclick="ReRender">Render HTML</button> <br/>
-    Render test zone:
-    <div class="row p-5" style="border: 1px solid #000;">
-        @((MarkupString)(renderContent ?? ""))
+
+
+    <div style="display:flex;">
+        <div style="width: 50%;">
+            AddRow:
+            <AddRow />
+            <hr />
+            <BlazorBlocksEditor Model="@editorModel" OnModelUpdated="() => OnModelUpdated()"/>
+        </div>
+        <div style="border-left: 1px solid #000; width: 50%;">
+            <h2>Rendered HTML</h2>
+            @((MarkupString)(renderContent ?? ""))
+        </div>
     </div>
 
-    <hr /><hr /><hr /><hr />
+    <hr/><hr/><hr/><hr/>
 
 
     <div class="row">
         Serialization controls:
         <div class="p-5" style="border: 1px solid #000;">
-            
+
             <button @onclick="() => Import()" class="btn btn-primary">Load from json</button>
-            <button @onclick="() => Export()" class="btn btn-primary float-end">Export to json</button><br />
-            <InputTextArea class="form-control" @bind-Value="@serialized" Rows="10" Cols="100" />
+            <button @onclick="() => Export()" class="btn btn-primary float-end">Export to json</button><br/>
+            <InputTextArea class="form-control" @bind-Value="@serialized" Rows="10" Cols="100"/>
         </div>
     </div>
-    
+
 </div>
 @code {
     BlazorBlocksEditorModel editorModel = new BlazorBlocksEditorModel();
@@ -45,16 +53,15 @@ Welcome to your new app.
     string? renderContent;
     string? serialized;
 
-
-
     string testContent =
-    """{"Rows":[{"Columns":[{"ColumnClass":"col-md-12","Blocks":[{"$modelType":"TitleBlockModel","EditorName":"Title","TitleSize":0,"Title":"Titleabc"},{"$modelType":"RawTextBlockModel","EditorName":"Raw Text","Content":"Raw text goes here"}]}],"RowTypeName":"1 column"},{"Columns":[{"ColumnClass":"col-md-4","Blocks":[{"$modelType":"RawTextBlockModel","EditorName":"Raw Text","Content":"hello from index"}]},{"ColumnClass":"col-md-7","Blocks":[{"$modelType":"ImageBlockModel","EditorName":"Image","ImageUrl":"https://i.imgur.com/uk8EhoS.png","AltText":"https://i.imgur.com/uk8EhoS.png"}]}],"RowTypeName":"2 columns"},{"Columns":[{"ColumnClass":"col-3","Blocks":[]},{"ColumnClass":"col-3","Blocks":[]},{"ColumnClass":"col-3","Blocks":[]},{"ColumnClass":"col-3","Blocks":[{"$modelType":"TestBlockModel","EditorName":"Custom Test Block","Content":"testy testy"}]}],"RowTypeName":"4 columns"}]}""";
+        """{"Rows":[{"Columns":[{"ColumnClass":"col-md-12","Blocks":[{"$modelType":"TitleBlockModel","EditorName":"Title","TitleSize":0,"Title":"Titleabc"},{"$modelType":"RawTextBlockModel","EditorName":"Raw Text","Content":"Raw text goes here"}]}],"RowTypeName":"1 column"},{"Columns":[{"ColumnClass":"col-md-4","Blocks":[{"$modelType":"RawTextBlockModel","EditorName":"Raw Text","Content":"hello from index"}]},{"ColumnClass":"col-md-7","Blocks":[{"$modelType":"ImageBlockModel","EditorName":"Image","ImageUrl":"https://i.imgur.com/uk8EhoS.png","AltText":"https://i.imgur.com/uk8EhoS.png"}]}],"RowTypeName":"2 columns"},{"Columns":[{"ColumnClass":"col-3","Blocks":[]},{"ColumnClass":"col-3","Blocks":[]},{"ColumnClass":"col-3","Blocks":[]},{"ColumnClass":"col-3","Blocks":[{"$modelType":"TestBlockModel","EditorName":"Custom Test Block","Content":"testy testy"}]}],"RowTypeName":"4 columns"}]}""";
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
         // Read in and save some default blocks for testing
         editorModel.Load(testContent);
-        
+
         serialized = editorModel.GetJson();
 
         OnModelUpdated();

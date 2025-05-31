@@ -5,9 +5,6 @@
     public required EditorRowModel Model { get; set; }
 
     [Parameter, EditorRequired]
-    public required EventCallback<EditorRowModel> OnAddRow { get; set; }
-
-    [Parameter, EditorRequired]
     public required EventCallback<EditorRowModel> OnMoveRowUp { get; set; }
 
     [Parameter, EditorRequired]
@@ -34,8 +31,6 @@
         {
             <button class="btn btn-success" @onclick="_ => OnMoveRowDown.InvokeAsync(Model)"><i class="oi oi-arrow-thick-bottom"></i></button>
         }
-
-        <button class="btn btn-primary" @onclick="_ => OnAddRow.InvokeAsync(Model)"><i class="oi oi-plus"></i></button>
 
         <button class="btn btn-danger" @onclick="_ => OnDeleteRow.InvokeAsync(Model)"><i class="oi oi-trash"></i></button>
     </div>

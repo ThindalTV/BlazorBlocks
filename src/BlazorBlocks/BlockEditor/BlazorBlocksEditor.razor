@@ -15,42 +15,42 @@
     protected bool AddNewRowDialogVisible = false;
     protected EditorRowModel? RowAddingBelow = null;
 
-    /// <summary>
-    /// Shows the dialog to add a new row below the specified row.
-    /// </summary>
-    /// <param name="rowToAddBelow">The row to add the new row below.</param>
-    protected void ShowNewRowDialog(EditorRowModel rowToAddBelow)
-    {
-        AddNewRowDialogVisible = true;
-        RowAddingBelow = rowToAddBelow;
+    private void ShowDialog() => AddNewRowDialogVisible = true;
+    private void HideDialog() => AddNewRowDialogVisible = false;
 
-    }
+    private int? NewRowIndex;
 
-    /// <summary>
-    /// Adds a new row below the specified row.
-    /// </summary>
-    /// <param name="rowRegistration">The row definition to add.</param>
-    protected async Task AddRowBelow(RowRegistration rowRegistration)
+    private async Task NewRowSelected(RowRegistration? rowReg)
     {
-        if (RowAddingBelow == null)
+        HideDialog();
+        if (rowReg is null || NewRowIndex is null)
         {
             return;
         }
+        // For now, assume we always add the same row type
+        // TODO: Show dialog to select row type
 
-        var clickedRowIndex = Model.Rows.IndexOf(RowAddingBelow);
-        var insertRow = new EditorRowModel();
-        insertRow.RowTypeName = rowRegistration.Name;
-        foreach (var col in rowRegistration.Columns)
+        var insertRow = new EditorRowModel
         {
-            insertRow.Columns.Add(new EditorColumnModel() { ColumnClass = col.ColumnClass });
+            RowTypeName = rowReg.Name
+        };
+        foreach (var col in rowReg.Columns)
+        {
+            insertRow.Columns.Add(new EditorColumnModel { ColumnClass = col.ColumnClass });
         }
 
-        Model.AddRow(insertRow, clickedRowIndex + 1);
+        Model.AddRow(insertRow, NewRowIndex.Value);
+    }
+
+    private async Task AddClicked(int index)
+    {
+        // Keep index around to track where the new row should be added
+        NewRowIndex = index;
+
+        // Show dialog to select row type
+        ShowDialog();
 
 
-        RowAddingBelow = null;
-        AddNewRowDialogVisible = false;
-        await OnModelUpdated.InvokeAsync();
     }
 
     /// <summary>
@@ -100,14 +100,14 @@
         Model.RemoveRow(rowToDelete);
         await OnModelUpdated.InvokeAsync();
     }
-    }
+}
 
-    @if (AddNewRowDialogVisible)
+@if (AddNewRowDialogVisible)
 {
-    <Dialog Title="Add new row" OnClose="() => AddNewRowDialogVisible = false">
+    <Dialog Title="Add new row" OnClose="HideDialog">
         @foreach (var colDefinition in BlockRegistrationService.RegisteredRows)
         {
-            <button class="btn btn-info me-2" @onclick="() => AddRowBelow(colDefinition)">@colDefinition.Name</button>
+            <button class="btn btn-info me-2" @onclick="() => NewRowSelected(colDefinition)">@colDefinition.Name</button>
         }
     </Dialog>
 }
@@ -115,15 +115,18 @@
 <div>
     <h3>Blazor Blocks Editor</h3>
     <CascadingValue Value="this">
-        @foreach (var row in Model.Rows)
+        @for (int r = 0; r < Model.Rows.Count; r++)
         {
-            <EditorRow Model="@row"
-                       OnAddRow="r => ShowNewRowDialog(r)"
-                       OnMoveRowDown="r => MoveRowDown(r)"
-                       OnMoveRowUp="r => MoveRowUp(r)"
-                       OnDeleteRow="r => DeleteRow(r)"
-                       CanMoveUp="IndexOfRow(row) > 0"
-                       CanMoveDown="IndexOfRow(row) < Model.Rows.Count-1" />
+        var row = Model.Rows[r];
+        <AddRow Index="@r" OnClicked="AddClicked" />
+        <EditorRow Model="@row"
+                   OnMoveRowDown="r => MoveRowDown(r)"
+                   OnMoveRowUp="r => MoveRowUp(r)"
+                   OnDeleteRow="r => DeleteRow(r)"
+                   CanMoveUp="IndexOfRow(row) > 0"
+                   CanMoveDown="IndexOfRow(row) < Model.Rows.Count - 1" />
+
         }
+        <AddRow Index="Model.Rows.Count" OnClicked="AddClicked" />
     </CascadingValue>
 </div>
