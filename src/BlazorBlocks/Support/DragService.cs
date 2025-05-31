@@ -1,15 +1,16 @@
 ﻿using BlazorBlocks.BlockEditor.Internals;
 using BlazorBlocks.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlazorBlocks.Support;
 internal class DragService
 {
-    public BlazorBlocksEditorBlockBaseModel DraggedBlock { get; set; }
+    private BlazorBlocksEditorBlockBaseModel? _draggedBlock;
+    public Func<bool, Task>? DragObjectChanged { get; set; }
+    public BlazorBlocksEditorBlockBaseModel? DraggedBlock
+    {
+        get => _draggedBlock;
+        set { _draggedBlock = value; DragObjectChanged?.Invoke(value != null); }
+    }
 
-    public EditorRow DraggedRow { get; set; }
+    public EditorRow? DraggedRow { get; set; }
 }

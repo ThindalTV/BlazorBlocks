@@ -61,12 +61,20 @@
             DragService.DraggedBlock = Model;
         }
     }
+
+    protected void EndDrag()
+    {
+        if (DragService != null && DragService.DraggedBlock != null)
+        {
+            DragService.DraggedBlock = null;
+        }
+    }
 }
 
 @if (BlockType != null && Attributes != null)
 {
     <div class="blockContainer">
-        <div class="blockControl" draggable="@(Moveable ? "true" : null)" @ondragstart="@(() => StartDrag())">
+        <div class="blockControl" draggable="@(Moveable ? "true" : null)" @ondragstart="@(() => StartDrag())" @ondragend="@(() => EndDrag())">
             @BlockName
             @if (CanMoveUp)
             {

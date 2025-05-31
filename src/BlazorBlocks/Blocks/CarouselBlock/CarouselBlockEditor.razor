@@ -1,0 +1,37 @@
+﻿@inherits BaseEditor<CarouselBlockModel>
+
+
+@code {
+    private void AddItem(MouseEventArgs e)
+    {
+        Model.Items.Add(new CarouselItem());
+    }
+}
+
+<div>Items:</div>
+<table>
+    <thead>
+        <tr>
+            <th>Image url</th>
+            <th>Alt text</th>
+            <th>Caption</th>
+            <th>Description</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td><input type="text" @bind="@item.ImageUrl"/></td>
+                <td><input type="text" @bind="@item.AltText" /></td>
+                <td><input type="text" @bind="@item.Caption" /></td>
+                <td><input type="text" @bind="@item.Description" /></td>
+                <td><button @onclick="() => Model.Items.Remove(item)">Remove</button></td>
+            </tr>
+        }
+        <tr>
+        </tr>
+    </tbody>
+</table>
+<button @onclick="AddItem">Add Item</button>

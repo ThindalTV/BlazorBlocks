@@ -1,4 +1,6 @@
-﻿using BlazorBlocks.Blocks.ImageBlock;
+﻿using BlazorBlocks.Blocks.CarouselBlock;
+using BlazorBlocks.Blocks.ImageBlock;
+using BlazorBlocks.Blocks.QuoteBlock;
 using BlazorBlocks.Blocks.RawTextBlock;
 using BlazorBlocks.Blocks.TitleBlock;
 using BlazorBlocks.Model;
@@ -164,7 +166,9 @@ public static class BlockRegistrationService
     private static void AddDefaultBlocks()
     {
         // Add default block types
-        RegisterBlock(new BlazorBlocksBlockRegistration("Text", null, typeof(TitleBlockModel), typeof(TitleEditorBlock)));
+        RegisterBlock(new BlazorBlocksBlockRegistration("Quote", null, typeof(QuoteBlockModel), typeof(QuoteBlockEditor)));
+        RegisterBlock(new BlazorBlocksBlockRegistration("Carousel", null, typeof(CarouselBlockModel), typeof(CarouselBlockEditor)));
+        RegisterBlock(new BlazorBlocksBlockRegistration("Title", null, typeof(TitleBlockModel), typeof(TitleEditorBlock)));
         RegisterBlock(new BlazorBlocksBlockRegistration("Image", null, typeof(ImageBlockModel), typeof(ImageEditorBlock)));
         RegisterBlock(new BlazorBlocksBlockRegistration("Raw text", "https://icon-sets.iconify.design/logo-iconify.svg", typeof(RawTextBlockModel), typeof(RawTextEditorBlock)));
     }

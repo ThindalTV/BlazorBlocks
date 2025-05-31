@@ -1,6 +1,7 @@
 .editorColumn {
     padding-left: .5rem;
     padding-right: .5rem;
+    position: relative;
 }
 
     .editorColumn + .editorColumn {
@@ -10,4 +11,18 @@
 .addBlock {
     margin-left: auto;
     margin-right: auto;
+}
+
+.dropZone {
+    height: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    right: 0;
+    left: 0;
+}
+
+.dropZone.active {
+    border-top: 1px dashed green;
+    border-bottom: 1px dashed green;
 }
