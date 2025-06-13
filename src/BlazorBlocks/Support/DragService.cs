@@ -4,9 +4,9 @@ using BlazorBlocks.Model;
 namespace BlazorBlocks.Support;
 internal class DragService
 {
-    private BlazorBlocksEditorBlockBaseModel? _draggedBlock;
+    private EditorBlockModel? _draggedBlock;
     public Func<bool, Task>? DraggedBlockChanged { get; set; }
-    public BlazorBlocksEditorBlockBaseModel? DraggedBlock
+    public EditorBlockModel? DraggedBlock
     {
         get => _draggedBlock;
         set { _draggedBlock = value; DraggedBlockChanged?.Invoke(value != null); }
@@ -20,4 +20,6 @@ internal class DragService
         get => _draggedRow;
         set { _draggedRow = value; DragRowChanged?.Invoke(value != null); }
     }
+
+    public EditorModel? DraggedObjectParent { get; set; }
 }

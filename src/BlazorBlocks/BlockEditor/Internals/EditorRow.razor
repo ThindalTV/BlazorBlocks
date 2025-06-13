@@ -9,11 +9,6 @@
 }
 
 <div class="rowContainer">
-    <div class="rowControls">
-        @Model.RowTypeName
-
-        <button class="btn btn-danger" @onclick="_ => OnDeleteRow.InvokeAsync(Model)"><i class="oi oi-trash"></i></button>
-    </div>
     <div class="rowContent">
         @foreach (var column in Model.Columns)
         {

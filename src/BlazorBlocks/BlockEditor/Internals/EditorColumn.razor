@@ -1,11 +1,7 @@
 ﻿@using BlazorBlocks.Component;
-@using BlazorBlocks.Blocks.ImageBlock;
-@using BlazorBlocks.Blocks.RawTextBlock;
-@using BlazorBlocks.Blocks.TitleBlock;
 @using BlazorBlocks.Model;
 @using BlazorBlocks
 @using BlazorBlocks.Support
-@using Microsoft.JSInterop
 
 @inject DragService DropService
 
@@ -22,9 +18,21 @@
     {
         var blockModel = Activator.CreateInstance(blockType.BlockModel) as BlazorBlocksEditorBlockBaseModel;
         if (blockModel == null) throw new InvalidOperationException($"Attempting to create a block model that is not a EditorBlockBaseModel. (It is {blockType.BlockModel.Name})");
-        Model.AddBlock(blockModel, Model.Blocks.Count);
+
+        var blockEditorModel = new EditorBlockModel() { Block = blockModel };
+
+
+        Model.AddBlock(blockEditorModel, _addingBlockIndex ?? 0);
         AddNewBlockDialogOpen = false;
         await Editor.OnModelUpdated.InvokeAsync();
+    }
+
+    private int? _addingBlockIndex;
+    protected void AddBlockClicked(int index)
+    {
+        _addingBlockIndex = index;
+        // Open dialog to add a new block
+        OpenAddNewBlockDialog();
     }
 
     protected void OpenAddNewBlockDialog()
@@ -32,35 +40,15 @@
         AddNewBlockDialogOpen = true;
     }
 
-    protected async Task MoveBlockUp(BlazorBlocksEditorBlockBaseModel block)
+    protected async Task DeleteBlock(EditorModel block)
     {
-        var index = Model.Blocks.IndexOf(block);
-        if (index > 0)
-        {
-            Model.MoveBlock(block, index - 1);
-            await Editor.OnModelUpdated.InvokeAsync();
-        }
-    }
-
-    protected async Task MoveBlockDown(BlazorBlocksEditorBlockBaseModel block)
-    {
-        var index = Model.Blocks.IndexOf(block);
-        if (index < Model.Blocks.Count - 1)
-        {
-            Model.MoveBlock(block, index + 1);
-            await Editor.OnModelUpdated.InvokeAsync();
-        }
-    }
-
-    protected async Task DeleteBlock(BlazorBlocksEditorBlockBaseModel block)
-    {
-        Model.RemoveBlock(block);
+        Model.RemoveBlock(block as EditorBlockModel);
         await Editor.OnModelUpdated.InvokeAsync();
     }
 
-    private int IndexOfBlock(BlazorBlocksEditorBlockBaseModel block) => Model.Blocks.IndexOf(block);
+    private int IndexOfBlock(EditorBlockModel block) => Model.BlocksModels.IndexOf(block);
 
-    private bool Moveable => Model.Blocks.Count > 1;
+    private bool Moveable => Model.BlocksModels.Count > 1;
 
     private bool Dragging = false;
 
@@ -68,89 +56,6 @@
     public void SetReadyToDrop()
     {
         StateHasChanged();
-    }
-
-    // TODO: Will be removed when we have a proper visual indicator
-    Dictionary<BlazorBlocksEditorBlockBaseModel, string> DropZoneTexts = new Dictionary<BlazorBlocksEditorBlockBaseModel, string>();
-
-    public void SetDrop(BlazorBlocksEditorBlockBaseModel? blockBelow)
-    {
-        if (DropService == null || DropService.DraggedBlock == null)
-            return;
-
-        // TODO: Check that the dragged block is in the same column as the block below
-        // TODO: Enable dropping between different columns(later)
-
-        // Get the index of the block below, if we can't find it, we're dropping at the end of the list
-        var index = Model.Blocks.IndexOf(blockBelow);
-        if (index == -1)
-        {
-            index = Model.Blocks.Count - 1;
-        }
-
-        // If the block below is the same as the dragged block, we can't drop
-        if (blockBelow != null && index == Model.Blocks.IndexOf(DropService.DraggedBlock) + 1)
-            return;
-
-        // Move the block within the column
-        Model.MoveBlock(DropService.DraggedBlock, index);
-
-        if (index != Model.Blocks.Count && blockBelow != null)
-        {
-            // TODO: Reset the visual drop indicator
-            DropZoneTexts[blockBelow] = "Dropped " + DropService.DraggedBlock.EditorName;
-        }
-
-        DropService.DraggedBlock = null;
-
-        StateHasChanged();
-    }
-
-    // TODO: Rename this
-    public void SetDragLeft(BlazorBlocksEditorBlockBaseModel? blockBelow)
-    {
-        // TODO: Reset the visual drop indicator
-        if (blockBelow == null)
-        {
-            return;
-        }
-
-        DropZoneTexts[blockBelow] = "Left";
-        StateHasChanged();
-    }
-
-    public void SetOver() { }
-
-    public bool CanDrop(BlazorBlocksEditorBlockBaseModel? blockBelow)
-    {
-        // TODO: Reset the visual drop indicator
-        if (DropService != null && DropService.DraggedBlock != null)
-        {
-            var dragObject = DropService.DraggedBlock;
-
-            // If the block below is the same as the dragged block, we can't drop
-            if (Object.ReferenceEquals(blockBelow, dragObject))
-            {
-                return false;
-            }
-
-            // If the block below is the block above the dragged block, we can drop
-            if (blockBelow == null && Model.Blocks.IndexOf(dragObject) == Model.Blocks.Count - 1)
-            {
-                return false;
-            }
-
-            // If the block below is the block after the dragged block, we can't drop
-            if (blockBelow != null && Model.Blocks.IndexOf(blockBelow) == Model.Blocks.IndexOf(dragObject) + 1)
-            {
-                return false;
-            }
-
-            // TODO: Remove the DropZoneText and show a visual indicator of where the block will be dropped
-
-            return true;
-        }
-        return false;
     }
 
     protected override void OnInitialized()
@@ -163,6 +68,12 @@
     }
 
     protected string ActiveDraggableClass => Dragging ? "dropZone active" : "dropZone";
+
+    private void BlockDropped(ObjectDroppedResult dropped)
+    {
+        Console.WriteLine("Block dropped");
+    }
+
 }
 
 @if (AddNewBlockDialogOpen)
@@ -184,47 +95,18 @@
 }
 
 <div class="@Model.ColumnClass editorColumn">
-    @foreach (var block in Model.Blocks)
+    @for (var index = 0; index < Model.BlocksModels.Count; index++)
     {
-        @if (Moveable)
-        {
-            <div class="@ActiveDraggableClass"
-                 @ondragenter:preventDefault="true"
-                 @ondragleave:preventDefault="true"
-                 @ondragover:preventDefault="CanDrop(block)"
-                 @ondragenter="() => { SetReadyToDrop(); }"
-                 @ondragleave="() => { SetDragLeft(block); }"
-                 @ondragover="() => { }"
-                 @ondrop="() => { SetDrop(block); }">
-            </div>
-        }
-        <BlockContainer Moveable="@Moveable"
-                        Model="@block"
-                        OnMoveUp="b => MoveBlockUp(b)"
-                        OnMoveDown="b => MoveBlockDown(b)"
-                        OnDelete="b => DeleteBlock(b)"
-                        CanMoveUp="IndexOfBlock(block) > 0"
-                        CanMoveDown="IndexOfBlock(block) < Model.Blocks.Count-1" />
-    }
+        var block = Model.BlocksModels[index];
 
-    @if (Moveable)
-    {
-        <div class="@ActiveDraggableClass"
-        @ondragenter:preventDefault
-        @ondragleave:preventDefault
-             @ondragover:preventDefault="CanDrop(null)"
-             @ondragenter="() => { SetReadyToDrop(); }"
-             @ondragleave="() => {SetDragLeft(null); }"
-             @ondragover="() => { }"
-             @ondrop="() => { SetDrop(null); }">
-        </div>
+        <AddRow ObjectType="DragObjectType.Block" OnDropped="BlockDropped" Index="@index" OnClicked="AddBlockClicked" />
+        <DraggableContainer Model="@block"
+                            ObjectType="DragObjectType.Block"
+                            Title="@block.Block.EditorName"
+                            Draggable="@Moveable" OnDelete="(model) => DeleteBlock(model)">
+            <BlockContainer Model="@block.Block" />
+        </DraggableContainer>
     }
-
-    @if (BlockRegistrationService.RegisteredBlocks.Any())
-    {
-        <div class="text-center mt-2 mb-2">
-            <button class="btn btn-primary addBlock" @onclick="() => OpenAddNewBlockDialog()"><i class="oi oi-plus"></i> Block</button>
-        </div>
-    }
+    <AddRow ObjectType="DragObjectType.Block" OnDropped="BlockDropped" OnClicked="AddBlockClicked" Index="@Model.BlocksModels.Count" />
 </div>
 

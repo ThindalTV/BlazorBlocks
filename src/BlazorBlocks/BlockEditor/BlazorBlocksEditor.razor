@@ -93,10 +93,10 @@
     /// Deletes the specified row.
     /// </summary>
     /// <param name="rowToDelete">The row to delete.</param>
-    protected async Task DeleteRow(EditorRowModel rowToDelete)
+    protected async Task DeleteRow(EditorModel rowToDelete)
     {
         // Add warning dialog here
-        Model.RemoveRow(rowToDelete);
+        Model.RemoveRow(rowToDelete as EditorRowModel);
         await OnModelUpdated.InvokeAsync();
     }
 
@@ -153,9 +153,8 @@
         {
             var row = Model.Rows[r];
             <AddRow Index="@r" OnClicked="AddClicked" OnDropped="RowDropped" ObjectType="DragObjectType.Row" />
-            <DraggableContainer Model="@row" ObjectType="DragObjectType.Row" Title="@row.RowTypeName" Draggable="Model.Rows.Count > 1">
-                <EditorRow Model="@row"
-                           OnDeleteRow="r => DeleteRow(r)"/>
+            <DraggableContainer Model="@row" ObjectType="DragObjectType.Row" Title="@row.RowTypeName" Draggable="Model.Rows.Count > 1" OnDelete="(model) => DeleteRow(model)">
+                <EditorRow Model="@row" />
             </DraggableContainer>
         }
         <AddRow Index="Model.Rows.Count" OnClicked="AddClicked" OnDropped="RowDropped" ObjectType="DragObjectType.Row" />

@@ -63,7 +63,11 @@ public partial class AddRow
         if (CanDrop())
         {
             _beingHoveredOver = false;
-            var result = new ObjectDroppedResult(Index, _draggedModel);
+            var result = 
+                new ObjectDroppedResult(
+                    Index
+                    , _draggedObjectType == DragObjectType.Row ? null : 
+                    ,_draggedModel);
 
             if (OnDropped.HasDelegate)
             {

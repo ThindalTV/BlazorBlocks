@@ -2,4 +2,4 @@
 
 namespace BlazorBlocks.BlockEditor.Internals;
 
-public record ObjectDroppedResult(int Index, EditorModel Model);
+public record ObjectDroppedResult(int Index, EditorColumnModel ParentColumn, EditorModel Model);

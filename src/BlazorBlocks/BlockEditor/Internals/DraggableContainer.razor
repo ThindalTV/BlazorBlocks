@@ -11,13 +11,13 @@
         {
             <span class="dragHandle" draggable="true" @ondragstart="@(() => StartDrag())" @ondragend="@(() => EndDrag())">
                 DRAGHANDLE
-                @*@onclick="() => DropService.StartDrag(ObjectType, Title)"*@
                 <i class="fa fa-arrows-alt"></i>
             </span>
         }
+        - <button @onclick="() => OnDelete.InvokeAsync(Model)">DEL</button>
     </div>
-    <div class="@(_collapsed ? "collapsed ": "")dragContent">
-    @ChildContent
+    <div class="@(_collapsed ? "collapsed " : "")dragContent">
+        @ChildContent
     </div>
 
 </div>
@@ -38,13 +38,24 @@
     [Parameter]
     public bool Draggable { get; set; }
 
+    [Parameter]
+    public EventCallback<EditorModel> OnDelete { get; set; }
+
     private bool _collapsed;
 
     protected void StartDrag()
     {
         if (DragService != null)
         {
-            DragService.DraggedRow = (EditorRowModel)Model;
+            if (ObjectType == DragObjectType.Row)
+            {
+                DragService.DraggedRow = (EditorRowModel)Model;
+            }
+            else
+            {
+                DragService.DraggedBlock = (EditorBlockModel)Model;
+                DragService.DraggedObjectParent = 
+            }
         }
     }
 
@@ -53,6 +64,10 @@
         if (DragService != null && DragService.DraggedRow != null)
         {
             DragService.DraggedRow = null;
+        }
+        else if (DragService is not null && DragService.DraggedBlock is not null)
+        {
+            DragService.DraggedBlock = null;
         }
     }
 

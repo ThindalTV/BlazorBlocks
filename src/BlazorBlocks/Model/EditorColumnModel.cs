@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Text.Json.Serialization;
+﻿using System.Text;
 
 namespace BlazorBlocks.Model;
 
@@ -9,38 +7,38 @@ public class EditorColumnModel : EditorModel
     // TODO: Replace this with column classname
     public string? ColumnClass { get; set; }
 
-    public List<BlazorBlocksEditorBlockBaseModel> Blocks { get; set; }
+    public List<EditorBlockModel> BlocksModels { get; set; }
 
     public EditorColumnModel()
     {
-        Blocks = new List<BlazorBlocksEditorBlockBaseModel>();
+        BlocksModels = new List<EditorBlockModel>();
     }
 
     public string Render()
     {
         var sb = new StringBuilder();
         sb.Append($"""<div class="{ColumnClass}">""");
-        foreach (var block in Blocks)
+        foreach (var block in BlocksModels)
         {
-            sb.Append(block.Render());
+            sb.Append(block.Block.Render());
         }
         sb.Append("</div>");
         return sb.ToString();
     }
 
-    public void MoveBlock(BlazorBlocksEditorBlockBaseModel block, int newPosition)
+    public void MoveBlock(EditorBlockModel block, int newPosition)
     {
-        Blocks.Remove(block);
-        Blocks.Insert(newPosition, block);
+        BlocksModels.Remove(block);
+        BlocksModels.Insert(newPosition, block);
     }
 
-    public void AddBlock(BlazorBlocksEditorBlockBaseModel block, int index)
+    public void AddBlock(EditorBlockModel block, int index)
     {
-        Blocks.Add(block);
+        BlocksModels.Insert(index, block);
     }
 
-    public void RemoveBlock(BlazorBlocksEditorBlockBaseModel block)
+    public void RemoveBlock(EditorBlockModel block)
     {
-        Blocks.Remove(block);
+        BlocksModels.Remove(block);
     }
 }

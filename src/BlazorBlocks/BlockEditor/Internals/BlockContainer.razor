@@ -4,88 +4,19 @@
     [Inject]
     internal DragService? DragService { get; set; }
 
-
     [Parameter, EditorRequired]
     public required BlazorBlocksEditorBlockBaseModel Model { get; set; }
 
+    public string BlockName => Model.EditorName;
 
+    public Type BlockType => Model.EditorType;
 
-    public string BlockName { get => Model.EditorName; }
-
-    public Type BlockType { get => Model.EditorType; }
-
-    public IDictionary<string, object> Attributes { get => Model.Parameters; }
-
-    [Parameter, EditorRequired]
-    public EventCallback<BlazorBlocksEditorBlockBaseModel> OnMoveUp { get; set; }
-
-    [Parameter, EditorRequired]
-    public EventCallback<BlazorBlocksEditorBlockBaseModel> OnMoveDown { get; set; }
-
-    [Parameter, EditorRequired]
-    public EventCallback<BlazorBlocksEditorBlockBaseModel> OnDelete { get; set; }
-
-    [Parameter, EditorRequired]
-    public bool Moveable { get; set; }
-
-    [Parameter]
-    public bool CanMoveUp { get; set; }
-
-    [Parameter]
-    public bool CanMoveDown { get; set; }
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-    }
-
-    protected void MoveBlockUp()
-    {
-        OnMoveUp.InvokeAsync(Model);
-    }
-
-    protected void MoveBlockDown()
-    {
-        OnMoveDown.InvokeAsync(Model);
-    }
-
-    protected void DeleteBlock()
-    {
-        OnDelete.InvokeAsync(Model);
-    }
-
-    protected void StartDrag()
-    {
-        if (DragService != null)
-        {
-            DragService.DraggedBlock = Model;
-        }
-    }
-
-    protected void EndDrag()
-    {
-        if (DragService != null && DragService.DraggedBlock != null)
-        {
-            DragService.DraggedBlock = null;
-        }
-    }
+    public IDictionary<string, object> Attributes => Model.Parameters;
 }
 
 @if (BlockType != null && Attributes != null)
 {
     <div class="blockContainer">
-        <div class="blockControl" draggable="@(Moveable ? "true" : null)" @ondragstart="@(() => StartDrag())" @ondragend="@(() => EndDrag())">
-            @BlockName
-            @if (CanMoveUp)
-            {
-                <button class="btn btn-success" @onclick="() => MoveBlockUp()"><i class="oi oi-arrow-thick-top"></i></button>
-            }
-            @if (CanMoveDown)
-            {
-                <button class="btn btn-success" @onclick="() => MoveBlockDown()"><i class="oi oi-arrow-thick-bottom"></i></button>
-            }
-            <button class="btn btn-danger" @onclick="() => DeleteBlock()"><i class="oi oi-trash"></i></button>
-        </div>
         <div class="text-center blockContent">
             <DynamicComponent Type="@BlockType" Parameters="@Attributes" />
         </div>
