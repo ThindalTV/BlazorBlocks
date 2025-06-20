@@ -1,0 +1,21 @@
+﻿<span class="collapseButton" @onclick="HandleCollapseClick">
+@if (Collapsed)
+{
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 9L4 4m0 0v4m0-4h4m7 5l5-5m0 0v4m0-4h-4M9 15l-5 5m0 0v-4m0 4h4m7-5l5 5m0 0v-4m0 4h-4"/></svg>}
+else
+{
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m20 20l-5-5m0 0v4m0-4h4M4 20l5-5m0 0v4m0-4H5M20 4l-5 5m0 0V5m0 4h4M4 4l5 5m0 0V5m0 4H5"/></svg>}
+</span>
+@code {
+    [Parameter]
+    public required bool Collapsed { get; set; }
+
+    [Parameter]
+    public required EventCallback<bool> OnCollapseClicked { get; set; }
+
+    private async Task HandleCollapseClick()
+    {
+        Collapsed = !Collapsed;
+        await OnCollapseClicked.InvokeAsync(Collapsed);
+    }
+}
