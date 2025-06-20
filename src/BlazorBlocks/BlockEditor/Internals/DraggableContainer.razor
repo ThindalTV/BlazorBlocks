@@ -1,20 +1,21 @@
 ﻿@using System.ComponentModel
 @using BlazorBlocks.Model
 @using BlazorBlocks.Support
+@using BlazorBlocks.Component
 
 @inject DragService DragService
 
 <div class="dragContainer">
     <div class="dragHeader">
-        <span class="collapseButton" @onclick="OnCollapseClicked">Collapse/Uncollapse</span>
-        <span class="dragTitle">@Title</span>
         @if (Draggable)
         {
             <span class="dragHandle" draggable="true" @ondragstart="@(() => StartDrag())" @ondragend="@(() => EndDrag())">
-                DRAGHANDLE
-                <i class="fa fa-arrows-alt"></i>
+                <DragHandle Width="30" Height="70" />
             </span>
         }
+        <span class="collapseButton" @onclick="OnCollapseClicked">Collapse/Uncollapse</span>
+        <span class="dragTitle">@Title</span>
+
         - <button @onclick="() => OnDelete.InvokeAsync(Model)">DEL</button>
     </div>
     <div class="@(Model.Collapsed ? "collapsed " : "")dragContent">
