@@ -1,10 +1,5 @@
-﻿using BlazorBlocks.Blocks.ImageBlock;
-using BlazorBlocks.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using BlazorBlocks.Model;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace BlazorBlocks.Blocks.CarouselBlock;
 public class CarouselBlockModel : BlazorBlocksEditorBlockBaseModel

@@ -7,17 +7,19 @@ namespace BlazorBlocks.BlockEditor.Internals;
 public partial class AddRow
 {
     private bool _beingDragged;
-    private bool _beingHoveredOver;
+    private bool _beingHoveredOver = false;
 
-    private EditorModel _draggedModel;
+    private EditorModel? _draggedModel;
     private DragObjectType _draggedObjectType;
 
     private async Task DragChanged(bool dragging, DragObjectType objectTypeBeingDragged)
     {
+        // This method gets called when something is being dragged. Update the object type so we can verify if it's droppable here
+        _draggedObjectType = objectTypeBeingDragged;
+
         if (ObjectType == objectTypeBeingDragged)
         {
             _beingDragged = dragging;
-            _draggedObjectType = objectTypeBeingDragged;
             _draggedModel = _draggedObjectType switch
             {
                 DragObjectType.Row => DragService.DraggedRow ?? throw new NullReferenceException(),
@@ -55,6 +57,10 @@ public partial class AddRow
         if (CanDrop())
         {
             _beingHoveredOver = true;
+        }
+        else
+        {
+            _beingHoveredOver = false;
         }
     }
 

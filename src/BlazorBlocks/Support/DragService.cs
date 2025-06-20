@@ -1,5 +1,4 @@
-﻿using BlazorBlocks.BlockEditor.Internals;
-using BlazorBlocks.Model;
+﻿using BlazorBlocks.Model;
 
 namespace BlazorBlocks.Support;
 internal class DragService
