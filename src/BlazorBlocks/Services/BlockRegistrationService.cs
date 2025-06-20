@@ -4,6 +4,7 @@ using BlazorBlocks.Blocks.QuoteBlock;
 using BlazorBlocks.Blocks.RawTextBlock;
 using BlazorBlocks.Blocks.TitleBlock;
 using BlazorBlocks.Model;
+using BlazorBlocks.Model.Registrations;
 using BlazorBlocks.Support;
 using Microsoft.Extensions.DependencyInjection;
 

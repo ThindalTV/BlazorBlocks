@@ -1,4 +1,4 @@
-﻿using BlazorBlocks.Model;
+﻿using BlazorBlocks.Model.Registrations;
 
 namespace BlazorBlocks.Component.Dialogs;
 

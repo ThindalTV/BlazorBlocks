@@ -1,4 +1,4 @@
-﻿namespace BlazorBlocks.Model;
+﻿namespace BlazorBlocks.Model.Registrations;
 public record RowRegistration
 {
     public string Name { get; }
