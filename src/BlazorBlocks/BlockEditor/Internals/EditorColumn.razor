@@ -7,6 +7,9 @@
 
 @code {
     [Parameter, EditorRequired]
+    public required EditorModel? ParentModel { get; set; }
+
+    [Parameter, EditorRequired]
     public required EditorColumnModel Model { get; set; }
 
     [CascadingParameter]
@@ -19,8 +22,7 @@
         var blockModel = Activator.CreateInstance(blockType.BlockModel) as BlazorBlocksEditorBlockBaseModel;
         if (blockModel == null) throw new InvalidOperationException($"Attempting to create a block model that is not a EditorBlockBaseModel. (It is {blockType.BlockModel.Name})");
 
-        var blockEditorModel = new EditorBlockModel() { Block = blockModel };
-
+        var blockEditorModel = new EditorBlockModel() { Block = blockModel, ParentModel = Model };
 
         Model.AddBlock(blockEditorModel, _addingBlockIndex ?? 0);
         AddNewBlockDialogOpen = false;
@@ -69,8 +71,55 @@
 
     protected string ActiveDraggableClass => Dragging ? "dropZone active" : "dropZone";
 
-    private void BlockDropped(ObjectDroppedResult dropped)
+    private async Task BlockDropped(ObjectDroppedResult dropped)
     {
+        if (dropped.Model is not EditorBlockModel droppedBlock)
+        {
+            Console.WriteLine("Dropped object is not a block model.");
+            return;
+        }
+
+        if(dropped.ParentColumn is not EditorColumnModel previousColumn)
+        {
+            Console.WriteLine("Dropped object does not have a valid parent column.");
+            return;
+        }
+
+        // If we're dropping on the same column, we'll just reorder the blocks
+        if (previousColumn.Id == Model.Id)
+        {
+            var oldIndex = Model.BlocksModels.IndexOf(droppedBlock);
+            // If the row is being dropped on itself, do nothing
+            if (oldIndex == dropped.Index)
+            {
+                return;
+            }
+
+            // If the row is being dropped on a different index, move it
+            if (oldIndex < dropped.Index)
+            {
+                // We're moving down, insert at new index then remove the old one
+                Model.BlocksModels.Insert(dropped.Index, droppedBlock);
+                Model.BlocksModels.RemoveAt(oldIndex);
+            }
+            else
+            {
+                // We're moving up, remove the old one then insert at new index
+                Model.BlocksModels.RemoveAt(oldIndex);
+                Model.BlocksModels.Insert(dropped.Index, droppedBlock);
+            }
+        }
+        else
+        {
+            droppedBlock.ParentModel = Model;
+            // We're dropping on another column than where the block originated.
+            previousColumn.BlocksModels.Remove(droppedBlock);
+            Model.BlocksModels.Insert(dropped.Index, droppedBlock);
+        }
+
+        await InvokeAsync(StateHasChanged);
+
+
         Console.WriteLine("Block dropped");
     }
 
@@ -103,7 +152,7 @@
         <DraggableContainer Model="@block"
                             ObjectType="DragObjectType.Block"
                             Title="@block.Block.EditorName"
-                            Draggable="@Moveable" OnDelete="(model) => DeleteBlock(model)">
+                            Draggable="true" OnDelete="(model) => DeleteBlock(model)" ParentModel="@Model">
             <BlockContainer Model="@block.Block" />
         </DraggableContainer>
     }

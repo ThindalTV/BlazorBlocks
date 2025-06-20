@@ -1,4 +1,5 @@
-﻿@using BlazorBlocks.Model
+﻿@using System.ComponentModel
+@using BlazorBlocks.Model
 @using BlazorBlocks.Support
 
 @inject DragService DragService
@@ -33,7 +34,10 @@
     public DragObjectType ObjectType { get; set; }
 
     [Parameter]
-    public EditorModel Model { get; set; }
+    public EditorModel? Model { get; set; }
+
+    [Parameter, EditorRequired]
+    public required EditorModel? ParentModel { get; set; }
 
     [Parameter]
     public bool Draggable { get; set; }
@@ -49,12 +53,12 @@
         {
             if (ObjectType == DragObjectType.Row)
             {
-                DragService.DraggedRow = (EditorRowModel)Model;
+                DragService.DraggedRow = (EditorRowModel?)Model;
             }
             else
             {
-                DragService.DraggedBlock = (EditorBlockModel)Model;
-                DragService.DraggedObjectParent = 
+                DragService.DraggedBlock = (EditorBlockModel?)Model;
+                DragService.DraggedObjectParent = ParentModel;
             }
         }
     }

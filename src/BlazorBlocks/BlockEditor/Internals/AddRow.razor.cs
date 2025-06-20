@@ -18,7 +18,12 @@ public partial class AddRow
         {
             _beingDragged = dragging;
             _draggedObjectType = objectTypeBeingDragged;
-            _draggedModel = DragService.DraggedRow;
+            _draggedModel = _draggedObjectType switch
+            {
+                DragObjectType.Row => DragService.DraggedRow ?? throw new NullReferenceException(),
+                DragObjectType.Block => DragService.DraggedBlock ?? throw new NullReferenceException(),
+                _ => throw new ArgumentOutOfRangeException(nameof(objectTypeBeingDragged), objectTypeBeingDragged, null)
+            };
             await InvokeAsync(StateHasChanged);
         }
     }
@@ -66,8 +71,8 @@ public partial class AddRow
             var result = 
                 new ObjectDroppedResult(
                     Index
-                    , _draggedObjectType == DragObjectType.Row ? null : 
-                    ,_draggedModel);
+                    , _draggedModel.ParentModel
+                    , _draggedModel);
 
             if (OnDropped.HasDelegate)
             {

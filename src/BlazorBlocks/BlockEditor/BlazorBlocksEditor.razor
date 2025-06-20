@@ -153,7 +153,7 @@
         {
             var row = Model.Rows[r];
             <AddRow Index="@r" OnClicked="AddClicked" OnDropped="RowDropped" ObjectType="DragObjectType.Row" />
-            <DraggableContainer Model="@row" ObjectType="DragObjectType.Row" Title="@row.RowTypeName" Draggable="Model.Rows.Count > 1" OnDelete="(model) => DeleteRow(model)">
+            <DraggableContainer Model="@row" ObjectType="DragObjectType.Row" ParentModel="null" Title="@row.RowTypeName" Draggable="Model.Rows.Count > 1" OnDelete="(model) => DeleteRow(model)">
                 <EditorRow Model="@row" />
             </DraggableContainer>
         }

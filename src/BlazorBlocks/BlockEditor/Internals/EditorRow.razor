@@ -12,7 +12,7 @@
     <div class="rowContent">
         @foreach (var column in Model.Columns)
         {
-            <EditorColumn Model="@column" />
+            <EditorColumn Model="@column" ParentModel="@Model" />
         }
     </div>
 </div>
