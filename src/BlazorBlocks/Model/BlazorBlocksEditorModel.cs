@@ -10,7 +10,7 @@ namespace BlazorBlocks.Model;
 /// The model used for the BlazorBlocks editor.
 /// It contains properties and methods for managing the editor rows and serializing/deserializing the model to JSON/HTML.
 /// </summary>
-public class BlazorBlocksEditorModel
+public class BlazorBlocksEditorModel : EditorModel
 {
     /// <summary>
     /// Gets or sets the list of editor row models.
@@ -60,6 +60,34 @@ public class BlazorBlocksEditorModel
     {
         var model = JsonSerializer.Deserialize<BlazorBlocksEditorModel>(data, _jsonSerializerOptions);
         Rows = model?.Rows ?? new List<EditorRowModel>();
+
+        SetRowParents(Rows);
+    }
+
+    private void SetRowParents(List<EditorRowModel> rows)
+    {
+        foreach (var row in rows)
+        {
+            row.ParentModel = this;
+            SetColumnParents(row, row.Columns);
+        }
+    }
+
+    private void SetColumnParents(EditorRowModel parent, List<EditorColumnModel> rowColumns)
+    {
+        foreach (var column in rowColumns)
+        {
+            column.ParentModel = parent;
+            SetBlockParents(column, column.BlocksModels);
+        }
+    }
+
+    private void SetBlockParents(EditorColumnModel column, List<EditorBlockModel> columnBlocksModels)
+    {
+        foreach (var block in columnBlocksModels)
+        {
+            block.ParentModel = column;
+        }
     }
 
     public void MoveRow(EditorRowModel editorRowModel, int index)
