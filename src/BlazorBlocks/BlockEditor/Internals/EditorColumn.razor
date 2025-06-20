@@ -75,13 +75,11 @@
     {
         if (dropped.Model is not EditorBlockModel droppedBlock)
         {
-            Console.WriteLine("Dropped object is not a block model.");
             return;
         }
 
         if(dropped.ParentColumn is not EditorColumnModel previousColumn)
         {
-            Console.WriteLine("Dropped object does not have a valid parent column.");
             return;
         }
 
@@ -118,9 +116,6 @@
         }
 
         await InvokeAsync(StateHasChanged);
-
-
-        Console.WriteLine("Block dropped");
     }
 
 }

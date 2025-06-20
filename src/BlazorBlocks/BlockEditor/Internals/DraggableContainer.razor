@@ -17,7 +17,7 @@
         }
         - <button @onclick="() => OnDelete.InvokeAsync(Model)">DEL</button>
     </div>
-    <div class="@(_collapsed ? "collapsed " : "")dragContent">
+    <div class="@(Model.Collapsed ? "collapsed " : "")dragContent">
         @ChildContent
     </div>
 
@@ -75,17 +75,8 @@
         }
     }
 
-    protected async Task OnCollapseClicked()
+    protected void OnCollapseClicked()
     {
-        // TODO: Bug, for some reason the collapsed state is locked to the index of the row, not the row itself.
-        // IE, collapse first row, move second row up. The collapsed item is now expanded, and the other one is collapsed.
-        // Item 1 collapsed, position 1
-        // Item 2 open, position 2
-        // Move 2 up
-        // Item 2 collapsed, position 1
-        // Item 1 open, position 2
-
-        _collapsed = !_collapsed;
-        await InvokeAsync(StateHasChanged);
+        Model.Collapsed = !Model.Collapsed;
     }
 }
