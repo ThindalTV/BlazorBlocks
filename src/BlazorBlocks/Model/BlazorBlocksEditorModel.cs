@@ -10,9 +10,9 @@ namespace BlazorBlocks.Model;
 public class BlazorBlocksEditorModel : EditorModel
 {
     /// <summary>
-    /// Gets or sets the list of editor row models.
+    /// Gets or sets the list of editor group models.
     /// </summary>
-    public List<EditorRowModel> Rows { get; set; }
+    public List<EditorGroupModel> Groups { get; set; }
 
     private readonly JsonSerializerOptions _jsonSerializerOptions;
 
@@ -21,7 +21,7 @@ public class BlazorBlocksEditorModel : EditorModel
     /// </summary>
     public BlazorBlocksEditorModel()
     {
-        Rows = new List<EditorRowModel>();
+        Groups = new List<EditorGroupModel>();
 
         _jsonSerializerOptions = new JsonSerializerOptions() { TypeInfoResolver = new JsonSerializerTypeResolver(BlockRegistrationService.RegisteredBlocks) };
     }
@@ -30,12 +30,12 @@ public class BlazorBlocksEditorModel : EditorModel
     /// Gets the HTML representation of the editor model.
     /// </summary>
     /// <returns>The HTML string.</returns>
-    public string GetHTML()
+    public string GetHtml()
     {
         var sb = new StringBuilder();
-        foreach (var row in Rows)
+        foreach (var group in Groups)
         {
-            sb.Append(row.Render());
+            sb.Append(group.Render());
         }
         return sb.ToString();
     }
@@ -56,23 +56,23 @@ public class BlazorBlocksEditorModel : EditorModel
     public void Load(string data)
     {
         var model = JsonSerializer.Deserialize<BlazorBlocksEditorModel>(data, _jsonSerializerOptions);
-        Rows = model?.Rows ?? new List<EditorRowModel>();
+        Groups = model?.Groups ?? new List<EditorGroupModel>();
 
-        SetRowParents(Rows);
+        SetGroupParents(Groups);
     }
 
-    private void SetRowParents(List<EditorRowModel> rows)
+    private void SetGroupParents(List<EditorGroupModel> groups)
     {
-        foreach (var row in rows)
+        foreach (var group in groups)
         {
-            row.ParentModel = this;
-            SetColumnParents(row, row.Columns);
+            group.ParentModel = this;
+            SetColumnParents(group, group.Columns);
         }
     }
 
-    private void SetColumnParents(EditorRowModel parent, List<EditorColumnModel> rowColumns)
+    private void SetColumnParents(EditorGroupModel parent, List<EditorColumnModel> groupColumns)
     {
-        foreach (var column in rowColumns)
+        foreach (var column in groupColumns)
         {
             column.ParentModel = parent;
             SetBlockParents(column, column.BlocksModels);
@@ -87,19 +87,13 @@ public class BlazorBlocksEditorModel : EditorModel
         }
     }
 
-    public void MoveRow(EditorRowModel editorRowModel, int index)
+    public void RemoveGroup(EditorGroupModel editorGroupModel)
     {
-        Rows.Remove(editorRowModel);
-        Rows.Insert(index, editorRowModel);
+        Groups.Remove(editorGroupModel);
     }
 
-    public void RemoveRow(EditorRowModel editorRowModel)
+    public void AddGroup(EditorGroupModel editorGroupModel, int index)
     {
-        Rows.Remove(editorRowModel);
-    }
-
-    public void AddRow(EditorRowModel editorRowModel, int index)
-    {
-        Rows.Insert(index, editorRowModel);
+        Groups.Insert(index, editorGroupModel);
     }
 }

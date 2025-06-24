@@ -28,7 +28,7 @@
 
             <button @onclick="() => Import()" class="btn btn-primary">Load from json</button>
             <button @onclick="() => Export()" class="btn btn-primary float-end">Export to json</button><br/>
-            <InputTextArea class="form-control" @bind-Value="@serialized" Rows="10" Cols="100"/>
+            <InputTextArea class="form-control" @bind-Value="@serialized" Groups="10" Cols="100"/>
         </div>
     </div>
 
@@ -40,11 +40,11 @@
     string? serialized;
 
     string testContent =
-        """{"Rows":[{"Columns":[{"ColumnClass":"col-md-12","Blocks":[{"$modelType":"TitleBlockModel","EditorName":"Title","TitleSize":0,"Title":"Titleabc"},{"$modelType":"RawTextBlockModel","EditorName":"Raw Text","Content":"Raw text goes here"}]}],"RowTypeName":"1 column"},{"Columns":[{"ColumnClass":"col-md-4","Blocks":[{"$modelType":"RawTextBlockModel","EditorName":"Raw Text","Content":"hello from index"}]},{"ColumnClass":"col-md-7","Blocks":[{"$modelType":"ImageBlockModel","EditorName":"Image","ImageUrl":"https://i.imgur.com/uk8EhoS.png","AltText":"https://i.imgur.com/uk8EhoS.png"}]}],"RowTypeName":"2 columns"},{"Columns":[{"ColumnClass":"col-3","Blocks":[]},{"ColumnClass":"col-3","Blocks":[]},{"ColumnClass":"col-3","Blocks":[]},{"ColumnClass":"col-3","Blocks":[{"$modelType":"TestBlockModel","EditorName":"Custom Test Block","Content":"testy testy"}]}],"RowTypeName":"4 columns"}]}""";
+        """{"Groups":[{"Columns":[{"ColumnClass":"col-md-12","Blocks":[{"$modelType":"TitleBlockModel","EditorName":"Title","TitleSize":0,"Title":"Titleabc"},{"$modelType":"RawTextBlockModel","EditorName":"Raw Text","Content":"Raw text goes here"}]}],"GroupTypeName":"1 column"},{"Columns":[{"ColumnClass":"col-md-4","Blocks":[{"$modelType":"RawTextBlockModel","EditorName":"Raw Text","Content":"hello from index"}]},{"ColumnClass":"col-md-7","Blocks":[{"$modelType":"ImageBlockModel","EditorName":"Image","ImageUrl":"https://i.imgur.com/uk8EhoS.png","AltText":"https://i.imgur.com/uk8EhoS.png"}]}],"GroupTypeName":"2 columns"},{"Columns":[{"ColumnClass":"col-3","Blocks":[]},{"ColumnClass":"col-3","Blocks":[]},{"ColumnClass":"col-3","Blocks":[]},{"ColumnClass":"col-3","Blocks":[{"$modelType":"TestBlockModel","EditorName":"Custom Test Block","Content":"testy testy"}]}],"GroupTypeName":"4 columns"}]}""";
 
-    string t2 =
-    """{"Rows":[{"Columns":[{"ColumnClass":"col-md-12","BlocksModels":[{"Block":{"$modelType":"QuoteBlockModel","EditorName":"Quote","Quote":"abc"}},{"Block":{"$modelType":"TestBlockModel","EditorName":"Custom Test Block","Content":"1234"}}]}],"RowTypeName":"1 column"},{"Columns":[{"ColumnClass":"col-3","BlocksModels":[{"Block":{"$modelType":"ImageBlockModel","EditorName":"Image","ImageUrl":"","AltText":"afsefgs"}},{"Block":{"$modelType":"TitleBlockModel","EditorName":"Title","TitleSize":2,"Title":"Medium 1/4"}}]},{"ColumnClass":"col-3","BlocksModels":[]},{"ColumnClass":"col-3","BlocksModels":[{"Block":{"$modelType":"TitleBlockModel","EditorName":"Title","TitleSize":3,"Title":"3/4"}}]},{"ColumnClass":"col-3","BlocksModels":[]}],"RowTypeName":"4 columns"},{"Columns":[{"ColumnClass":"col-md-4","BlocksModels":[]},{"ColumnClass":"col-md-7","BlocksModels":[]}],"RowTypeName":"2 columns"}]}""";
-
+        string t2 =
+        """{"Groups":[{"Columns":[{"ColumnClass":"col-md-12","BlocksModels":[{"Block":{"$modelType":"QuoteBlockModel","EditorName":"Quote","Quote":"abc"}},{"Block":{"$modelType":"TestBlockModel","EditorName":"Custom Test Block","Content":"1234"}}]}],"GroupTypeName":"1 column"},{"Columns":[{"ColumnClass":"col-3","BlocksModels":[{"Block":{"$modelType":"ImageBlockModel","EditorName":"Image","ImageUrl":"","AltText":"afsefgs"}},{"Block":{"$modelType":"TitleBlockModel","EditorName":"Title","TitleSize":2,"Title":"Medium 1/4"}}]},{"ColumnClass":"col-3","BlocksModels":[]},{"ColumnClass":"col-3","BlocksModels":[{"Block":{"$modelType":"TitleBlockModel","EditorName":"Title","TitleSize":3,"Title":"3/4"}}]},{"ColumnClass":"col-3","BlocksModels":[]}],"GroupTypeName":"4 columns"},{"Columns":[{"ColumnClass":"col-md-4","BlocksModels":[]},{"ColumnClass":"col-md-7","BlocksModels":[]}],"GroupTypeName":"2 columns"}]}""";
+        
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -60,7 +60,7 @@
 
     protected void ReRender()
     {
-        renderContent = editorModel.GetHTML();
+        renderContent = editorModel.GetHtml();
         StateHasChanged();
     }
 
@@ -77,7 +77,7 @@
 
     private void OnModelUpdated()
     {
-        renderContent = editorModel.GetHTML();
+        renderContent = editorModel.GetHtml();
         serialized = editorModel.GetJson();
     }
 

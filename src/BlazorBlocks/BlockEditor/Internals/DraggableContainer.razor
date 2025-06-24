@@ -55,9 +55,9 @@
     {
         if (DragService != null)
         {
-            if (ObjectType == DragObjectType.Row)
+            if (ObjectType == DragObjectType.Group)
             {
-                DragService.DraggedRow = (EditorRowModel?)Model;
+                DragService.DraggedGroup = (EditorGroupModel?)Model;
             }
             else
             {
@@ -69,9 +69,9 @@
 
     protected void EndDrag()
     {
-        if (DragService != null && DragService.DraggedRow != null)
+        if (DragService != null && DragService.DraggedGroup != null)
         {
-            DragService.DraggedRow = null;
+            DragService.DraggedGroup = null;
         }
         else if (DragService is not null && DragService.DraggedBlock is not null)
         {

@@ -14,145 +14,108 @@
     [Parameter]
     public EventCallback OnModelUpdated { get; set; }
 
-    protected bool AddNewRowDialogVisible = false;
-    protected EditorRowModel? RowAddingBelow = null;
+    protected bool AddNewGroupDialogVisible = false;
 
-    private void ShowDialog() => AddNewRowDialogVisible = true;
-    private void HideDialog() => AddNewRowDialogVisible = false;
+    private void ShowDialog() => AddNewGroupDialogVisible = true;
+    private void HideDialog() => AddNewGroupDialogVisible = false;
 
-    private int? NewRowIndex;
+    private int? NewGroupIndex;
 
-    private async Task NewRowSelected(RowRegistration rowReg, int addIndex)
+    private async Task NewGroupSelected(GroupRegistration groupReg, int addIndex)
     {
         HideDialog();
 
-        // For now, assume we always add the same row type
-        // TODO: Show dialog to select row type
+        // For now, assume we always add the same group type
+        // TODO: Show dialog to select group type
 
-        var insertRow = new EditorRowModel
+        var insertGroup = new EditorGroupModel
         {
-            RowTypeName = rowReg.Name
+            GroupTypeName = groupReg.Name,
+            CssClass = groupReg.CssClass,
         };
-        foreach (var col in rowReg.Columns)
+        foreach (var col in groupReg.Columns)
         {
-            insertRow.Columns.Add(new EditorColumnModel { ColumnClass = col.ColumnClass });
+            insertGroup.Columns.Add(new EditorColumnModel { ColumnClass = col.ColumnClass });
         }
 
-        Model.AddRow(insertRow, addIndex);
+        Model.AddGroup(insertGroup, addIndex);
     }
 
     private async Task AddClicked(int index)
     {
-        // Keep index around to track where the new row should be added
-        NewRowIndex = index;
+        // Keep index around to track where the new group should be added
+        NewGroupIndex = index;
 
-        // Show dialog to select row type
+        // Show dialog to select group type
         ShowDialog();
 
 
     }
 
     /// <summary>
-    /// Gets the index of the specified row.
+    /// Deletes the specified group.
     /// </summary>
-    /// <param name="row">The row to get the index of.</param>
-    /// <returns>The index of the row.</returns>
-    protected int IndexOfRow(EditorRowModel row) => Model.Rows.IndexOf(row);
-
-    /// <summary>
-    /// Moves the specified row up.
-    /// </summary>
-    /// <param name="rowToMove">The row to move up.</param>
-    protected async Task MoveRowUp(EditorRowModel rowToMove) => await MoveRow(rowToMove, -1);
-
-    /// <summary>
-    /// Moves the specified row down.
-    /// </summary>
-    /// <param name="rowToMove">The row to move down.</param>
-    protected async Task MoveRowDown(EditorRowModel rowToMove) => await MoveRow(rowToMove, 1);
-
-    /// <summary>
-    /// Moves the specified row by the specified offset.
-    /// </summary>
-    /// <param name="rowToMove">The row to move.</param>
-    /// <param name="offset">The offset to move the row by.</param>
-    private async Task MoveRow(EditorRowModel rowToMove, int offset)
-    {
-        var clickedRowIndex = Model.Rows.IndexOf(rowToMove);
-        var newPosition = clickedRowIndex + offset;
-        if (offset == 0 || newPosition < 0 || newPosition >= Model.Rows.Count)
-        {
-            return;
-        }
-
-        Model.MoveRow(rowToMove, newPosition);
-        await OnModelUpdated.InvokeAsync();
-    }
-
-    /// <summary>
-    /// Deletes the specified row.
-    /// </summary>
-    /// <param name="rowToDelete">The row to delete.</param>
-    protected async Task DeleteRow(EditorModel rowToDelete)
+    /// <param name="rowToDelete">The group to delete.</param>
+    protected async Task DeleteGroup(EditorModel rowToDelete)
     {
         // Add warning dialog here
-        Model.RemoveRow(rowToDelete as EditorRowModel);
+        Model.RemoveGroup(rowToDelete as EditorGroupModel);
         await OnModelUpdated.InvokeAsync();
     }
 
-    protected async Task RowDropped(ObjectDroppedResult dropObject)
+    protected async Task GroupDropped(ObjectDroppedResult dropObject)
     {
         if(dropObject.Model == null)
         {
             Console.WriteLine("Invalid drop object or index.");
             return;
         }
-        if (dropObject.Model is not EditorRowModel droppedRow)
+        if (dropObject.Model is not EditorGroupModel droppedGroup)
         {
             return;
         }
 
-        // Find the placement of the row now
-        var oldIndex = Model.Rows.IndexOf(droppedRow);
+        // Find the placement of the group now
+        var oldIndex = Model.Groups.IndexOf(droppedGroup);
 
-        // If the row is being dropped on itself, do nothing
+        // If the group is being dropped on itself, do nothing
         if (oldIndex == dropObject.Index)
         {
             return;
         }
 
-        // If the row is being dropped on a different index, move it
+        // If the group is being dropped on a different index, move it
         if (oldIndex < dropObject.Index)
         {
             // We're moving down, insert at new index then remove the old one
-            Model.Rows.Insert(dropObject.Index, droppedRow);
-            Model.Rows.RemoveAt(oldIndex);
+            Model.Groups.Insert(dropObject.Index, droppedGroup);
+            Model.Groups.RemoveAt(oldIndex);
         }
         else
         {
             // We're moving up, remove the old one then insert at new index
-            Model.Rows.RemoveAt(oldIndex);
-            Model.Rows.Insert(dropObject.Index, droppedRow);
+            Model.Groups.RemoveAt(oldIndex);
+            Model.Groups.Insert(dropObject.Index, droppedGroup);
         }
 
         await InvokeAsync(StateHasChanged);
     }
 }
 
-<NewRowDialog InsertIndex="@(NewRowIndex ?? 0)"
-              Visible="AddNewRowDialogVisible"
-              OnRowSelected="(selectedResult) => NewRowSelected(selectedResult.RowType, selectedResult.InsertIndex)" />
+<NewGroupDialog InsertIndex="@(NewGroupIndex ?? 0)"
+              Visible="AddNewGroupDialogVisible"
+              OnGroupSelected="(selectedResult) => NewGroupSelected(selectedResult.GroupType, selectedResult.InsertIndex)" />
 
 <div class="blazorBlocksEditor">
     <CascadingValue Value="this">
-        @for (int r = 0; r < Model.Rows.Count; r++)
+        @for (int r = 0; r < Model.Groups.Count; r++)
         {
-            var row = Model.Rows[r];
-            <AddRow Index="@r" OnClicked="AddClicked" OnDropped="RowDropped" ObjectType="DragObjectType.Row" />
-            <DraggableContainer AdditionalCssClasses="draggableGroup" Model="@row" ObjectType="DragObjectType.Row" ParentModel="null" Title="@row.RowTypeName" Draggable="Model.Rows.Count > 1" OnDelete="(model) => DeleteRow(model)">
-                <EditorRow Model="@row" />
+            var group = Model.Groups[r];
+            <AddRow Index="@r" OnClicked="AddClicked" OnDropped="GroupDropped" ObjectType="DragObjectType.Group" />
+            <DraggableContainer AdditionalCssClasses="draggableGroup" Model="@group" ObjectType="DragObjectType.Group" ParentModel="null" Title="@group.GroupTypeName" Draggable="Model.Groups.Count > 1" OnDelete="(model) => DeleteGroup(model)">
+                <EditorGroup Model="@group" />
             </DraggableContainer>
         }
-        <AddRow Index="Model.Rows.Count" OnClicked="AddClicked" OnDropped="RowDropped" ObjectType="DragObjectType.Row" />
+        <AddRow Index="Model.Groups.Count" OnClicked="AddClicked" OnDropped="GroupDropped" ObjectType="DragObjectType.Group" />
     </CascadingValue>
 </div>

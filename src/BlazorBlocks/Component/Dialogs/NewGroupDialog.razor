@@ -1,13 +1,11 @@
 ﻿@using BlazorBlocks.Model
 @using BlazorBlocks.Model.Registrations
-<h3>NewRowDialog</h3>
-
 @if (Visible)
 {
-    <Dialog Title="Add new row" OnClose="HideDialog">
-        @foreach (var rowRegistration in BlockRegistrationService.RegisteredRows)
+    <Dialog Title="Add new group" OnClose="HideDialog">
+        @foreach (var groupRegistration in BlockRegistrationService.RegisteredGroups)
         {
-            <button class="btn btn-info me-2" @onclick="() => ItemClicked(rowRegistration)">@rowRegistration.Name</button>
+            <button class="btn btn-info me-2" @onclick="() => ItemClicked(groupRegistration)">@groupRegistration.Name</button>
         }
     </Dialog>
 }
@@ -19,17 +17,17 @@
 
     [Parameter, EditorRequired] public required int InsertIndex { get; set; }
 
-    [Parameter, EditorRequired] public required EventCallback<NewRowDialogResult> OnRowSelected { get; set; }
+    [Parameter, EditorRequired] public required EventCallback<NewGroupDialogResult> OnGroupSelected { get; set; }
 
-    private async Task ItemClicked(RowRegistration rowType)
+    private async Task ItemClicked(GroupRegistration groupType)
     {
         await HideDialog();
 
-        if (!OnRowSelected.HasDelegate)
+        if (!OnGroupSelected.HasDelegate)
         {
             return;
         }
-        await OnRowSelected.InvokeAsync(new NewRowDialogResult(rowType, InsertIndex));
+        await OnGroupSelected.InvokeAsync(new NewGroupDialogResult(groupType, InsertIndex));
     }
 
     private async Task HideDialog()

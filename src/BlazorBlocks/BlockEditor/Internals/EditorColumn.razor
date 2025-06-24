@@ -88,13 +88,13 @@
         if (previousColumn.Id == Model.Id)
         {
             var oldIndex = Model.BlocksModels.IndexOf(droppedBlock);
-            // If the row is being dropped on itself, do nothing
+            // If the group is being dropped on itself, do nothing
             if (oldIndex == dropped.Index)
             {
                 return;
             }
 
-            // If the row is being dropped on a different index, move it
+            // If the group is being dropped on a different index, move it
             if (oldIndex < dropped.Index)
             {
                 // We're moving down, insert at new index then remove the old one

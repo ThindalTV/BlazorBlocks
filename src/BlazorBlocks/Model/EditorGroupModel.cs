@@ -2,23 +2,24 @@
 
 namespace BlazorBlocks.Model;
 
-public class EditorRowModel : EditorModel
+public class EditorGroupModel : EditorModel
 {
     
     public List<EditorColumnModel> Columns { get; set; }
 
-    public string RowTypeName { get; set; }
+    public string GroupTypeName { get; set; }
 
-    public EditorRowModel()
+    public string CssClass { get; set; } = "row";
+
+    public EditorGroupModel()
     {
         Columns = new List<EditorColumnModel>();
-        RowTypeName = "Blergh";
     }
 
     public string Render()
     {
         var sb = new StringBuilder();
-        sb.Append("<div class=\"row\">");
+        sb.Append($"<div class=\"{CssClass}\">");
         foreach (var column in Columns)
         {
             sb.Append(column.Render());

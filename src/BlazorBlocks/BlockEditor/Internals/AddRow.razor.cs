@@ -31,8 +31,8 @@ public partial class AddRow
             _beingDragged = dragging;
             _draggedModel = _draggedObjectType switch
             {
-                DragObjectType.Row => DukaDragService.DraggedRow,
-                DragObjectType.Block => DukaDragService.DraggedBlock,
+                DragObjectType.Group => DragService.DraggedGroup,
+                DragObjectType.Block => DragService.DraggedBlock,
                 _ => throw new ArgumentOutOfRangeException(nameof(objectTypeBeingDragged), objectTypeBeingDragged, null)
             };
 
@@ -55,11 +55,11 @@ public partial class AddRow
 
     protected override void OnInitialized()
     {
-        DukaDragService.DragRowChanged += (dragging) => DragChanged(dragging, DragObjectType.Row);
-        DukaDragService.DraggedBlockChanged += (dragging) => DragChanged(dragging, DragObjectType.Block);
+        DragService.DraggedGroupChanged += (dragging) => DragChanged(dragging, DragObjectType.Group);
+        DragService.DraggedBlockChanged += (dragging) => DragChanged(dragging, DragObjectType.Block);
         _cssClasses = ObjectType switch
         {
-            DragObjectType.Row => "center-row",
+            DragObjectType.Group => "center-group",
             DragObjectType.Block => "center-block",
             _ => throw new ArgumentOutOfRangeException(nameof(ObjectType), ObjectType, null)
         };

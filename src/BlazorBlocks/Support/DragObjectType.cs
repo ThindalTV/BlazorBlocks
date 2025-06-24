@@ -1,6 +1,6 @@
 ﻿namespace BlazorBlocks.Support;
 public enum DragObjectType
 {
-    Row,
+    Group,
     Block
 }

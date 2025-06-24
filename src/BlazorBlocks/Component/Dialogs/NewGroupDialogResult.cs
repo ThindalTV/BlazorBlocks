@@ -2,4 +2,4 @@
 
 namespace BlazorBlocks.Component.Dialogs;
 
-public record NewRowDialogResult(RowRegistration RowType, int InsertIndex);
+public record NewGroupDialogResult(GroupRegistration GroupType, int InsertIndex);

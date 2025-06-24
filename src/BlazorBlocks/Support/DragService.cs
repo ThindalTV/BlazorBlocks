@@ -11,13 +11,13 @@ internal class DragService
         set { _draggedBlock = value; DraggedBlockChanged?.Invoke(value != null); }
     }
 
-    private EditorRowModel? _draggedRow;
-    public Action<bool>? DragRowChanged { get; set; }
+    private EditorGroupModel? _draggedGroup;
+    public Action<bool>? DraggedGroupChanged { get; set; }
 
-    public EditorRowModel? DraggedRow
+    public EditorGroupModel? DraggedGroup
     {
-        get => _draggedRow;
-        set { _draggedRow = value; DragRowChanged?.Invoke(value != null); }
+        get => _draggedGroup;
+        set { _draggedGroup = value; DraggedGroupChanged?.Invoke(value != null); }
     }
 
     public EditorModel? DraggedObjectParent { get; set; }

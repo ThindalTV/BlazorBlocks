@@ -15,10 +15,10 @@ namespace BlazorBlocks;
 public static class BlockRegistrationService
 {
     private static List<BlazorBlocksBlockRegistration> _registeredBlocks { get; } = new List<BlazorBlocksBlockRegistration>();
-    private static List<RowRegistration> _registeredRows { get; } = new List<RowRegistration>();
+    private static List<GroupRegistration> _registeredGroups { get; } = new List<GroupRegistration>();
 
     internal static IReadOnlyList<BlazorBlocksBlockRegistration> RegisteredBlocks => _registeredBlocks;
-    internal static IReadOnlyList<RowRegistration> RegisteredRows => _registeredRows;
+    internal static IReadOnlyList<GroupRegistration> RegisteredGroups => _registeredGroups;
 
     /// <summary>
     /// Registers a block.
@@ -30,12 +30,12 @@ public static class BlockRegistrationService
     }
 
     /// <summary>
-    /// Registers a row.
+    /// Registers a group.
     /// </summary>
-    /// <param name="row">The row to register.</param>
-    private static void RegisterRow(RowRegistration row)
+    /// <param name="group">The group to register.</param>
+    private static void RegisterGroup(GroupRegistration group)
     {
-        _registeredRows.Add(row);
+        _registeredGroups.Add(group);
     }
 
     /// <summary>
@@ -46,7 +46,7 @@ public static class BlockRegistrationService
     public static IServiceCollection AddBlazorBlocks(this IServiceCollection services)
     {
         AddDefaultBlocks();
-        AddDefaultRows();
+        AddDefaultGroups();
 
         return services;
     }
@@ -60,7 +60,9 @@ public static class BlockRegistrationService
     /// <returns>The updated service collection.</returns>
     public static IServiceCollection AddBlazorBlocks(this IServiceCollection services, List<BlazorBlocksBlockRegistration> blockRegistrations, bool includeDefaultBlocks = false)
     {
-        AddDefaultRows();
+        services = RegisterServices(services);
+
+        AddDefaultGroups();
 
         if (includeDefaultBlocks)
         {
@@ -72,48 +74,51 @@ public static class BlockRegistrationService
             RegisterBlock(block);
         }
 
-        services = RegisterServices(services);
 
         return services;
     }
 
     /// <summary>
-    /// Adds the specified row registrations to the service collection.
+    /// Adds the specified group registrations to the service collection.
     /// </summary>
     /// <param name="services">The service collection.</param>
-    /// <param name="rowRegistrations">The row registrations to add.</param>
-    /// <param name="includeDefaultRows">Whether to include the default rows.</param>
+    /// <param name="groupRegistrations">The group registrations to add.</param>
+    /// <param name="includeDefaultGroups">Whether to include the default rows.</param>
     /// <returns>The updated service collection.</returns>
-    public static IServiceCollection AddBlazorBlocks(this IServiceCollection services, List<RowRegistration> rowRegistrations, bool includeDefaultRows)
+    public static IServiceCollection AddBlazorBlocks(this IServiceCollection services, List<GroupRegistration> groupRegistrations, bool includeDefaultGroups)
     {
+        services = RegisterServices(services);
+
         AddDefaultBlocks();
 
-        if (includeDefaultRows)
+        if (includeDefaultGroups)
         {
-            AddDefaultRows();
+            AddDefaultGroups();
         }
 
-        foreach (var row in rowRegistrations)
+        foreach (var group in groupRegistrations)
         {
-            RegisterRow(row);
+            RegisterGroup(group);
         }
         return services;
     }
 
     /// <summary>
-    /// Adds the specified block and row registrations to the service collection.
+    /// Adds the specified block and group registrations to the service collection.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <param name="blockRegistrations">The block registrations to add.</param>
-    /// <param name="rowRegistrations">The row registrations to add.</param>
+    /// <param name="groupRegistrations">The group registrations to add.</param>
     /// <param name="includeDefaults">Whether to include the default blocks and rows.</param>
     /// <returns>The updated service collection.</returns>
-    public static IServiceCollection AddBlazorBlocks(this IServiceCollection services, List<BlazorBlocksBlockRegistration> blockRegistrations, List<RowRegistration> rowRegistrations, bool includeDefaults = true)
+    public static IServiceCollection AddBlazorBlocks(this IServiceCollection services, List<BlazorBlocksBlockRegistration> blockRegistrations, List<GroupRegistration> groupRegistrations, bool includeDefaults = true)
     {
+        services = RegisterServices(services);
+
         if (includeDefaults)
         {
             AddDefaultBlocks();
-            AddDefaultRows();
+            AddDefaultGroups();
         }
 
         foreach (var block in blockRegistrations)
@@ -121,9 +126,9 @@ public static class BlockRegistrationService
             RegisterBlock(block);
         }
 
-        foreach (var row in rowRegistrations)
+        foreach (var group in groupRegistrations)
         {
-            RegisterRow(row);
+            RegisterGroup(group);
         }
 
         return services;
@@ -146,20 +151,30 @@ public static class BlockRegistrationService
     /// <summary>
     /// Adds the default rows to the service.
     /// </summary>
-    private static void AddDefaultRows()
+    private static void AddDefaultGroups()
     {
+        var colRegs = new ColumnRegistration[13];
+        for (int i = 1; i < 13; i++)
+        {
+            colRegs[i] = new ColumnRegistration($"col-{i}");
+        }
+        
         // Add default column definitions
-        RegisterRow(new RowRegistration("1 column", new List<ColumnRegistration> { new ColumnRegistration("col-12") }));
-        RegisterRow(new RowRegistration("2 columns",
-            new List<ColumnRegistration> { new ColumnRegistration("col-6"), new ColumnRegistration("col-6") }));
-        RegisterRow(new RowRegistration("3 columns",
-            new List<ColumnRegistration> { new ColumnRegistration("col-4"), new ColumnRegistration("col-4"), new ColumnRegistration("col-4") }));
-        RegisterRow(new RowRegistration("4 columns",
-                       new List<ColumnRegistration> { new ColumnRegistration("col-3"), new ColumnRegistration("col-3"), new ColumnRegistration("col-3"), new ColumnRegistration("col-3") }));
-        RegisterRow(new RowRegistration("1+2 columns",
-            new List<ColumnRegistration> { new ColumnRegistration("col-4"), new ColumnRegistration("col-8") }));
-        RegisterRow(new RowRegistration("1+2+1 columns",
-            new List<ColumnRegistration> { new ColumnRegistration("col-4"), new ColumnRegistration("col-8"), new ColumnRegistration("col-12") }));
+        RegisterGroup(new GroupRegistration("1 column", "row",
+            [ colRegs[12] ] ));
+        RegisterGroup(new GroupRegistration("2 columns", "row",
+            [ colRegs[6], colRegs[6] ]));
+        RegisterGroup(new GroupRegistration("3 columns", "row",
+            [ colRegs[4], colRegs[4], colRegs[4] ]));
+        RegisterGroup(new GroupRegistration("4 columns", "row",
+            [ colRegs[3], colRegs[3], colRegs[3], colRegs[3] ]));
+        RegisterGroup(new GroupRegistration("1+2 columns", "row",
+            [colRegs[4], colRegs[8]]));
+        RegisterGroup(new GroupRegistration("1+2+full columns", "row",
+        [
+            colRegs[4], colRegs[8],
+            colRegs[12]
+        ]));
 
     }
 

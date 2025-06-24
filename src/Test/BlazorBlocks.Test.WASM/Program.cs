@@ -1,6 +1,4 @@
 using BlazorBlocks;
-
-using BlazorBlocks.Model;
 using BlazorBlocks.Model.Registrations;
 using BlazorBlocks.Test.WASM;
 using BlazorBlocks.Test.WASM.CustomBlocks.TestBlock;
