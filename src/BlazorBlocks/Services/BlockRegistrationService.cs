@@ -158,6 +158,8 @@ public static class BlockRegistrationService
                        new List<ColumnRegistration> { new ColumnRegistration("col-3"), new ColumnRegistration("col-3"), new ColumnRegistration("col-3"), new ColumnRegistration("col-3") }));
         RegisterRow(new RowRegistration("1+2 columns",
             new List<ColumnRegistration> { new ColumnRegistration("col-4"), new ColumnRegistration("col-8") }));
+        RegisterRow(new RowRegistration("1+2+1 columns",
+            new List<ColumnRegistration> { new ColumnRegistration("col-4"), new ColumnRegistration("col-8"), new ColumnRegistration("col-12") }));
 
     }
 

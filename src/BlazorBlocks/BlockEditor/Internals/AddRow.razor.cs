@@ -11,8 +11,17 @@ public partial class AddRow
 
     private EditorModel? _draggedModel;
     private DragObjectType _draggedObjectType;
+    private string _cssClasses;
 
-    private async Task DragChanged(bool dragging, DragObjectType objectTypeBeingDragged)
+    private bool _isDroppable = false;
+
+    [Parameter, EditorRequired] public required int Index { get; set; }
+    [Parameter, EditorRequired] public required DragObjectType ObjectType { get; set; }
+    [Parameter] public EventCallback<int> OnClicked { get; set; }
+    [Parameter] public EventCallback<ObjectDroppedResult> OnDropped { get; set; }
+
+
+    private void DragChanged(bool dragging, DragObjectType objectTypeBeingDragged)
     {
         // This method gets called when something is being dragged. Update the object type so we can verify if it's droppable here
         _draggedObjectType = objectTypeBeingDragged;
@@ -22,25 +31,42 @@ public partial class AddRow
             _beingDragged = dragging;
             _draggedModel = _draggedObjectType switch
             {
-                DragObjectType.Row => DragService.DraggedRow ?? throw new NullReferenceException(),
-                DragObjectType.Block => DragService.DraggedBlock ?? throw new NullReferenceException(),
+                DragObjectType.Row => DukaDragService.DraggedRow,
+                DragObjectType.Block => DukaDragService.DraggedBlock,
                 _ => throw new ArgumentOutOfRangeException(nameof(objectTypeBeingDragged), objectTypeBeingDragged, null)
             };
-            await InvokeAsync(StateHasChanged);
+
+            _isDroppable = true;
+
         }
+        else
+        {
+            _isDroppable = false;
+        }
+
+        if (!dragging)
+        {
+            _isDroppable = false;
+        }
+
+        StateHasChanged();
+
     }
 
     protected override void OnInitialized()
     {
-        DragService.DragRowChanged += (dragging) => DragChanged(dragging, DragObjectType.Row);
-        DragService.DraggedBlockChanged += (dragging) => DragChanged(dragging, DragObjectType.Block);
+        DukaDragService.DragRowChanged += (dragging) => DragChanged(dragging, DragObjectType.Row);
+        DukaDragService.DraggedBlockChanged += (dragging) => DragChanged(dragging, DragObjectType.Block);
+        _cssClasses = ObjectType switch
+        {
+            DragObjectType.Row => "center-row",
+            DragObjectType.Block => "center-block",
+            _ => throw new ArgumentOutOfRangeException(nameof(ObjectType), ObjectType, null)
+        };
+
         base.OnInitialized();
     }
 
-    [Parameter, EditorRequired] public required int Index { get; set; }
-    [Parameter, EditorRequired] public required DragObjectType ObjectType { get; set; }
-    [Parameter] public EventCallback<int> OnClicked { get; set; }
-    [Parameter] public EventCallback<ObjectDroppedResult> OnDropped { get; set; }
 
     private void AddClicked()
     {

@@ -4,7 +4,7 @@
 
 @inject DragService DragService
 
-<div class="dragContainer">
+<div class="@(AdditionalCssClasses ?? "") dragContainer">
     <div class="dragHeader">
         @if (Draggable)
         {
@@ -45,6 +45,9 @@
 
     [Parameter]
     public EventCallback<EditorModel> OnDelete { get; set; }
+
+    [Parameter]
+    public string AdditionalCssClasses { get; set; }
 
     private bool _collapsed;
 

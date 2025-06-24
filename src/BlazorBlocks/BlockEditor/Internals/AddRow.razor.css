@@ -24,16 +24,23 @@
 .center {
     border: 1px solid #666;
     color: #666;
-    border-radius: 50%;
     text-align: center;
-    aspect-ratio: 1 / 1;
-    width: 3rem;
+    height: 3rem;
     font-size: 2rem;
+    width: 3rem;
     align-items: center;
     justify-content: center;
-    background: #FFF;
     cursor: pointer;
+    background: #FFF;
     margin: 0 0.5rem;
+}
+
+.center-row {
+    border-radius: 50%;
+}
+
+.center-block {
+    border-radius: 0%;
 }
 
 .right {
@@ -51,9 +58,14 @@
 
 .rowBeingDragged {
     opacity: 0.5;
-    background-color: #f0f0f0;
 }
 
     .draggingOver {
         background-color: #f00;
     }
+
+.droppable {
+    background-color: #080;
+    color: #FFF;
+    opacity: 0.5;
+}

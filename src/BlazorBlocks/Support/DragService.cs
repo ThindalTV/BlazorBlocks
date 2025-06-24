@@ -4,7 +4,7 @@ namespace BlazorBlocks.Support;
 internal class DragService
 {
     private EditorBlockModel? _draggedBlock;
-    public Func<bool, Task>? DraggedBlockChanged { get; set; }
+    public Action<bool>? DraggedBlockChanged { get; set; }
     public EditorBlockModel? DraggedBlock
     {
         get => _draggedBlock;
@@ -12,7 +12,7 @@ internal class DragService
     }
 
     private EditorRowModel? _draggedRow;
-    public Func<bool, Task>? DragRowChanged { get; set; }
+    public Action<bool>? DragRowChanged { get; set; }
 
     public EditorRowModel? DraggedRow
     {

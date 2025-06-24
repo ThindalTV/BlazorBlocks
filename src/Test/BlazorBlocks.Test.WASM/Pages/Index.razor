@@ -10,10 +10,10 @@
 
 
     <div style="display:flex;">
-        <div style="width: 50%;">
+        <div style="width: 50%; margin-right: 10px;">
             <BlazorBlocksEditor Model="@editorModel" OnModelUpdated="() => OnModelUpdated()"/>
         </div>
-        <div style="border-left: 1px solid #000; width: 50%;">
+        <div style="border-left: 1px solid #000; width: 50%; margin-left: 10px;">
             <h2>Rendered HTML</h2>
             @((MarkupString)(renderContent ?? ""))
         </div>

@@ -102,13 +102,11 @@
 
     protected async Task RowDropped(ObjectDroppedResult dropObject)
     {
-        Console.WriteLine($"Dropping at {dropObject.Index}");
         if(dropObject.Model == null)
         {
             Console.WriteLine("Invalid drop object or index.");
             return;
         }
-        Console.WriteLine($"Row dropped: {dropObject.Model.GetType().Name} at index {dropObject.Index}");
         if (dropObject.Model is not EditorRowModel droppedRow)
         {
             return;
@@ -117,7 +115,6 @@
         // Find the placement of the row now
         var oldIndex = Model.Rows.IndexOf(droppedRow);
 
-        Console.WriteLine($"Old index: {oldIndex}");
         // If the row is being dropped on itself, do nothing
         if (oldIndex == dropObject.Index)
         {
@@ -146,14 +143,13 @@
               Visible="AddNewRowDialogVisible"
               OnRowSelected="(selectedResult) => NewRowSelected(selectedResult.RowType, selectedResult.InsertIndex)" />
 
-<div>
-    <h3>Blazor Blocks Editor</h3>
+<div class="blazorBlocksEditor">
     <CascadingValue Value="this">
         @for (int r = 0; r < Model.Rows.Count; r++)
         {
             var row = Model.Rows[r];
             <AddRow Index="@r" OnClicked="AddClicked" OnDropped="RowDropped" ObjectType="DragObjectType.Row" />
-            <DraggableContainer Model="@row" ObjectType="DragObjectType.Row" ParentModel="null" Title="@row.RowTypeName" Draggable="Model.Rows.Count > 1" OnDelete="(model) => DeleteRow(model)">
+            <DraggableContainer AdditionalCssClasses="draggableGroup" Model="@row" ObjectType="DragObjectType.Row" ParentModel="null" Title="@row.RowTypeName" Draggable="Model.Rows.Count > 1" OnDelete="(model) => DeleteRow(model)">
                 <EditorRow Model="@row" />
             </DraggableContainer>
         }

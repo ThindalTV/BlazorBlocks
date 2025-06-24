@@ -148,7 +148,8 @@
         <DraggableContainer Model="@block"
                             ObjectType="DragObjectType.Block"
                             Title="@block.Block.EditorName"
-                            Draggable="true" OnDelete="(model) => DeleteBlock(model)" ParentModel="@Model">
+                            Draggable="true" OnDelete="(model) => DeleteBlock(model)" ParentModel="@Model"
+                            AdditionalCssClasses="draggableBlock">
             <BlockContainer Model="@block.Block" />
         </DraggableContainer>
     }

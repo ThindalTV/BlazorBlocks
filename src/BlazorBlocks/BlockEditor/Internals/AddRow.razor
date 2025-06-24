@@ -1,8 +1,9 @@
 ﻿@using BlazorBlocks.Support
 
-@inject DragService DragService
+@inject DragService DukaDragService
 
-<div class="@((_beingDragged ? "rowBeingDragged " : "") + (_beingHoveredOver ? "draggingOver " : ""))addRow"
+
+<div class="@((_beingDragged ? "rowBeingDragged " : "") + (_beingHoveredOver ? "draggingOver " : "")) addRow"
      @ondragenter:preventDefault
      @ondragleave:preventDefault
      @ondragover:preventDefault="CanDrop()"
@@ -11,6 +12,6 @@
      @ondragover="() => { }"
      @ondrop="() => { ObjectDropped(); }">
     <div class="sides left">&nbsp;</div>
-    <div class="center" @onclick="AddClicked">+</div>
-    <div class="sides right">&nbsp;</div>
+    <div class="center @(_cssClasses + (_isDroppable ? " droppable" : ""))" @onclick="AddClicked">+</div>
+                                                                                               <div class="sides right">&nbsp;</div>
 </div>

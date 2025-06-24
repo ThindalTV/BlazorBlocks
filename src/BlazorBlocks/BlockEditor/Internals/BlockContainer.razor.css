@@ -17,8 +17,6 @@
 }
 
 .blockContent {
-    border-radius: 0 var(--border-radius) var(--border-radius) var(--border-radius);
-    border: 1px #AAA solid;
     padding: 1rem;
 }
 

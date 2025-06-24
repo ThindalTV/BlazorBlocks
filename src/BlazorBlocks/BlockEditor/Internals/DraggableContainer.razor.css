@@ -30,3 +30,12 @@
     display: none;
 }
 
+.draggableGroup .dragContent,
+.draggableGroup .dragHeader {
+    background-color: #F6F6F6;
+}
+
+.draggableBlock .dragHeader,
+.draggableBlock .dragContent {
+    background-color: #FFF;
+}
