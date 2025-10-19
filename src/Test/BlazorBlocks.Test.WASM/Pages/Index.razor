@@ -1,84 +1,80 @@
-﻿@using BlazorBlocks.BlockEditor
-@using BlazorBlocks.Model;
-
-@page "/"
+﻿@page "/"
 
 <div class="content">
-    <hr />
+	<hr />
 
-    <button @onclick="ReRender">Render HTML</button> <br/>
-
-
-    <div style="display:flex;">
-        <div style="width: 50%; margin-right: 10px;">
-            <BlazorBlocksEditor Model="@editorModel" OnModelUpdated="() => OnModelUpdated()"/>
-        </div>
-        <div style="border-left: 1px solid #000; width: 50%; margin-left: 10px;">
-            <h2>Rendered HTML</h2>
-            @((MarkupString)(renderContent ?? ""))
-        </div>
-    </div>
-
-    <hr/><hr/><hr/><hr/>
+	<button @onclick="ReRender">Render HTML</button> <br />
 
 
-    <div class="row">
-        Serialization controls:
-        <div class="p-5" style="border: 1px solid #000;">
+	<div style="display:flex;">
+		<div style="width: 50%; margin-right: 10px;">
+			<Editor Model="@_blazorBlocksModel" OnModelUpdated="() => OnModelUpdated()" />
+		</div>
+		<div style="border-left: 1px solid #000; width: 50%; margin-left: 10px;">
+			<h2>Rendered HTML</h2>
+			@((MarkupString)(_renderContent ?? ""))
+		</div>
+	</div>
 
-            <button @onclick="() => Import()" class="btn btn-primary">Load from json</button>
-            <button @onclick="() => Export()" class="btn btn-primary float-end">Export to json</button><br/>
-            <InputTextArea class="form-control" @bind-Value="@serialized" Groups="10" Cols="100"/>
-        </div>
-    </div>
+	<hr /><hr /><hr /><hr />
+
+
+	<div class="row">
+		Serialization controls:
+		<div class="p-5" style="border: 1px solid #000;">
+
+			<button @onclick="() => Import()" class="btn btn-primary">Load from json</button>
+			<button @onclick="() => Export()" class="btn btn-primary float-end">Export to json</button><br />
+			<InputTextArea class="form-control" @bind-Value="@_serialized" Groups="10" Cols="100" />
+		</div>
+	</div>
 
 </div>
 @code {
-    BlazorBlocksEditorModel editorModel = new BlazorBlocksEditorModel();
+#pragma warning disable CS0414 // Field is assigned but never used
 
-    string? renderContent;
-    string? serialized;
+	readonly Model _blazorBlocksModel = new Model();
 
-    string testContent =
-        """{"Groups":[{"Columns":[{"ColumnClass":"col-md-12","Blocks":[{"$modelType":"TitleBlockModel","EditorName":"Title","TitleSize":0,"Title":"Titleabc"},{"$modelType":"RawTextBlockModel","EditorName":"Raw Text","Content":"Raw text goes here"}]}],"GroupTypeName":"1 column"},{"Columns":[{"ColumnClass":"col-md-4","Blocks":[{"$modelType":"RawTextBlockModel","EditorName":"Raw Text","Content":"hello from index"}]},{"ColumnClass":"col-md-7","Blocks":[{"$modelType":"ImageBlockModel","EditorName":"Image","ImageUrl":"https://i.imgur.com/uk8EhoS.png","AltText":"https://i.imgur.com/uk8EhoS.png"}]}],"GroupTypeName":"2 columns"},{"Columns":[{"ColumnClass":"col-3","Blocks":[]},{"ColumnClass":"col-3","Blocks":[]},{"ColumnClass":"col-3","Blocks":[]},{"ColumnClass":"col-3","Blocks":[{"$modelType":"TestBlockModel","EditorName":"Custom Test Block","Content":"testy testy"}]}],"GroupTypeName":"4 columns"}]}""";
+	string? _renderContent;
+	string? _serialized;
 
-        string t2 =
-        """{"Groups":[{"Columns":[{"ColumnClass":"col-md-12","BlocksModels":[{"Block":{"$modelType":"QuoteBlockModel","EditorName":"Quote","Quote":"abc"}},{"Block":{"$modelType":"TestBlockModel","EditorName":"Custom Test Block","Content":"1234"}}]}],"GroupTypeName":"1 column"},{"Columns":[{"ColumnClass":"col-3","BlocksModels":[{"Block":{"$modelType":"ImageBlockModel","EditorName":"Image","ImageUrl":"","AltText":"afsefgs"}},{"Block":{"$modelType":"TitleBlockModel","EditorName":"Title","TitleSize":2,"Title":"Medium 1/4"}}]},{"ColumnClass":"col-3","BlocksModels":[]},{"ColumnClass":"col-3","BlocksModels":[{"Block":{"$modelType":"TitleBlockModel","EditorName":"Title","TitleSize":3,"Title":"3/4"}}]},{"ColumnClass":"col-3","BlocksModels":[]}],"GroupTypeName":"4 columns"},{"Columns":[{"ColumnClass":"col-md-4","BlocksModels":[]},{"ColumnClass":"col-md-7","BlocksModels":[]}],"GroupTypeName":"2 columns"}]}""";
-        
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        // Read in and save some default blocks for testing
-        editorModel.Load(t2);
+	string t2 =
+	"""{"Groups":[{"Columns":[{"ColumnClass":"col-md-12","BlocksModels":[{"Block":{"$modelType":"QuoteBaseBlockModel","EditorName":"Quote","Quote":"abc"}},{"Block":{"$modelType":"TestBaseBlockModel","EditorName":"Custom Test BaseBlock","Content":"1234"}}]}],"GroupTypeName":"1 column"},{"Columns":[{"ColumnClass":"col-3","BlocksModels":[{"Block":{"$modelType":"ImageBaseBlockModel","EditorName":"Image","ImageUrl":"","AltText":"afsefgs"}},{"Block":{"$modelType":"TitleBaseBlockModel","EditorName":"Title","TitleSize":2,"Title":"Medium 1/4"}}]},{"ColumnClass":"col-3","BlocksModels":[]},{"ColumnClass":"col-3","BlocksModels":[{"Block":{"$modelType":"TitleBaseBlockModel","EditorName":"Title","TitleSize":3,"Title":"3/4"}}]},{"ColumnClass":"col-3","BlocksModels":[]}],"GroupTypeName":"4 columns"},{"Columns":[{"ColumnClass":"col-md-4","BlocksModels":[]},{"ColumnClass":"col-md-7","BlocksModels":[]}],"GroupTypeName":"2 columns"}]}""";
 
-        serialized = editorModel.GetJson();
+#pragma warning restore CS0414 // Field is assigned but never used
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+		// Read in and save some default blocks for testing
+		_blazorBlocksModel.Load(t2);
 
-        OnModelUpdated();
+		_serialized = _blazorBlocksModel.GetJson();
 
-        StateHasChanged();
-    }
+		OnModelUpdated();
 
-    protected void ReRender()
-    {
-        renderContent = editorModel.GetHtml();
-        StateHasChanged();
-    }
+		StateHasChanged();
+	}
 
-    protected void Import()
-    {
-        editorModel.Load(serialized ?? "");
-        StateHasChanged();
-    }
+	protected void ReRender()
+	{
+		_renderContent = _blazorBlocksModel.GetHtml();
+		StateHasChanged();
+	}
 
-    protected void Export()
-    {
-        serialized = editorModel.GetJson();
-    }
+	protected void Import()
+	{
+		_blazorBlocksModel.Load(_serialized ?? "");
+		StateHasChanged();
+	}
 
-    private void OnModelUpdated()
-    {
-        renderContent = editorModel.GetHtml();
-        serialized = editorModel.GetJson();
-    }
+	protected void Export()
+	{
+		_serialized = _blazorBlocksModel.GetJson();
+	}
 
+	private void OnModelUpdated()
+	{
+		_renderContent = _blazorBlocksModel.GetHtml();
+		_serialized = _blazorBlocksModel.GetJson();
+	}
 }

@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Blocks\ImageBlock\ImageEditorBlock.razor">
+    <Content Update="Blocks\ImageBlock\ImageBlockEditor.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
     <Content Update="Blocks\RawTextBlock\RawTextEditorBlock.razor">
@@ -29,16 +29,13 @@
     <Content Update="Blocks\TitleBlock\TitleEditorBlock.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
-    <Content Update="BlockEditor\Editor.razor">
+    <Content Update="Internals\Editors\EditorColumn.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
-    <Content Update="BlockEditor\Internals\EditorColumn.razor">
+    <Content Update="Internals\Editors\EditorGroup.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
-    <Content Update="BlockEditor\Internals\EditorGroup.razor">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-    <Content Update="Component\Dialog.razor">
+    <Content Update="Internals\Components\Dialog.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
   </ItemGroup>

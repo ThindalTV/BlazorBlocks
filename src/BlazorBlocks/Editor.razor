@@ -1,0 +1,126 @@
+﻿@using BlazorBlocks.Internals
+@using BlazorBlocks.Internals.Components.Dialogs
+@using BlazorBlocks.Internals.Containers
+@using BlazorBlocks.Internals.Editors
+@using BlazorBlocks.Internals.Models
+@using BlazorBlocks.Internals.Support
+@using BlazorBlocks.Services.Registrations
+
+@code {
+    /// <summary>
+    /// Represents the editor component for the Blazor Blocks.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public required Model Model { get; set; }
+
+    [Parameter]
+    public EventCallback OnModelUpdated { get; set; }
+
+    protected bool AddNewGroupDialogVisible = false;
+
+    private void ShowDialog() => AddNewGroupDialogVisible = true;
+    private void HideDialog() => AddNewGroupDialogVisible = false;
+
+    private int? _newGroupIndex;
+
+    private async Task NewGroupSelected(GroupRegistration groupReg, int addIndex)
+    {
+        await Task.CompletedTask;
+        HideDialog();
+
+        // For now, assume we always add the same group type
+        // TODO: Show dialog to select group type
+
+        var insertGroup = new EditorGroupModel
+        {
+            GroupTypeName = groupReg.Name,
+            CssClass = groupReg.CssClass,
+        };
+        foreach (var col in groupReg.Columns)
+        {
+            insertGroup.Columns.Add(new EditorColumnModel { ColumnClass = col.ColumnClass });
+        }
+
+        Model.AddGroup(insertGroup, addIndex);
+    }
+
+    private async Task AddClicked(int index)
+    {
+        await Task.CompletedTask;
+        // Keep index around to track where the new group should be added
+        _newGroupIndex = index;
+
+        // Show dialog to select group type
+        ShowDialog();
+    }
+
+    /// <summary>
+    /// Deletes the specified group.
+    /// </summary>
+    /// <param name="rowToDelete">The group to delete.</param>
+    protected async Task DeleteGroup(BaseModel rowToDelete)
+    {
+        // Add warning dialog here
+        if (rowToDelete is EditorGroupModel rowModel)
+        {
+            Model.RemoveGroup(rowModel);
+	        await OnModelUpdated.InvokeAsync();
+        }
+    }
+
+    protected async Task GroupDropped(ObjectDroppedResult dropObject)
+    {
+        if(dropObject.Model == null)
+        {
+            Console.WriteLine("Invalid drop object or index.");
+            return;
+        }
+        if (dropObject.Model is not EditorGroupModel droppedGroup)
+        {
+            return;
+        }
+
+        // Find the placement of the group now
+        var oldIndex = Model.Groups.IndexOf(droppedGroup);
+
+        // If the group is being dropped on itself, do nothing
+        if (oldIndex == dropObject.Index)
+        {
+            return;
+        }
+
+        // If the group is being dropped on a different index, move it
+        if (oldIndex < dropObject.Index)
+        {
+            // We're moving down, insert at new index then remove the old one
+            Model.Groups.Insert(dropObject.Index, droppedGroup);
+            Model.Groups.RemoveAt(oldIndex);
+        }
+        else
+        {
+            // We're moving up, remove the old one then insert at new index
+            Model.Groups.RemoveAt(oldIndex);
+            Model.Groups.Insert(dropObject.Index, droppedGroup);
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+}
+
+<NewGroupDialog InsertIndex="@(_newGroupIndex ?? 0)"
+              Visible="AddNewGroupDialogVisible"
+              OnGroupSelected="(selectedResult) => NewGroupSelected(selectedResult.GroupType, selectedResult.InsertIndex)" />
+
+<div class="blazorBaseBlocksEditor">
+    <CascadingValue Value="this">
+        @for (int r = 0; r < Model.Groups.Count; r++)
+        {
+            var group = Model.Groups[r];
+            <AddBlockRow Index="@r" OnClicked="AddClicked" OnDropped="GroupDropped" ObjectType="DragObjectType.Group" />
+            <DraggableContainer AdditionalCssClasses="draggableGroup" Model="@group" ObjectType="DragObjectType.Group" ParentModel="null" Title="@group.GroupTypeName" Draggable="Model.Groups.Count > 1" OnDelete="(model) => DeleteGroup(model)">
+                <EditorGroup Model="@group" />
+            </DraggableContainer>
+        }
+        <AddBlockRow Index="Model.Groups.Count" OnClicked="AddClicked" OnDropped="GroupDropped" ObjectType="DragObjectType.Group" />
+    </CascadingValue>
+</div>

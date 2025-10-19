@@ -1,6 +1,6 @@
-﻿@using BlazorBlocks.Blocks;
+﻿@using BlazorBlocks.Customization
 
-@inherits BaseEditor<RawTextBlockModel>
+@inherits BlockEditor<RawTextBaseBlockModel>
 
 <textarea @bind="Model.Content" @bind:after="OnValuesChanged">
 </textarea>

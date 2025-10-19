@@ -3,30 +3,30 @@ using BlazorBlocks.Blocks.ImageBlock;
 using BlazorBlocks.Blocks.QuoteBlock;
 using BlazorBlocks.Blocks.RawTextBlock;
 using BlazorBlocks.Blocks.TitleBlock;
-using BlazorBlocks.Model;
-using BlazorBlocks.Model.Registrations;
-using BlazorBlocks.Support;
+using BlazorBlocks.Internals.Support;
+using BlazorBlocks.Services.Registrations;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BlazorBlocks;
+namespace BlazorBlocks.Services;
+
 /// <summary>
 /// Service for registering blocks and rows in BlazorBlocks.
 /// </summary>
 public static class BlockRegistrationService
 {
-    private static List<BlazorBlocksBlockRegistration> _registeredBlocks { get; } = new List<BlazorBlocksBlockRegistration>();
-    private static List<GroupRegistration> _registeredGroups { get; } = new List<GroupRegistration>();
+    private static readonly List<BlockRegistration> RegisteredBlocks = [];
+    private static readonly List<GroupRegistration> RegisteredGroups = [];
 
-    internal static IReadOnlyList<BlazorBlocksBlockRegistration> RegisteredBlocks => _registeredBlocks;
-    internal static IReadOnlyList<GroupRegistration> RegisteredGroups => _registeredGroups;
+    internal static IReadOnlyList<BlockRegistration> Blocks => RegisteredBlocks;
+    internal static IReadOnlyList<GroupRegistration> Groups => RegisteredGroups;
 
     /// <summary>
     /// Registers a block.
     /// </summary>
     /// <param name="block">The block to register.</param>
-    private static void RegisterBlock(BlazorBlocksBlockRegistration block)
+    private static void RegisterBlock(BlockRegistration block)
     {
-        _registeredBlocks.Add(block);
+        RegisteredBlocks.Add(block);
     }
 
     /// <summary>
@@ -35,7 +35,7 @@ public static class BlockRegistrationService
     /// <param name="group">The group to register.</param>
     private static void RegisterGroup(GroupRegistration group)
     {
-        _registeredGroups.Add(group);
+        RegisteredGroups.Add(group);
     }
 
     /// <summary>
@@ -45,6 +45,7 @@ public static class BlockRegistrationService
     /// <returns>The updated service collection.</returns>
     public static IServiceCollection AddBlazorBlocks(this IServiceCollection services)
     {
+        services = RegisterServices(services);
         AddDefaultBlocks();
         AddDefaultGroups();
 
@@ -58,7 +59,7 @@ public static class BlockRegistrationService
     /// <param name="blockRegistrations">The block registrations to add.</param>
     /// <param name="includeDefaultBlocks">Whether to include the default blocks.</param>
     /// <returns>The updated service collection.</returns>
-    public static IServiceCollection AddBlazorBlocks(this IServiceCollection services, List<BlazorBlocksBlockRegistration> blockRegistrations, bool includeDefaultBlocks = false)
+    public static IServiceCollection AddBlazorBlocks(this IServiceCollection services, List<BlockRegistration> blockRegistrations, bool includeDefaultBlocks = false)
     {
         services = RegisterServices(services);
 
@@ -111,7 +112,7 @@ public static class BlockRegistrationService
     /// <param name="groupRegistrations">The group registrations to add.</param>
     /// <param name="includeDefaults">Whether to include the default blocks and rows.</param>
     /// <returns>The updated service collection.</returns>
-    public static IServiceCollection AddBlazorBlocks(this IServiceCollection services, List<BlazorBlocksBlockRegistration> blockRegistrations, List<GroupRegistration> groupRegistrations, bool includeDefaults = true)
+    public static IServiceCollection AddBlazorBlocks(this IServiceCollection services, List<BlockRegistration> blockRegistrations, List<GroupRegistration> groupRegistrations, bool includeDefaults = true)
     {
         services = RegisterServices(services);
 
@@ -184,10 +185,10 @@ public static class BlockRegistrationService
     private static void AddDefaultBlocks()
     {
         // Add default block types
-        RegisterBlock(new BlazorBlocksBlockRegistration("Quote", null, typeof(QuoteBlockModel), typeof(QuoteBlockEditor)));
-        RegisterBlock(new BlazorBlocksBlockRegistration("Carousel", null, typeof(CarouselBlockModel), typeof(CarouselBlockEditor)));
-        RegisterBlock(new BlazorBlocksBlockRegistration("Title", null, typeof(TitleBlockModel), typeof(TitleEditorBlock)));
-        RegisterBlock(new BlazorBlocksBlockRegistration("Image", null, typeof(ImageBlockModel), typeof(ImageEditorBlock)));
-        RegisterBlock(new BlazorBlocksBlockRegistration("Raw text", "https://icon-sets.iconify.design/logo-iconify.svg", typeof(RawTextBlockModel), typeof(RawTextEditorBlock)));
+        RegisterBlock(new QuoteBlockRegistration());
+        RegisterBlock(new CarouselBlockRegistration());
+        RegisterBlock(new TitleBlockRegistration());
+        RegisterBlock(new ImageBlockRegistration());
+        RegisterBlock(new RawTextBlockRegistration());
     }
 }

@@ -1,5 +1,5 @@
-using BlazorBlocks;
-using BlazorBlocks.Model.Registrations;
+using BlazorBlocks.Services;
+using BlazorBlocks.Services.Registrations;
 using BlazorBlocks.Test.WASM;
 using BlazorBlocks.Test.WASM.CustomBlocks.TestBlock;
 using Microsoft.AspNetCore.Components.Web;
@@ -11,9 +11,8 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-builder.Services.AddBlazorBlocks(new List<BlazorBlocksBlockRegistration>()
-{
-    new BlazorBlocksBlockRegistration("Test Block", null, typeof(TestBlockModel), typeof(TestBlockEditor))
-}, true);
+builder.Services.AddBlazorBlocks([new TestBlockRegistration()], true);
 
 await builder.Build().RunAsync();
+
+

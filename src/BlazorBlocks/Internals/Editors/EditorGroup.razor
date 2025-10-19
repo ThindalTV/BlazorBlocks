@@ -1,0 +1,15 @@
+﻿@using BlazorBlocks.Internals.Models
+
+@code {
+    [Parameter, EditorRequired]
+    public required EditorGroupModel Model { get; set; }
+}
+
+<div class="rowContainer">
+    <div class="rowContent">
+        @foreach (var column in Model.Columns)
+        {
+            <EditorColumn Model="@column" ParentModel="@Model" />
+        }
+    </div>
+</div>

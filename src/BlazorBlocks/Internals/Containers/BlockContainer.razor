@@ -1,0 +1,25 @@
+﻿@using BlazorBlocks.Customization
+@using BlazorBlocks.Internals.Support
+
+@code {
+    [Inject]
+    internal DragService? DragService { get; set; }
+
+    [Parameter, EditorRequired]
+    public required BaseBlockModel Model { get; set; }
+
+    public string BlockName => Model.EditorName;
+
+    public Type BlockType => Model.DukaType;
+
+    public IDictionary<string, object> Attributes => Model.Parameters;
+}
+
+@if (BlockType != null && Attributes != null)
+{
+    <div class="blockContainer">
+        <div class="text-center blockContent">
+            <DynamicComponent Type="@BlockType" Parameters="@Attributes" />
+        </div>
+    </div>
+}

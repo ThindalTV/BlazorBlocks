@@ -1,0 +1,16 @@
+﻿@using BlazorBlocks.Internals.Support
+
+@inject DragService DragService
+
+<div class="@((_beingDragged ? "rowBeingDragged " : "") + (_beingHoveredOver ? "draggingOver " : "")) addRow"
+	 @ondragenter:preventDefault
+	 @ondragleave:preventDefault
+	 @ondragover:preventDefault="CanDrop()"
+	 @ondragenter="DropEntered"
+	 @ondragleave="DropExited"
+	 @ondragover="() => { }"
+	 @ondrop="async () => { await ObjectDropped(); }">
+	<div class="sides left">&nbsp;</div>
+	<div class="center @(_cssClasses + (_isDroppable ? " droppable" : ""))" @onclick="AddClicked">+</div>
+	<div class="sides right">&nbsp;abc</div>
+</div>
