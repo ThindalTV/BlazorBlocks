@@ -17,14 +17,14 @@
 }
 
 
-<div class="dialogContainer">
-    <div class="dialog">
-        <div class="dialogTitle"><h2>@(Title ?? String.Empty)</h2></div>
-        <div class="dialogContent">
+<div class="bb-dialog-overlay">
+    <div class="bb-dialog">
+        <div class="bb-dialog__title"><h2>@(Title ?? String.Empty)</h2></div>
+        <div class="bb-dialog__content">
             @ChildContent
         </div>
-        <div class="dialogButtons">
-            <button class="btn btn-danger" @onclick="async () => { await OnClose.InvokeAsync(); }"><i class="oi oi-x"></i> Close</button>
+        <div class="bb-dialog__actions">
+            <button class="bb-button bb-button--primary" @onclick="async () => { await OnClose.InvokeAsync(); }">Close</button>
         </div>
     </div>
 </div>

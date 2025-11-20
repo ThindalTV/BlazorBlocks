@@ -1,0 +1,161 @@
+/* BlazorBlocks - Interactive Components */
+/* Buttons, forms, and other interactive UI elements */
+
+/* ========================================
+   Buttons & Actions
+   ======================================== */
+
+button,
+.bb-button {
+    display: inline-block;
+    font-weight: var(--bb-font-weight-normal);
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: var(--bb-border-width) solid transparent;
+    padding: 0.375rem var(--bb-spacing-gutter);
+    font-size: var(--bb-font-size-base);
+    line-height: var(--bb-line-height-base);
+    border-radius: var(--bb-border-radius-sm);
+    transition: color var(--bb-transition-fast), 
+                background-color var(--bb-transition-fast), 
+                border-color var(--bb-transition-fast), 
+                box-shadow var(--bb-transition-fast);
+    cursor: pointer;
+    background-color: var(--bb-color-neutral-100);
+    border-color: var(--bb-color-neutral-300);
+    color: var(--bb-color-neutral-700);
+}
+
+button:hover,
+.bb-button:hover {
+    background-color: var(--bb-color-neutral-200);
+    border-color: var(--bb-color-neutral-400);
+    color: var(--bb-color-neutral-700);
+}
+
+button:focus,
+.bb-button:focus {
+    outline: 0;
+    box-shadow: var(--bb-shadow-focus);
+}
+
+/* Primary action button */
+.bb-button--primary {
+    color: var(--bb-color-background-white);
+    background-color: var(--bb-color-primary);
+    border-color: var(--bb-color-primary-border);
+}
+
+.bb-button--primary:hover {
+    color: var(--bb-color-background-white);
+    background-color: var(--bb-color-primary-hover);
+    border-color: var(--bb-color-primary-border-hover);
+}
+
+.bb-button--primary:focus {
+    box-shadow: var(--bb-shadow-focus);
+}
+
+/* Secondary action button */
+.bb-button--secondary {
+    color: var(--bb-color-background-white);
+    background-color: var(--bb-color-secondary);
+    border-color: var(--bb-color-secondary);
+}
+
+.bb-button--secondary:hover {
+    color: var(--bb-color-background-white);
+    background-color: var(--bb-color-secondary-hover);
+    border-color: var(--bb-color-secondary-border);
+}
+
+.bb-button--secondary:focus {
+    box-shadow: 0 0 0 0.2rem rgba(58, 176, 195, 0.5);
+}
+
+/* Link-style button */
+.bb-button--link {
+    font-weight: var(--bb-font-weight-normal);
+    color: var(--bb-color-link);
+    background-color: transparent;
+    border-color: transparent;
+    text-decoration: none;
+}
+
+.bb-button--link:hover {
+    color: var(--bb-color-link-hover);
+    text-decoration: underline;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.bb-button--link:focus {
+    text-decoration: underline;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+/* ========================================
+   Form Inputs
+   ======================================== */
+
+.bb-input,
+.bb-textarea,
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+    display: block;
+    width: 100%;
+    padding: 0.375rem var(--bb-spacing-gutter);
+    font-size: var(--bb-font-size-base);
+    font-weight: var(--bb-font-weight-normal);
+    line-height: var(--bb-line-height-base);
+    color: var(--bb-color-neutral-600);
+    background-color: var(--bb-color-background-white);
+    background-clip: padding-box;
+    border: var(--bb-border-width) solid var(--bb-color-neutral-500);
+    border-radius: var(--bb-border-radius-sm);
+    transition: border-color var(--bb-transition-fast), box-shadow var(--bb-transition-fast);
+}
+
+.bb-input:focus,
+.bb-textarea:focus,
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+    color: var(--bb-color-neutral-600);
+    background-color: var(--bb-color-background-white);
+    border-color: var(--bb-color-focus-border);
+    outline: 0;
+    box-shadow: var(--bb-shadow-focus-input);
+}
+
+/* Form field group */
+.bb-field {
+    margin-bottom: var(--bb-spacing-md);
+}
+
+.bb-field__label {
+    display: inline-block;
+    margin-bottom: var(--bb-spacing-sm);
+}
+
+/* ========================================
+   Validation States
+   ======================================== */
+
+.bb-input--valid {
+    outline: var(--bb-border-width) solid var(--bb-color-success);
+}
+
+.bb-input--invalid {
+    outline: var(--bb-border-width) solid var(--bb-color-error);
+}
+
+.bb-validation-message {
+    color: var(--bb-color-error);
+}

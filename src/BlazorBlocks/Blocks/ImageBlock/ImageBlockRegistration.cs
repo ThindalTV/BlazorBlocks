@@ -3,4 +3,4 @@
 namespace BlazorBlocks.Blocks.ImageBlock;
 
 public record ImageBlockRegistration()
-    : BlockRegistration("Image", null, typeof(ImageBaseBlockModel), typeof(ImageBlockEditor));
+    : BlockRegistration("Image", null, typeof(ImageBlockModel), typeof(ImageBlockEditor));

@@ -1,0 +1,111 @@
+/* BlazorBlocks - Design Tokens & CSS Variables */
+
+:root {
+    /* ========================================
+       Color Palette
+       ======================================== */
+    
+    /* Primary colors */
+    --bb-color-primary: #1b6ec2;
+    --bb-color-primary-hover: #155a9f;
+    --bb-color-primary-border: #1861ac;
+    --bb-color-primary-border-hover: #145293;
+    
+    /* Secondary colors */
+    --bb-color-secondary: #17a2b8;
+    --bb-color-secondary-hover: #138496;
+    --bb-color-secondary-border: #117a8b;
+    
+    /* Neutral colors */
+    --bb-color-neutral-100: #f8f9fa;
+    --bb-color-neutral-200: #e2e6ea;
+    --bb-color-neutral-300: #d3d9df;
+    --bb-color-neutral-400: #c6cdd3;
+    --bb-color-neutral-500: #ced4da;
+    --bb-color-neutral-600: #495057;
+    --bb-color-neutral-700: #212529;
+    --bb-color-neutral-800: #aaa;
+    --bb-color-neutral-900: #666;
+    
+    /* Background colors */
+    --bb-color-background-light: #f6f6f6;
+    --bb-color-background-white: #fff;
+    
+    /* Semantic colors */
+    --bb-color-success: #26b050;
+    --bb-color-error: red;
+    --bb-color-link: #0071c1;
+    --bb-color-link-hover: #005a9c;
+    
+    /* Border colors */
+    --bb-color-border-light: #ccc;
+    --bb-color-border-medium: #aaa;
+    --bb-color-border-dark: #666;
+    
+    /* Focus colors */
+    --bb-color-focus-ring: rgba(38, 143, 255, 0.5);
+    --bb-color-focus-border: #80bdff;
+    
+    /* ========================================
+       Spacing Scale
+       ======================================== */
+    
+    --bb-spacing-xs: 0.25rem;    /* 4px */
+    --bb-spacing-sm: 0.5rem;     /* 8px */
+    --bb-spacing-md: 1rem;       /* 16px */
+    --bb-spacing-lg: 1.5rem;     /* 24px */
+    --bb-spacing-xl: 3rem;       /* 48px */
+    
+    /* Component-specific spacing */
+    --bb-spacing-gutter: 0.75rem;
+    
+    /* ========================================
+       Typography
+       ======================================== */
+    
+    --bb-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --bb-font-size-base: 1rem;
+    --bb-font-size-lg: 1.25rem;
+    --bb-font-size-xl: 1.5rem;
+    --bb-font-size-2xl: 2rem;
+    --bb-font-size-4xl: 4rem;
+    
+    --bb-font-weight-normal: 400;
+    --bb-line-height-base: 1.5;
+    
+    /* ========================================
+       Border & Radius
+       ======================================== */
+    
+    --bb-border-width: 1px;
+    --bb-border-radius-sm: 0.25rem;
+    --bb-border-radius-md: 5px;
+    --bb-border-radius-circle: 50%;
+    
+    /* ========================================
+       Shadows & Effects
+       ======================================== */
+    
+    --bb-shadow-focus: 0 0 0 0.2rem var(--bb-color-focus-ring);
+    --bb-shadow-focus-input: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    
+    /* ========================================
+       Transitions
+       ======================================== */
+    
+    --bb-transition-fast: 0.15s ease-in-out;
+    
+    /* ========================================
+       Layout
+       ======================================== */
+    
+    --bb-layout-container-height: 3rem;
+    --bb-layout-icon-size: 1.5em;
+    
+    /* ========================================
+       Opacity
+       ======================================== */
+    
+    --bb-opacity-disabled: 0.5;
+    --bb-opacity-hover: 0.6;
+}

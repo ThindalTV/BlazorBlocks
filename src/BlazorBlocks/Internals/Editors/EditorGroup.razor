@@ -5,8 +5,8 @@
     public required EditorGroupModel Model { get; set; }
 }
 
-<div class="rowContainer">
-    <div class="rowContent">
+<div class="bb-editor__group">
+    <div class="bb-editor__group-content">
         @foreach (var column in Model.Columns)
         {
             <EditorColumn Model="@column" ParentModel="@Model" />

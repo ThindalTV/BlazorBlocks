@@ -15,4 +15,8 @@
     <ProjectReference Include="..\..\BlazorBlocks\BlazorBlocks.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CustomBlocks\TestBlock\" />
+  </ItemGroup>
+
 </Project>

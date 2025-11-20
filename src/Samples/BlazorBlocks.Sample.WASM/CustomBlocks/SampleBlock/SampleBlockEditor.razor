@@ -1,0 +1,10 @@
+@using BlazorBlocks.Customization
+@using BlazorBlocks.Sample.WASM.CustomBlocks.SampleBlock
+@inherits BlockEditor<SampleBlockModel>
+
+<h3>SampleBlock Editor</h3>
+
+<div class="form-group">
+    <label for="sample">Sample Content</label>
+    <input class="form-control" type="text" id="sample" @bind="Model.Content" @bind:after="OnValuesChanged" />
+</div>

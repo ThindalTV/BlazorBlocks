@@ -3,4 +3,4 @@
 namespace BlazorBlocks.Blocks.QuoteBlock;
 
 public record QuoteBlockRegistration()
-    : BlockRegistration("Quote", null, typeof(QuoteBaseBlockModel), typeof(QuoteBlockEditor));
+    : BlockRegistration("Quote", null, typeof(QuoteBlockModel), typeof(QuoteBlockEditor));

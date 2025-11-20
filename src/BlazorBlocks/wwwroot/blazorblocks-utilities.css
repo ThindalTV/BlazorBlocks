@@ -1,0 +1,65 @@
+/* BlazorBlocks - Utility Classes */
+/* Helper classes for spacing, alignment, and common patterns */
+
+/* ========================================
+   Spacing Utilities
+   ======================================== */
+
+/* Padding */
+.bb-padding-xl { padding: var(--bb-spacing-xl); }
+.bb-padding-lg { padding: var(--bb-spacing-lg); }
+.bb-padding-md { padding: var(--bb-spacing-md); }
+.bb-padding-sm { padding: var(--bb-spacing-sm); }
+
+.bb-padding-x-lg { padding-left: var(--bb-spacing-lg); padding-right: var(--bb-spacing-lg); }
+.bb-padding-x-md { padding-left: var(--bb-spacing-md); padding-right: var(--bb-spacing-md); }
+.bb-padding-x-sm { padding-left: var(--bb-spacing-md); padding-right: var(--bb-spacing-md); }
+
+.bb-padding-left-md { padding-left: var(--bb-spacing-md); }
+.bb-padding-left-lg { padding-left: var(--bb-spacing-lg); }
+
+/* Margin */
+.bb-margin-right-sm { margin-right: var(--bb-spacing-sm); }
+.bb-margin-right-md { margin-right: var(--bb-spacing-md); }
+
+/* ========================================
+   Alignment & Positioning
+   ======================================== */
+
+.bb-align-right {
+    float: right;
+}
+
+.bb-align-left {
+    float: left;
+}
+
+.bb-flex {
+    display: flex;
+}
+
+.bb-flex-column {
+    flex-direction: column;
+}
+
+.bb-text-center {
+    text-align: center;
+}
+
+/* ========================================
+   Visibility & Display
+   ======================================== */
+
+.bb-hidden {
+    display: none;
+}
+
+.bb-collapse:not(.bb-show) {
+    display: none;
+}
+
+@media (min-width: 641px) {
+    .bb-collapse {
+        display: block;
+    }
+}

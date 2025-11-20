@@ -1,70 +1,67 @@
-.addRow {
+.bb-editor__add-row {
     display: flex;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-top: var(--bb-spacing-md);
+    margin-bottom: var(--bb-spacing-md);
 }
 
-    .addRow * {
-        display: flex;
-    }
+.bb-editor__add-row * {
+    display: flex;
+}
 
-.sides {
+.bb-editor__add-row-sides {
     flex: 1;
     height: 50%;
-    border-bottom: 1px solid #666;
+    border-bottom: var(--bb-border-width) solid var(--bb-color-neutral-900);
 }
 
-.left {
+.bb-editor__add-row-left {
     align-items: center;
     justify-content: flex-end;
-    padding-right: 0.5rem;
-    margin-left: 0.5rem;
+    padding-right: var(--bb-spacing-sm);
+    margin-left: var(--bb-spacing-sm);
 }
 
-.center {
-    border: 1px solid #666;
-    color: #666;
+.bb-editor__add-row-button {
+    border: var(--bb-border-width) solid var(--bb-color-neutral-900);
+    color: var(--bb-color-neutral-900);
     text-align: center;
-    height: 3rem;
-    font-size: 2rem;
-    width: 3rem;
+    height: var(--bb-layout-container-height);
+    font-size: var(--bb-font-size-2xl);
+    width: var(--bb-layout-container-height);
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    background: #FFF;
-    margin: 0 0.5rem;
+    background: var(--bb-color-background-white);
+    margin: 0 var(--bb-spacing-sm);
 }
 
-.center-row {
-    border-radius: 50%;
+.bb-editor__add-row-button--group {
+    border-radius: var(--bb-border-radius-circle);
 }
 
-.center-block {
-    border-radius: 0%;
+.bb-editor__add-row-button--block {
+    border-radius: 0;
 }
 
-.right {
+.bb-editor__add-row-right {
     align-items: center;
     justify-content: flex-start;
-    padding-left: 0.5rem;
-    margin-right: 0.5rem;
+    padding-left: var(--bb-spacing-sm);
+    margin-right: var(--bb-spacing-sm);
 }
 
-.strike {
+.bb-editor__add-row--disabled {
     text-decoration: line-through;
-    opacity: 0.6;
+    opacity: var(--bb-opacity-hover);
     pointer-events: none;
 }
 
-.rowBeingDragged {
-    opacity: 0.5;
+.bb-editor__add-row--dragging {
+    opacity: var(--bb-opacity-disabled);
 }
 
-    .draggingOver {
-    }
-
-.droppable {
+.bb-editor__add-row--droppable {
     background-color: #080;
-    color: #FFF;
-    opacity: 0.5;
+    color: var(--bb-color-background-white);
+    opacity: var(--bb-opacity-disabled);
 }

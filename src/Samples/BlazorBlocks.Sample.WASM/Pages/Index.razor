@@ -3,7 +3,7 @@
 <div class="content">
 	<hr />
 
-	<button @onclick="ReRender">Render HTML</button> <br />
+	<button @onclick="ReRender" class="bb-button bb-button--primary">Render HTML</button> <br />
 
 
 	<div style="display:flex;">
@@ -19,13 +19,13 @@
 	<hr /><hr /><hr /><hr />
 
 
-	<div class="row">
+	<div class="bb-layout-grid">
 		Serialization controls:
-		<div class="p-5" style="border: 1px solid #000;">
+		<div class="bb-padding-xl" style="border: 1px solid #000;">
 
-			<button @onclick="() => Import()" class="btn btn-primary">Load from json</button>
-			<button @onclick="() => Export()" class="btn btn-primary float-end">Export to json</button><br />
-			<InputTextArea class="form-control" @bind-Value="@_serialized" Groups="10" Cols="100" />
+			<button @onclick="() => Import()" class="bb-button bb-button--primary">Load from json</button>
+			<button @onclick="() => Export()" class="bb-button bb-button--primary bb-align-right">Export to json</button><br />
+			<InputTextArea class="bb-input" @bind-Value="@_serialized" rows="10" cols="100" />
 		</div>
 	</div>
 
@@ -39,7 +39,7 @@
 	string? _serialized;
 
 	string t2 =
-	"""{"Groups":[{"Columns":[{"ColumnClass":"col-md-12","BlocksModels":[{"Block":{"$modelType":"QuoteBaseBlockModel","EditorName":"Quote","Quote":"abc"}},{"Block":{"$modelType":"TestBaseBlockModel","EditorName":"Custom Test BaseBlock","Content":"1234"}}]}],"GroupTypeName":"1 column"},{"Columns":[{"ColumnClass":"col-3","BlocksModels":[{"Block":{"$modelType":"ImageBaseBlockModel","EditorName":"Image","ImageUrl":"","AltText":"afsefgs"}},{"Block":{"$modelType":"TitleBaseBlockModel","EditorName":"Title","TitleSize":2,"Title":"Medium 1/4"}}]},{"ColumnClass":"col-3","BlocksModels":[]},{"ColumnClass":"col-3","BlocksModels":[{"Block":{"$modelType":"TitleBaseBlockModel","EditorName":"Title","TitleSize":3,"Title":"3/4"}}]},{"ColumnClass":"col-3","BlocksModels":[]}],"GroupTypeName":"4 columns"},{"Columns":[{"ColumnClass":"col-md-4","BlocksModels":[]},{"ColumnClass":"col-md-7","BlocksModels":[]}],"GroupTypeName":"2 columns"}]}""";
+	"""{"Groups":[{"Columns":[{"ColumnClass":"bb-layout-column--12","BlocksModels":[{"Block":{"$modelType":"QuoteBlockModel","EditorName":"Quote","Quote":"abc"}},{"Block":{"$modelType":"SampleBlockModel","EditorName":"Custom Sample Block","Content":"1234"}}]}],"GroupTypeName":"1 column","CssClass":"bb-layout-grid"},{"Columns":[{"ColumnClass":"bb-layout-column--3","BlocksModels":[{"Block":{"$modelType":"ImageBlockModel","EditorName":"Image","ImageUrl":"","AltText":"afsefgs"}},{"Block":{"$modelType":"TitleBlockModel","EditorName":"Title","TitleSize":2,"Title":"Medium 1/4"}}]},{"ColumnClass":"bb-layout-column--3","BlocksModels":[]},{"ColumnClass":"bb-layout-column--3","BlocksModels":[{"Block":{"$modelType":"TitleBlockModel","EditorName":"Title","TitleSize":3,"Title":"3/4"}}]},{"ColumnClass":"bb-layout-column--3","BlocksModels":[]}],"GroupTypeName":"4 columns","CssClass":"bb-layout-grid"},{"Columns":[{"ColumnClass":"bb-layout-column--4","BlocksModels":[]},{"ColumnClass":"bb-layout-column--7","BlocksModels":[]}],"GroupTypeName":"2 columns","CssClass":"bb-layout-grid"}]}""";
 
 #pragma warning restore CS0414 // Field is assigned but never used
 	protected override void OnInitialized()

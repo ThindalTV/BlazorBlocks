@@ -1,0 +1,47 @@
+/* BlazorBlocks - Layout Grid System */
+/* Semantic grid system for organizing content in columns */
+
+.bb-layout-grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: calc(var(--bb-spacing-gutter) * -1);
+    margin-left: calc(var(--bb-spacing-gutter) * -1);
+}
+
+/* Base column styles */
+[class*="bb-layout-column"] {
+    position: relative;
+    width: 100%;
+    padding-right: var(--bb-spacing-gutter);
+    padding-left: var(--bb-spacing-gutter);
+}
+
+/* Semantic width modifiers (based on 12-column grid) */
+.bb-layout-column--1 { flex: 0 0 8.333333%; max-width: 8.333333%; }
+.bb-layout-column--2 { flex: 0 0 16.666667%; max-width: 16.666667%; }
+.bb-layout-column--3 { flex: 0 0 25%; max-width: 25%; }
+.bb-layout-column--4 { flex: 0 0 33.333333%; max-width: 33.333333%; }
+.bb-layout-column--5 { flex: 0 0 41.666667%; max-width: 41.666667%; }
+.bb-layout-column--6 { flex: 0 0 50%; max-width: 50%; }
+.bb-layout-column--7 { flex: 0 0 58.333333%; max-width: 58.333333%; }
+.bb-layout-column--8 { flex: 0 0 66.666667%; max-width: 66.666667%; }
+.bb-layout-column--9 { flex: 0 0 75%; max-width: 75%; }
+.bb-layout-column--10 { flex: 0 0 83.333333%; max-width: 83.333333%; }
+.bb-layout-column--11 { flex: 0 0 91.666667%; max-width: 91.666667%; }
+.bb-layout-column--12 { flex: 0 0 100%; max-width: 100%; }
+
+/* Responsive column modifiers (medium breakpoint: 768px and up) */
+@media (min-width: 768px) {
+    .bb-layout-column--md-1 { flex: 0 0 8.333333%; max-width: 8.333333%; }
+    .bb-layout-column--md-2 { flex: 0 0 16.666667%; max-width: 16.666667%; }
+    .bb-layout-column--md-3 { flex: 0 0 25%; max-width: 25%; }
+    .bb-layout-column--md-4 { flex: 0 0 33.333333%; max-width: 33.333333%; }
+    .bb-layout-column--md-5 { flex: 0 0 41.666667%; max-width: 41.666667%; }
+    .bb-layout-column--md-6 { flex: 0 0 50%; max-width: 50%; }
+    .bb-layout-column--md-7 { flex: 0 0 58.333333%; max-width: 58.333333%; }
+    .bb-layout-column--md-8 { flex: 0 0 66.666667%; max-width: 66.666667%; }
+    .bb-layout-column--md-9 { flex: 0 0 75%; max-width: 75%; }
+    .bb-layout-column--md-10 { flex: 0 0 83.333333%; max-width: 83.333333%; }
+    .bb-layout-column--md-11 { flex: 0 0 91.666667%; max-width: 91.666667%; }
+    .bb-layout-column--md-12 { flex: 0 0 100%; max-width: 100%; }
+}

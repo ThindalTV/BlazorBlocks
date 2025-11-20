@@ -59,8 +59,8 @@ public partial class AddBlockRow
         DragService.DraggedBlockChanged += (dragging) => DragChanged(dragging, DragObjectType.Block);
         _cssClasses = ObjectType switch
         {
-            DragObjectType.Group => "center-group",
-            DragObjectType.Block => "center-block",
+            DragObjectType.Group => "bb-editor__add-row-button--group",
+            DragObjectType.Block => "bb-editor__add-row-button--block",
             _ => throw new ArgumentOutOfRangeException(nameof(ObjectType), ObjectType, null)
         };
 

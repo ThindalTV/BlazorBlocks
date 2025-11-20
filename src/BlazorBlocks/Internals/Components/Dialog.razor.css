@@ -1,4 +1,4 @@
-﻿.dialogContainer {
+﻿.bb-dialog-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -11,29 +11,29 @@
     align-items: center;
 }
 
-.dialog {
-    background-color: #FFF;
-    padding: 1rem;
+.bb-dialog {
+    background-color: var(--bb-color-background-white);
+    padding: var(--bb-spacing-md);
 }
 
-.dialogTitle h2 {
+.bb-dialog__title h2 {
     margin: 0;
-    font-size: 1.5rem;
-    font-weight: 400;
+    font-size: var(--bb-font-size-xl);
+    font-weight: var(--bb-font-weight-normal);
 }
 
-.dialogTitle {
-    border-bottom: #000 1px dashed;
-    padding-bottom: 0rem;
-    margin-bottom: 1rem;
+.bb-dialog__title {
+    border-bottom: #000 var(--bb-border-width) dashed;
+    padding-bottom: 0;
+    margin-bottom: var(--bb-spacing-md);
 }
 
-.dialogContent * {
-    margin: 1rem;
+.bb-dialog__content * {
+    margin: var(--bb-spacing-md);
 }
 
-.dialogButtons {
-    padding-top: 1rem;
-    margin-top: 1rem;
-    border-top: 1px solid #CCC;
+.bb-dialog__actions {
+    padding-top: var(--bb-spacing-md);
+    margin-top: var(--bb-spacing-md);
+    border-top: var(--bb-border-width) solid var(--bb-color-border-light);
 }

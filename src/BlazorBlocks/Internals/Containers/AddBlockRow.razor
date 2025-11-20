@@ -2,7 +2,7 @@
 
 @inject DragService DragService
 
-<div class="@((_beingDragged ? "rowBeingDragged " : "") + (_beingHoveredOver ? "draggingOver " : "")) addRow"
+<div class="bb-editor__add-row @(_beingDragged ? "bb-editor__add-row--dragging" : "") @(_beingHoveredOver ? "draggingOver" : "")"
 	 @ondragenter:preventDefault
 	 @ondragleave:preventDefault
 	 @ondragover:preventDefault="CanDrop()"
@@ -10,7 +10,7 @@
 	 @ondragleave="DropExited"
 	 @ondragover="() => { }"
 	 @ondrop="async () => { await ObjectDropped(); }">
-	<div class="sides left">&nbsp;</div>
-	<div class="center @(_cssClasses + (_isDroppable ? " droppable" : ""))" @onclick="AddClicked">+</div>
-	<div class="sides right">&nbsp;abc</div>
+	<div class="bb-editor__add-row-sides bb-editor__add-row-left">&nbsp;</div>
+	<div class="bb-editor__add-row-button @(_cssClasses) @(_isDroppable ? "bb-editor__add-row--droppable" : "")" @onclick="AddClicked">+</div>
+	<div class="bb-editor__add-row-sides bb-editor__add-row-right">&nbsp;</div>
 </div>

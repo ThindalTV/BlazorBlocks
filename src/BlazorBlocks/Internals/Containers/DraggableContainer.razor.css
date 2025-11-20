@@ -1,41 +1,42 @@
-.dragContainer {
-    --border-radius: 5px;
+.bb-draggable {
+    margin-top: var(--bb-spacing-md);
 }
 
-    .dragContainer + .dragContainer {
-        margin-top: 1rem;
-    }
+.bb-draggable + .bb-draggable {
+    margin-top: var(--bb-spacing-md);
+}
 
-.dragHeader {
+.bb-draggable__header {
     position: relative;
     bottom: -1px;
-    padding: .5rem;
+    padding: var(--bb-spacing-sm);
     display: inline-block;
-    border-radius: var(--border-radius) var(--border-radius) 0 0;
-    border: 1px solid #AAA;
-    border-bottom: 1px #FFF dotted;
+    border-radius: var(--bb-border-radius-md) var(--bb-border-radius-md) 0 0;
+    border: var(--bb-border-width) solid var(--bb-color-border-medium);
+    border-bottom: var(--bb-border-width) var(--bb-color-background-white) dotted;
 }
 
-.dragHandle {
+.bb-draggable__handle {
     height: 2px;
+    cursor: move;
 }
 
-.dragContent {
-    border-radius: 0 var(--border-radius) var(--border-radius) var(--border-radius);
-    border: 1px #AAA solid;
-    padding: 1rem;
+.bb-draggable__content {
+    border-radius: 0 var(--bb-border-radius-md) var(--bb-border-radius-md) var(--bb-border-radius-md);
+    border: var(--bb-border-width) var(--bb-color-border-medium) solid;
+    padding: var(--bb-spacing-md);
 }
 
-.collapsed {
+.bb-draggable__content--collapsed {
     display: none;
 }
 
-.draggableGroup .dragContent,
-.draggableGroup .dragHeader {
-    background-color: #F6F6F6;
+.bb-draggable--group .bb-draggable__content,
+.bb-draggable--group .bb-draggable__header {
+    background-color: var(--bb-color-background-light);
 }
 
-.draggableBlock .dragHeader,
-.draggableBlock .dragContent {
-    background-color: #FFF;
+.bb-draggable--block .bb-draggable__header,
+.bb-draggable--block .bb-draggable__content {
+    background-color: var(--bb-color-background-white);
 }

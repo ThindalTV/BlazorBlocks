@@ -3,4 +3,4 @@
 namespace BlazorBlocks.Blocks.TitleBlock;
 
 public record TitleBlockRegistration()
-    : BlockRegistration("Title", null, typeof(TitleBaseBlockModel), typeof(TitleEditorBlock));
+    : BlockRegistration("Title", null, typeof(TitleBlockModel), typeof(TitleEditorBlock));

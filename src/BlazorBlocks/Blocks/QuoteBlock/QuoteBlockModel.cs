@@ -1,13 +1,13 @@
-﻿using BlazorBlocks.Customization;
+using BlazorBlocks.Customization;
 
 namespace BlazorBlocks.Blocks.QuoteBlock;
-public class QuoteBaseBlockModel : BaseBlockModel
+public class QuoteBlockModel : BaseBlockModel
 {
     public override string EditorName => "Quote";
 
     public string Quote { get; set; } = string.Empty;
 
-    public QuoteBaseBlockModel() : base(typeof(QuoteBlockEditor))
+    public QuoteBlockModel() : base(typeof(QuoteBlockEditor))
     {
     }
 

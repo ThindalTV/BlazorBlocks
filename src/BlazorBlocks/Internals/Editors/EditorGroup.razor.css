@@ -1,31 +1,31 @@
-.rowContainer {
-    --border-radius: 5px;
+.bb-editor__group {
+    margin-top: var(--bb-spacing-md);
 }
 
-    .rowContainer + .rowContainer {
-        margin-top: 1rem;
-    }
+.bb-editor__group + .bb-editor__group {
+    margin-top: var(--bb-spacing-md);
+}
 
-.rowControls {
+.bb-editor__group-header {
     position: relative;
     bottom: -1px;
-    padding: .5rem;
+    padding: var(--bb-spacing-sm);
     display: inline-block;
-    border-radius: var(--border-radius) var(--border-radius) 0 0;
-    border: 1px solid #AAA;
-    border-bottom: 1px #FFF dotted;
+    border-radius: var(--bb-border-radius-md) var(--bb-border-radius-md) 0 0;
+    border: var(--bb-border-width) solid var(--bb-color-border-medium);
+    border-bottom: var(--bb-border-width) var(--bb-color-background-white) dotted;
 }
 
-    .rowControls button {
-        margin-left: 13px;
-    }
+.bb-editor__group-header button {
+    margin-left: 13px;
+}
 
-    .rowControls button + button {
-        margin-left: 5px;
-    }
+.bb-editor__group-header button + button {
+    margin-left: var(--bb-spacing-sm);
+}
 
-.rowContent {
-    padding: 1rem;
+.bb-editor__group-content {
+    padding: var(--bb-spacing-md);
     display: flex;
     flex-wrap: wrap;
 }

@@ -1,29 +1,30 @@
-.blockContainer {
-    --border-radius: 5px;
+.bb-block {
+    margin-top: var(--bb-spacing-md);
 }
 
-.blockContainer + .blockContainer {
-    margin-top: 1rem;
+.bb-block + .bb-block {
+    margin-top: var(--bb-spacing-md);
 }
 
-.blockControl {
+.bb-block__header {
     position: relative;
     bottom: -1px;
-    padding: .5rem;
+    padding: var(--bb-spacing-sm);
     display: inline-block;
-    border-radius: var(--border-radius) var(--border-radius) 0 0;
-    border: 1px solid #AAA;
-    border-bottom: 1px #FFF dotted;
+    border-radius: var(--bb-border-radius-md) var(--bb-border-radius-md) 0 0;
+    border: var(--bb-border-width) solid var(--bb-color-border-medium);
+    border-bottom: var(--bb-border-width) var(--bb-color-background-white) dotted;
 }
 
-.blockContent {
-    padding: 1rem;
+.bb-block__content {
+    padding: var(--bb-spacing-md);
+    text-align: center;
 }
 
-.blockControl button {
+.bb-block__actions button {
     margin-left: 15px;
 }
 
-.blockControl button + button {
-    margin-left: 5px;
+.bb-block__actions button + button {
+    margin-left: var(--bb-spacing-sm);
 }

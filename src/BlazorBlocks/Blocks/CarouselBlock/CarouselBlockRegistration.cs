@@ -3,4 +3,4 @@
 namespace BlazorBlocks.Blocks.CarouselBlock;
 
 public record CarouselBlockRegistration()
-    : BlockRegistration("Carousel", null, typeof(CarouselBaseBlockModel), typeof(CarouselBlockEditor));
+    : BlockRegistration("Carousel", null, typeof(CarouselBlockModel), typeof(CarouselBlockEditor));

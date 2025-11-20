@@ -1,19 +1,19 @@
-.editorColumn {
-    padding-left: .5rem;
-    padding-right: .5rem;
+.bb-editor__column {
+    padding-left: var(--bb-spacing-sm);
+    padding-right: var(--bb-spacing-sm);
     position: relative;
 }
 
-    .editorColumn + .editorColumn {
-        border-left: 1px solid #CCC;
-    }
+.bb-editor__column + .bb-editor__column {
+    border-left: var(--bb-border-width) solid var(--bb-color-border-light);
+}
 
-.addBlock {
+.bb-editor__column-add-block {
     margin-left: auto;
     margin-right: auto;
 }
 
-.dropZone {
+.bb-editor__column-drop-zone {
     height: 20px;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -22,7 +22,7 @@
     left: 0;
 }
 
-.dropZone.active {
-    border-top: 1px dashed green;
-    border-bottom: 1px dashed green;
+.bb-editor__column-drop-zone--active {
+    border-top: var(--bb-border-width) dashed green;
+    border-bottom: var(--bb-border-width) dashed green;
 }

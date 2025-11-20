@@ -10,15 +10,15 @@
 
     public string BlockName => Model.EditorName;
 
-    public Type BlockType => Model.DukaType;
+    public Type BlockType => Model.BlockType;
 
     public IDictionary<string, object> Attributes => Model.Parameters;
 }
 
 @if (BlockType != null && Attributes != null)
 {
-    <div class="blockContainer">
-        <div class="text-center blockContent">
+    <div class="bb-block">
+        <div class="bb-block__content">
             <DynamicComponent Type="@BlockType" Parameters="@Attributes" />
         </div>
     </div>

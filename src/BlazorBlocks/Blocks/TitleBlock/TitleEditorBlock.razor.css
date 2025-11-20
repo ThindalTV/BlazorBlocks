@@ -1,9 +1,9 @@
-﻿.title-control {
+﻿.bb-title-editor__control {
     width: 100%;
     margin-bottom: 10px;
-    border-radius: .25rem;
-    border: 1px solid #ced4da;
+    border-radius: var(--bb-border-radius-sm);
+    border: var(--bb-border-width) solid var(--bb-color-neutral-500);
     display: block;
-    padding: .4rem .5rem;
-    line-height: 1.5;
+    padding: 0.4rem var(--bb-spacing-sm);
+    line-height: var(--bb-line-height-base);
 }

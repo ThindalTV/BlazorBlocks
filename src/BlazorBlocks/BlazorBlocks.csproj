@@ -16,10 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Update="Blocks\ImageBlock\ImageBlockEditor.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>

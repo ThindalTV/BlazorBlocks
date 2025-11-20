@@ -152,26 +152,35 @@ public static class BlockRegistrationService
     /// <summary>
     /// Adds the default rows to the service.
     /// </summary>
+    /// <remarks>
+    /// Uses bb- prefixed class names for all rendered HTML output to ensure framework compatibility.
+    /// All classes are unique to BlazorBlocks and won't conflict with other UI frameworks.
+    /// - Layout containers use "bb-layout-grid"
+    /// - Columns use "bb-layout-column--{width}" pattern
+    /// - Responsive columns use "bb-layout-column--md-{width}" pattern
+    /// </remarks>
     private static void AddDefaultGroups()
     {
         var colRegs = new ColumnRegistration[13];
         for (int i = 1; i < 13; i++)
         {
-            colRegs[i] = new ColumnRegistration($"col-{i}");
+            // BlazorBlocks-prefixed class names for framework compatibility
+            colRegs[i] = new ColumnRegistration($"bb-layout-column--{i}");
         }
         
         // Add default column definitions
-        RegisterGroup(new GroupRegistration("1 column", "row",
+        // Using "bb-layout-grid" for all rendered output
+        RegisterGroup(new GroupRegistration("1 column", "bb-layout-grid",
             [ colRegs[12] ] ));
-        RegisterGroup(new GroupRegistration("2 columns", "row",
+        RegisterGroup(new GroupRegistration("2 columns", "bb-layout-grid",
             [ colRegs[6], colRegs[6] ]));
-        RegisterGroup(new GroupRegistration("3 columns", "row",
+        RegisterGroup(new GroupRegistration("3 columns", "bb-layout-grid",
             [ colRegs[4], colRegs[4], colRegs[4] ]));
-        RegisterGroup(new GroupRegistration("4 columns", "row",
+        RegisterGroup(new GroupRegistration("4 columns", "bb-layout-grid",
             [ colRegs[3], colRegs[3], colRegs[3], colRegs[3] ]));
-        RegisterGroup(new GroupRegistration("1+2 columns", "row",
+        RegisterGroup(new GroupRegistration("1+2 columns", "bb-layout-grid",
             [colRegs[4], colRegs[8]]));
-        RegisterGroup(new GroupRegistration("1+2+full columns", "row",
+        RegisterGroup(new GroupRegistration("1+2+full columns", "bb-layout-grid",
         [
             colRegs[4], colRegs[8],
             colRegs[12]

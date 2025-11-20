@@ -111,13 +111,13 @@
               Visible="AddNewGroupDialogVisible"
               OnGroupSelected="(selectedResult) => NewGroupSelected(selectedResult.GroupType, selectedResult.InsertIndex)" />
 
-<div class="blazorBaseBlocksEditor">
+<div class="bb-editor">
     <CascadingValue Value="this">
         @for (int r = 0; r < Model.Groups.Count; r++)
         {
             var group = Model.Groups[r];
             <AddBlockRow Index="@r" OnClicked="AddClicked" OnDropped="GroupDropped" ObjectType="DragObjectType.Group" />
-            <DraggableContainer AdditionalCssClasses="draggableGroup" Model="@group" ObjectType="DragObjectType.Group" ParentModel="null" Title="@group.GroupTypeName" Draggable="Model.Groups.Count > 1" OnDelete="(model) => DeleteGroup(model)">
+            <DraggableContainer AdditionalCssClasses="bb-draggable--group" Model="@group" ObjectType="DragObjectType.Group" ParentModel="null" Title="@group.GroupTypeName" Draggable="Model.Groups.Count > 1" OnDelete="(model) => DeleteGroup(model)">
                 <EditorGroup Model="@group" />
             </DraggableContainer>
         }

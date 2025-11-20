@@ -142,7 +142,7 @@
 
 }
 
-<div class="@Model.ColumnClass editorColumn">
+<div class="@Model.ColumnClass bb-editor__column">
     @for (var index = 0; index < Model.BlocksModels.Count; index++)
     {
         var block = Model.BlocksModels[index];
@@ -152,7 +152,7 @@
                             ObjectType="DragObjectType.Block"
                             Title="@block.Block.EditorName"
                             Draggable="true" OnDelete="(model) => DeleteBlock(model)" ParentModel="@Model"
-                            AdditionalCssClasses="draggableBlock">
+                            AdditionalCssClasses="bb-draggable--block">
             <BlockContainer Model="@block.Block" />
         </DraggableContainer>
     }
