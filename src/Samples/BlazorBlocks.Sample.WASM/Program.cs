@@ -1,7 +1,7 @@
 using BlazorBlocks.Services;
 using BlazorBlocks.Services.Registrations;
-using BlazorBlocks.Test.WASM;
-using BlazorBlocks.Test.WASM.CustomBlocks.TestBlock;
+using BlazorBlocks.Sample.WASM;
+using BlazorBlocks.Sample.WASM.CustomBlocks.TestBlock;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 

@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Samples/">
+    <Project Path="Samples/BlazorBlocks.Sample.WASM/BlazorBlocks.Sample.WASM.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="../README.md" />
+  </Folder>
+  <Project Path="BlazorBlocks\BlazorBlocks.csproj" />
+</Solution>

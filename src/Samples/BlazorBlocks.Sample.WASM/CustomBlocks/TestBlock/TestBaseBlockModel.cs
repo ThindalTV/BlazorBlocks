@@ -1,6 +1,6 @@
 ﻿using BlazorBlocks.Customization;
 
-namespace BlazorBlocks.Test.WASM.CustomBlocks.TestBlock;
+namespace BlazorBlocks.Sample.WASM.CustomBlocks.TestBlock;
 
 public class TestBaseBlockModel : BaseBlockModel
 {

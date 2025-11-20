@@ -33,8 +33,8 @@ BlazorBlocks provides an intuitive interface for creating and editing web page c
 5. Extend BlazorBlocks with custom block types to add new functionality
 
 ## Writing a new block type
-To Be Documented... Example in [TestBlockEditor](./src/Test/BlazorBlocks.Test.WASM/CustomBlocks/TestBlock/TestBlockEditor.razor)
-and [TestBlockModel](./src/Test/BlazorBlocks.Test.WASM/CustomBlocks/TestBlock/TestBlockModel.cs) for now.
+To Be Documented... Example in [TestBlockEditor](./src/Test/BlazorBlocks.Sample.WASM/CustomBlocks/TestBlock/TestBlockEditor.razor)
+and [TestBlockModel](./src/Test/BlazorBlocks.Sample.WASM/CustomBlocks/TestBlock/TestBlockModel.cs) for now.
 
 ## Contributing
 
