@@ -16,9 +16,70 @@
     border-bottom: var(--bb-border-width) var(--bb-color-background-white) dotted;
 }
 
+.bb-draggable__header__row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--bb-spacing-sm);
+}
+
+.bb-draggable__header__row * + * {
+    margin-left: 0; /* Remove margin since we're using gap */
+}
+
 .bb-draggable__handle {
-    height: 2px;
     cursor: move;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.bb-draggable__handle svg {
+    display: block;
+}
+
+.bb-draggable__title {
+    line-height: 24px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.bb-draggable__header .collapseButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: var(--bb-border-radius-sm);
+    transition: background-color var(--bb-transition-fast);
+    flex-shrink: 0;
+}
+
+.bb-draggable__header .collapseButton:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.bb-draggable__header .collapseButton svg {
+    display: block;
+}
+
+.bb-draggable__header__row > span:last-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: var(--bb-border-radius-sm);
+    transition: background-color var(--bb-transition-fast);
+    flex-shrink: 0;
+}
+
+.bb-draggable__header__row > span:last-child:hover {
+    background-color: rgba(255, 0, 0, 0.1);
+}
+
+.bb-draggable__header__row > span:last-child svg {
+    display: block;
 }
 
 .bb-draggable__content {

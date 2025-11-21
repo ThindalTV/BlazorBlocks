@@ -31,7 +31,7 @@
 
 </div>
 @code {
-#pragma warning disable CS0414 // Field is assigned but never used
+	#pragma warning disable CS0414 // Field is assigned but never used
 
 	readonly Model _blazorBlocksModel = new Model();
 
@@ -39,8 +39,7 @@
 	string? _serialized;
 
 	string t2 =
-	"""{"Groups":[{"Columns":[{"ColumnClass":"bb-layout-column--12","BlocksModels":[{"Block":{"$modelType":"QuoteBlockModel","EditorName":"Quote","Quote":"abc"}},{"Block":{"$modelType":"SampleBlockModel","EditorName":"Custom Sample Block","Content":"1234"}}]}],"GroupTypeName":"1 column","CssClass":"bb-layout-grid"},{"Columns":[{"ColumnClass":"bb-layout-column--3","BlocksModels":[{"Block":{"$modelType":"ImageBlockModel","EditorName":"Image","ImageUrl":"","AltText":"afsefgs"}},{"Block":{"$modelType":"TitleBlockModel","EditorName":"Title","TitleSize":2,"Title":"Medium 1/4"}}]},{"ColumnClass":"bb-layout-column--3","BlocksModels":[]},{"ColumnClass":"bb-layout-column--3","BlocksModels":[{"Block":{"$modelType":"TitleBlockModel","EditorName":"Title","TitleSize":3,"Title":"3/4"}}]},{"ColumnClass":"bb-layout-column--3","BlocksModels":[]}],"GroupTypeName":"4 columns","CssClass":"bb-layout-grid"},{"Columns":[{"ColumnClass":"bb-layout-column--4","BlocksModels":[]},{"ColumnClass":"bb-layout-column--7","BlocksModels":[]}],"GroupTypeName":"2 columns","CssClass":"bb-layout-grid"}]}""";
-
+	"""{"Groups":[{"Columns":[{"ColumnClass":"bb-layout-column--6","Blocks":[{"Block":{"$modelType":"QuoteBlockModel","EditorName":"Quote","Quote":"abc123"}}]},{"ColumnClass":"bb-layout-column--6","Blocks":[]}],"GroupTypeName":"2 columns","CssClass":"bb-layout-grid"},{"Columns":[{"ColumnClass":"bb-layout-column--4","Blocks":[{"Block":{"$modelType":"RawTextBlockModel","EditorName":"Raw Text","Content":"Here\u0027s some \u003Cb\u003ERaw\u003C/b\u003E text"}}]},{"ColumnClass":"bb-layout-column--8","Blocks":[{"Block":{"$modelType":"ImageBlockModel","EditorName":"Image","ImageUrl":"https://static3.bigstockphoto.com/3/8/3/large1500/383884268.jpg","AltText":""}}]}],"GroupTypeName":"1\u002B2 columns","CssClass":"bb-layout-grid"}]}""";
 #pragma warning restore CS0414 // Field is assigned but never used
 	protected override void OnInitialized()
 	{

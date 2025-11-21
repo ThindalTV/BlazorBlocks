@@ -159,3 +159,29 @@ select:focus {
 .bb-validation-message {
     color: var(--bb-color-error);
 }
+
+/* ========================================
+   Carousel Block
+   ======================================== */
+
+.bb-carousel {
+    max-height: 100px;
+    position: relative;
+    width: 100%;
+}
+
+.bb-carousel .bb-carousel__item:nth-child(n+2) {
+    display: none;
+}
+
+.bb-carousel__item-caption {
+    position: absolute;
+    left: 50px;
+    bottom: 50px;
+}
+
+.bb-carousel__item-description {
+    position: absolute;
+    left: 50px;
+    bottom: 25px;
+}

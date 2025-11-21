@@ -90,7 +90,7 @@
         // If we're dropping on the same column, we'll just reorder the blocks
         if (previousColumn.Id == Model.Id)
         {
-            var oldIndex = Model.BlocksModels.IndexOf(droppedBlock);
+            var oldIndex = Model.Blocks.IndexOf(droppedBlock);
             // If the group is being dropped on itself, do nothing
             if (oldIndex == dropped.Index)
             {
@@ -101,22 +101,22 @@
             if (oldIndex < dropped.Index)
             {
                 // We're moving down, insert at new index then remove the old one
-                Model.BlocksModels.Insert(dropped.Index, droppedBlock);
-                Model.BlocksModels.RemoveAt(oldIndex);
+                Model.Blocks.Insert(dropped.Index, droppedBlock);
+                Model.Blocks.RemoveAt(oldIndex);
             }
             else
             {
                 // We're moving up, remove the old one then insert at new index
-                Model.BlocksModels.RemoveAt(oldIndex);
-                Model.BlocksModels.Insert(dropped.Index, droppedBlock);
+                Model.Blocks.RemoveAt(oldIndex);
+                Model.Blocks.Insert(dropped.Index, droppedBlock);
             }
         }
         else
         {
             droppedBlock.ParentModel = Model;
             // We're dropping on another column than where the block originated.
-            previousColumn.BlocksModels.Remove(droppedBlock);
-            Model.BlocksModels.Insert(dropped.Index, droppedBlock);
+            previousColumn.Blocks.Remove(droppedBlock);
+            Model.Blocks.Insert(dropped.Index, droppedBlock);
         }
 
         await InvokeAsync(StateHasChanged);
@@ -143,9 +143,9 @@
 }
 
 <div class="@Model.ColumnClass bb-editor__column">
-    @for (var index = 0; index < Model.BlocksModels.Count; index++)
+    @for (var index = 0; index < Model.Blocks.Count; index++)
     {
-        var block = Model.BlocksModels[index];
+        var block = Model.Blocks[index];
 
         <AddBlockRow ObjectType="DragObjectType.Block" OnDropped="BlockDropped" Index="@index" OnClicked="AddBlockClicked" />
         <DraggableContainer Model="@block"
@@ -156,6 +156,6 @@
             <BlockContainer Model="@block.Block" />
         </DraggableContainer>
     }
-    <AddBlockRow ObjectType="DragObjectType.Block" OnDropped="BlockDropped" OnClicked="AddBlockClicked" Index="@Model.BlocksModels.Count" />
+    <AddBlockRow ObjectType="DragObjectType.Block" OnDropped="BlockDropped" OnClicked="AddBlockClicked" Index="@Model.Blocks.Count" />
 </div>
 

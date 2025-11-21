@@ -4,6 +4,7 @@
 /* Import rendered output styles for preview compatibility */
 @import url('blazorblocks.css');
 
+
 /* ========================================
    Editor Root
    ======================================== */
@@ -85,63 +86,14 @@
 }
 
 /* ========================================
-   Draggable Containers
-   ======================================== */
-
-.bb-draggable {
-    margin-top: var(--bb-spacing-md);
-}
-
-.bb-draggable + .bb-draggable {
-    margin-top: var(--bb-spacing-md);
-}
-
-.bb-draggable__header {
-    position: relative;
-    bottom: -1px;
-    padding: var(--bb-spacing-sm);
-    display: inline-block;
-    border-radius: var(--bb-border-radius-md) var(--bb-border-radius-md) 0 0;
-    border: var(--bb-border-width) solid var(--bb-color-border-medium);
-    border-bottom: var(--bb-border-width) var(--bb-color-background-white) dotted;
-}
-
-.bb-draggable__handle {
-    height: 2px;
-    cursor: move;
-}
-
-.bb-draggable__content {
-    border-radius: 0 var(--bb-border-radius-md) var(--bb-border-radius-md) var(--bb-border-radius-md);
-    border: var(--bb-border-width) var(--bb-color-border-medium) solid;
-    padding: var(--bb-spacing-md);
-}
-
-.bb-draggable__content--collapsed {
-    display: none;
-}
-
-.bb-draggable--group .bb-draggable__content,
-.bb-draggable--group .bb-draggable__header {
-    background-color: var(--bb-color-background-light);
-}
-
-.bb-draggable--block .bb-draggable__header,
-.bb-draggable--block .bb-draggable__content {
-    background-color: var(--bb-color-background-white);
-}
-
-/* ========================================
    Editor Column
    ======================================== */
 
 .bb-editor__column {
-    padding-left: var(--bb-spacing-sm);
-    padding-right: var(--bb-spacing-sm);
-    position: relative;
+    min-height: 100px;
 }
 
-.bb-editor__column + .bb-editor__column {
+.bb-editor__column:not(:first-child) {
     border-left: var(--bb-border-width) solid var(--bb-color-border-light);
 }
 
@@ -198,6 +150,8 @@
     padding: var(--bb-spacing-md);
     display: flex;
     flex-wrap: wrap;
+    margin-right: calc(var(--bb-spacing-gutter) * -1);
+    margin-left: calc(var(--bb-spacing-gutter) * -1);
 }
 
 /* ========================================

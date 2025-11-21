@@ -5,83 +5,85 @@
 @inject DragService DragService
 
 <div class="bb-draggable @(AdditionalCssClasses)">
-    <div class="bb-draggable__header">
-        @if (Draggable)
-        {
-            <span class="bb-draggable__handle" draggable="true" @ondragstart="@(() => StartDrag())" @ondragend="@(() => EndDrag())">
-                <DragHandle Width="30" Height="70" />
-            </span>
-        }
-        <CollapseButton Collapsed="@(Model?.Collapsed ?? false)" OnCollapseClicked="OnCollapseClicked" />
-        
-        <span class="bb-draggable__title">@Title</span>
-        
-        <span @onclick="() => OnDelete.InvokeAsync(Model)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 14.828L12.001 12m2.828-2.828L12.001 12m0 0L9.172 9.172M12.001 12l2.828 2.828M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10" /></svg></span>
-    </div>
-    <div class="bb-draggable__content @((Model?.Collapsed ?? false) ? "bb-draggable__content--collapsed" : "")">
-        @ChildContent
-    </div>
+	<div class="bb-draggable__header">
+		<div class="bb-draggable__header__row">
+			@if (Draggable)
+			{
+				<span class="bb-draggable__handle" draggable="true" @ondragstart="@(() => StartDrag())" @ondragend="@(() => EndDrag())">
+					<DragHandle Width="24" Height="24" />
+				</span>
+			}
+			<CollapseButton Collapsed="@(Model?.Collapsed ?? false)" OnCollapseClicked="OnCollapseClicked" />
+
+			<span class="bb-draggable__title">@Title</span>
+
+			<span @onclick="() => OnDelete.InvokeAsync(Model)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 14.828L12.001 12m2.828-2.828L12.001 12m0 0L9.172 9.172M12.001 12l2.828 2.828M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10" /></svg></span>
+		</div>
+	</div>
+	<div class="bb-draggable__content @((Model?.Collapsed ?? false) ? "bb-draggable__content--collapsed" : "")">
+		@ChildContent
+	</div>
 
 </div>
 
 @code {
-    [Parameter, EditorRequired]
-    public required RenderFragment ChildContent { get; set; }
+	[Parameter, EditorRequired]
+	public required RenderFragment ChildContent { get; set; }
 
-    [Parameter]
-    public required string Title { get; set; }
+	[Parameter]
+	public required string Title { get; set; }
 
-    [Parameter]
-    public DragObjectType ObjectType { get; set; }
+	[Parameter]
+	public DragObjectType ObjectType { get; set; }
 
-    [Parameter]
-    public BaseModel? Model { get; set; }
+	[Parameter]
+	public BaseModel? Model { get; set; }
 
-    [Parameter, EditorRequired]
-    public required BaseModel? ParentModel { get; set; }
+	[Parameter, EditorRequired]
+	public required BaseModel? ParentModel { get; set; }
 
-    [Parameter]
-    public bool Draggable { get; set; }
+	[Parameter]
+	public bool Draggable { get; set; }
 
-    [Parameter]
-    public EventCallback<BaseModel> OnDelete { get; set; }
+	[Parameter]
+	public EventCallback<BaseModel> OnDelete { get; set; }
 
-    [Parameter]
-    public string? AdditionalCssClasses { get; set; }
+	[Parameter]
+	public string? AdditionalCssClasses { get; set; }
 
-    protected void StartDrag()
-    {
-        if (DragService != null)
-        {
-            if (ObjectType == DragObjectType.Group)
-            {
-                DragService.DraggedGroup = (EditorGroupModel?)Model;
-            }
-            else
-            {
-                DragService.DraggedBlock = (EditorBlockModel?)Model;
-                DragService.DraggedObjectParent = ParentModel;
-            }
-        }
-    }
+	protected void StartDrag()
+	{
+		if (DragService != null)
+		{
+			if (ObjectType == DragObjectType.Group)
+			{
+				DragService.DraggedGroup = (EditorGroupModel?)Model;
+			}
+			else
+			{
+				DragService.DraggedBlock = (EditorBlockModel?)Model;
+				DragService.DraggedObjectParent = ParentModel;
+			}
+		}
+	}
 
-    protected void EndDrag()
-    {
-        if (DragService?.DraggedGroup is not null)
-        {
-            DragService.DraggedGroup = null;
-        }
-        else if (DragService?.DraggedBlock is not null)
-        {
-            DragService.DraggedBlock = null;
-        }
-    }
+	protected void EndDrag()
+	{
+		if (DragService?.DraggedGroup is not null)
+		{
+			DragService.DraggedGroup = null;
+		}
+		else if (DragService?.DraggedBlock is not null)
+		{
+			DragService.DraggedBlock = null;
+		}
+	}
 
-    protected void OnCollapseClicked()
-    {
-	    if (Model is not null)
-	    {
-		    Model.Collapsed = !Model.Collapsed;
-	    }
-    }
+	protected void OnCollapseClicked()
+	{
+		if (Model is not null)
+		{
+			Model.Collapsed = !Model.Collapsed;
+		}
+	}
 }

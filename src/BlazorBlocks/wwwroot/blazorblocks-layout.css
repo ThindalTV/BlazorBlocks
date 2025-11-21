@@ -1,6 +1,13 @@
 /* BlazorBlocks - Layout Grid System */
 /* Semantic grid system for organizing content in columns */
 
+/* Ensure border-box sizing for proper column width calculation */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 .bb-layout-grid {
     display: flex;
     flex-wrap: wrap;
@@ -14,6 +21,7 @@
     width: 100%;
     padding-right: var(--bb-spacing-gutter);
     padding-left: var(--bb-spacing-gutter);
+    box-sizing: border-box; /* Explicitly ensure padding is included in width */
 }
 
 /* Semantic width modifiers (based on 12-column grid) */

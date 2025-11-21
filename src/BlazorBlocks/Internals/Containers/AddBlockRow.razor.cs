@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace BlazorBlocks.Internals.Containers;
 
-public partial class AddBlockRow
+public partial class AddBlockRow : IDisposable
 {
     private bool _beingDragged;
     private bool _beingHoveredOver = false;
@@ -15,48 +15,22 @@ public partial class AddBlockRow
 
     private bool _isDroppable = false;
 
+    private Action<bool>? _dragGroupChanged;
+    private Action<bool>? _dragBlockChanged;
+
     [Parameter, EditorRequired] public required int Index { get; set; }
     [Parameter, EditorRequired] public required DragObjectType ObjectType { get; set; }
     [Parameter] public EventCallback<int> OnClicked { get; set; }
     [Parameter] public EventCallback<ObjectDroppedResult> OnDropped { get; set; }
 
-
-    private void DragChanged(bool dragging, DragObjectType objectTypeBeingDragged)
-    {
-        // This method gets called when something is being dragged. Update the object type so we can verify if it's droppable here
-        _draggedObjectType = objectTypeBeingDragged;
-
-        if (ObjectType == objectTypeBeingDragged)
-        {
-            _beingDragged = dragging;
-            _draggedModel = _draggedObjectType switch
-            {
-                DragObjectType.Group => DragService.DraggedGroup,
-                DragObjectType.Block => DragService.DraggedBlock,
-                _ => throw new ArgumentOutOfRangeException(nameof(objectTypeBeingDragged), objectTypeBeingDragged, null)
-            };
-
-            _isDroppable = true;
-
-        }
-        else
-        {
-            _isDroppable = false;
-        }
-
-        if (!dragging)
-        {
-            _isDroppable = false;
-        }
-
-        StateHasChanged();
-
-    }
-
     protected override void OnInitialized()
     {
-        DragService.DraggedGroupChanged += (dragging) => DragChanged(dragging, DragObjectType.Group);
-        DragService.DraggedBlockChanged += (dragging) => DragChanged(dragging, DragObjectType.Block);
+        _dragBlockChanged = (dragging) => DragChanged(dragging, DragObjectType.Block);
+        _dragGroupChanged = (dragging) => DragChanged(dragging, DragObjectType.Group);
+
+        DragService.DraggedGroupChanged += _dragGroupChanged;
+        DragService.DraggedBlockChanged += _dragBlockChanged;
+
         _cssClasses = ObjectType switch
         {
             DragObjectType.Group => "bb-editor__add-row-button--group",
@@ -65,6 +39,20 @@ public partial class AddBlockRow
         };
 
         base.OnInitialized();
+    }
+
+    public void Dispose()
+    {
+        if (_dragGroupChanged is not null)
+        {
+            DragService.DraggedGroupChanged -= _dragGroupChanged;
+        }
+        if (_dragBlockChanged is not null)
+        {
+            DragService.DraggedBlockChanged -= _dragBlockChanged;
+        }
+
+        GC.SuppressFinalize(this);
     }
 
 
@@ -111,5 +99,38 @@ public partial class AddBlockRow
                 await OnDropped.InvokeAsync(result);
             }
         }
+    }
+
+
+
+    private void DragChanged(bool dragging, DragObjectType objectTypeBeingDragged)
+    {
+        // This method gets called when something is being dragged. Update the object type so we can verify if it's droppable here
+        _draggedObjectType = objectTypeBeingDragged;
+
+        if (ObjectType == objectTypeBeingDragged)
+        {
+            _beingDragged = dragging;
+            _draggedModel = _draggedObjectType switch
+            {
+                DragObjectType.Group => DragService.DraggedGroup,
+                DragObjectType.Block => DragService.DraggedBlock,
+                _ => throw new ArgumentOutOfRangeException(nameof(objectTypeBeingDragged), objectTypeBeingDragged, null)
+            };
+
+            _isDroppable = true;
+
+        }
+        else
+        {
+            _isDroppable = false;
+        }
+
+        if (!dragging)
+        {
+            _isDroppable = false;
+        }
+
+        StateHasChanged();
     }
 }

@@ -14,29 +14,22 @@ public class CarouselBlockModel : BaseBlockModel
 
     public override string Render()
     {
-        return $"{RenderStyles()}{RenderCarousel()}";
+        return RenderCarousel();
     }
-
-    private static string RenderStyles() => """
-        <style>
-            .carousel { max-height: 100px; position: relative; width: 100%; }
-            .carousel .item:nth-child(n+2) { display: none; }
-        </style>
-        """;
 
     private string RenderCarousel()
     {
         var itemsHtml = string.Join("", Items.Select(RenderItem));
-        return $"<div class=\"carousel\">{itemsHtml}</div>";
+        return $"<div class=\"bb-carousel\">{itemsHtml}</div>";
     }
 
-    private static string RenderItem(CarouselItem item) => $$"""
-        <div class="item">
+    private static string RenderItem(CarouselItem item) => item.ImageUrl is not null ? $$"""
+        <div class="bb-carousel__item">
             <img src="{{item.ImageUrl}}" alt="{{item.AltText}}" title="{{item.Caption}}" />
-            <div class="caption" style="position: absolute; left: 50px; bottom: 50px;">{{item.Caption}}</div>
-            <div class="description" style="position: absolute; left: 50px; bottom: 25px;">{{item.Description}}</div>
+            <div class="bb-carousel__item-caption">{{item.Caption}}</div>
+            <div class="bb-carousel__item-description">{{item.Description}}</div>
         </div>
-        """;
+        """ : String.Empty;
 }
 
 public class CarouselItem

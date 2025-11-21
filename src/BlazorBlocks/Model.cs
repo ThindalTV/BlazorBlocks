@@ -24,7 +24,6 @@ public class Model : BaseModel
     public Model()
     {
         Groups = [];
-
         _jsonSerializerOptions = new JsonSerializerOptions() { TypeInfoResolver = new JsonSerializerTypeResolver(BlockRegistrationService.Blocks) };
     }
 
@@ -57,14 +56,28 @@ public class Model : BaseModel
     /// <param name="data">The JSON string representing the editor model.</param>
     public void Load(string data)
     {
+        Console.WriteLine("Loading");
+        if (string.IsNullOrWhiteSpace(data))
+        {
+            Groups = [];
+            return;
+        }
+
+        Console.WriteLine("Validated, deserializing");
         var model = JsonSerializer.Deserialize<Model>(data, _jsonSerializerOptions);
+
+
+        Console.WriteLine("Model is " + model == null ? "null" : "not null" + ", setting groups");
+
         Groups = model?.Groups ?? [];
 
+        Console.WriteLine("Setting parents");
         SetGroupParents(Groups);
     }
 
     private void SetGroupParents(List<EditorGroupModel> groups)
     {
+        Console.WriteLine("Number of groups is " + groups.Count);
         foreach (var group in groups)
         {
             group.ParentModel = this;
@@ -74,10 +87,11 @@ public class Model : BaseModel
 
     private static void SetColumnParents(EditorGroupModel parent, List<EditorColumnModel> groupColumns)
     {
+        Console.WriteLine("Setting column parents. columncount is " + groupColumns.Count);
         foreach (var column in groupColumns)
         {
             column.ParentModel = parent;
-            SetBlockParents(column, column.BlocksModels);
+            SetBlockParents(column, column.Blocks);
         }
     }
 
