@@ -7,7 +7,7 @@ using BlazorBlocks.Internals.Support;
 using BlazorBlocks.Services.Registrations;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BlazorBlocks.Services;
+namespace BlazorBlocks;
 
 /// <summary>
 /// Service for registering blocks and rows in BlazorBlocks.

@@ -5,7 +5,7 @@ namespace BlazorBlocks.Customization;
 public class BlockEditor<T> : ComponentBase where T : BaseBlockModel
 {
     [CascadingParameter]
-    public required Editor Editor { get; set; }
+    public required BlazorBlocksEditor Editor { get; set; }
 
     [Parameter, EditorRequired]
     public required T Model { get; set; }

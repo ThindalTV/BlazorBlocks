@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using System.Text.Json;
 using BlazorBlocks.Internals.Models;
-using BlazorBlocks.Services;
 
 namespace BlazorBlocks;
 
@@ -9,7 +8,7 @@ namespace BlazorBlocks;
 /// The model used for the BlazorBlocks editor.
 /// It contains properties and methods for managing the editor rows and serializing/deserializing the model to JSON/HTML.
 /// </summary>
-public class Model : BaseModel
+public class BlazorBlocksModel : BaseModel
 {
     /// <summary>
     /// Gets or sets the list of editor group models.
@@ -19,9 +18,9 @@ public class Model : BaseModel
     private readonly JsonSerializerOptions _jsonSerializerOptions;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Model"/> class.
+    /// Initializes a new instance of the <see cref="BlazorBlocksModel"/> class.
     /// </summary>
-    public Model()
+    public BlazorBlocksModel()
     {
         Groups = [];
         _jsonSerializerOptions = new JsonSerializerOptions() { TypeInfoResolver = new JsonSerializerTypeResolver(BlockRegistrationService.Blocks) };
@@ -64,7 +63,7 @@ public class Model : BaseModel
         }
 
         Console.WriteLine("Validated, deserializing");
-        var model = JsonSerializer.Deserialize<Model>(data, _jsonSerializerOptions);
+        var model = JsonSerializer.Deserialize<BlazorBlocksModel>(data, _jsonSerializerOptions);
 
 
         Console.WriteLine("Model is " + model == null ? "null" : "not null" + ", setting groups");

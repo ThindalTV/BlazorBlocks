@@ -12,11 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\BlazorBlocks\BlazorBlocks.csproj" />
+    <Folder Include="CustomBlocks\TestBlock\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CustomBlocks\TestBlock\" />
+    <ProjectReference Include="..\..\BlazorBlocks\BlazorBlocks.csproj" />
   </ItemGroup>
 
 </Project>

@@ -11,7 +11,7 @@
     /// Represents the editor component for the Blazor Blocks.
     /// </summary>
     [Parameter, EditorRequired]
-    public required Model Model { get; set; }
+    public required BlazorBlocksModel Model { get; set; }
 
     [Parameter]
     public EventCallback OnModelUpdated { get; set; }
@@ -64,13 +64,13 @@
         if (rowToDelete is EditorGroupModel rowModel)
         {
             Model.RemoveGroup(rowModel);
-	        await OnModelUpdated.InvokeAsync();
+            await OnModelUpdated.InvokeAsync();
         }
     }
 
     protected async Task GroupDropped(ObjectDroppedResult dropObject)
     {
-        if(dropObject.Model == null)
+        if (dropObject.Model == null)
         {
             Console.WriteLine("Invalid drop object or index.");
             return;
@@ -108,12 +108,12 @@
 }
 
 <NewGroupDialog InsertIndex="@(_newGroupIndex ?? 0)"
-              Visible="AddNewGroupDialogVisible"
-              OnGroupSelected="(selectedResult) => NewGroupSelected(selectedResult.GroupType, selectedResult.InsertIndex)" />
+                Visible="AddNewGroupDialogVisible"
+                OnGroupSelected="(selectedResult) => NewGroupSelected(selectedResult.GroupType, selectedResult.InsertIndex)" />
 
 <div class="bb-editor">
     <CascadingValue Value="this">
-        @for (int r = 0; r < Model.Groups.Count; r++)
+        @for (int r = 0; r < Model.Groups?.Count; r++)
         {
             var group = Model.Groups[r];
             <AddBlockRow Index="@r" OnClicked="AddClicked" OnDropped="GroupDropped" ObjectType="DragObjectType.Group" />
@@ -121,6 +121,6 @@
                 <EditorGroup Model="@group" />
             </DraggableContainer>
         }
-        <AddBlockRow Index="Model.Groups.Count" OnClicked="AddClicked" OnDropped="GroupDropped" ObjectType="DragObjectType.Group" />
+        <AddBlockRow Index="(Model.Groups?.Count ?? 0)" OnClicked="AddClicked" OnDropped="GroupDropped" ObjectType="DragObjectType.Group" />
     </CascadingValue>
 </div>
