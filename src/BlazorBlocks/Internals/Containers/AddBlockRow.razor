@@ -11,6 +11,7 @@
 	 @ondragover="() => { }"
 	 @ondrop="async () => { await ObjectDropped(); }">
 	<div class="bb-editor__add-row-sides bb-editor__add-row-left">&nbsp;</div>
-	<div class="bb-editor__add-row-button @(_cssClasses) @(_isDroppable ? "bb-editor__add-row--droppable" : "")" @onclick="AddClicked">+</div>
+	<div class="bb-editor__add-row-button @(_cssClasses) @(_isDroppable ? "bb-editor__add-row--droppable" : "")"
+	@onclick="AddClicked">@_text +</div>
 	<div class="bb-editor__add-row-sides bb-editor__add-row-right">&nbsp;</div>
 </div>

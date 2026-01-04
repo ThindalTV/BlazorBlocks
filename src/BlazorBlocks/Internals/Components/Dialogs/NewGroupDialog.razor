@@ -1,16 +1,12 @@
 ﻿@using BlazorBlocks
 @using BlazorBlocks.Services
 @using BlazorBlocks.Services.Registrations
-@if (Visible)
-{
-    <Dialog Title="Add new group" OnClose="HideDialog">
+    <Dialog Title="Add new group" OnClose="HideDialog" @bind-IsOpen="Visible">
         @foreach (var groupRegistration in BlockRegistrationService.Groups)
         {
             <button class="btn btn-info me-2" @onclick="() => ItemClicked(groupRegistration)">@groupRegistration.Name</button>
         }
     </Dialog>
-}
-
 @code {
 
     [Parameter, EditorRequired] public bool Visible { get; set; }

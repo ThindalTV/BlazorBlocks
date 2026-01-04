@@ -72,7 +72,6 @@
     {
         if (dropObject.Model == null)
         {
-            Console.WriteLine("Invalid drop object or index.");
             return;
         }
         if (dropObject.Model is not EditorGroupModel droppedGroup)
@@ -108,7 +107,7 @@
 }
 
 <NewGroupDialog InsertIndex="@(_newGroupIndex ?? 0)"
-                Visible="AddNewGroupDialogVisible"
+                @bind-Visible="AddNewGroupDialogVisible"
                 OnGroupSelected="(selectedResult) => NewGroupSelected(selectedResult.GroupType, selectedResult.InsertIndex)" />
 
 <div class="bb-editor">

@@ -12,6 +12,7 @@ public partial class AddBlockRow : IDisposable
     private BaseModel? _draggedModel;
     private DragObjectType _draggedObjectType;
     private string? _cssClasses;
+    private string? _text;
 
     private bool _isDroppable = false;
 
@@ -31,10 +32,10 @@ public partial class AddBlockRow : IDisposable
         DragService.DraggedGroupChanged += _dragGroupChanged;
         DragService.DraggedBlockChanged += _dragBlockChanged;
 
-        _cssClasses = ObjectType switch
+        (_cssClasses, _text) = ObjectType switch
         {
-            DragObjectType.Group => "bb-editor__add-row-button--group",
-            DragObjectType.Block => "bb-editor__add-row-button--block",
+            DragObjectType.Group => ("bb-editor__add-row-button--group", "Add group"),
+            DragObjectType.Block => ("bb-editor__add-row-button--block", "Add block"),
             _ => throw new ArgumentOutOfRangeException(nameof(ObjectType), ObjectType, null)
         };
 

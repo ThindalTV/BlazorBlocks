@@ -1,15 +1,16 @@
 .bb-editor__add-row {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     margin-top: var(--bb-spacing-md);
     margin-bottom: var(--bb-spacing-md);
 }
 
-.bb-editor__add-row * {
-    display: flex;
-}
+    .bb-editor__add-row * {
+        /*display: flex;*/
+    }
 
 .bb-editor__add-row-sides {
-    flex: 1;
+    /*flex: 1;*/
     height: 50%;
     border-bottom: var(--bb-border-width) solid var(--bb-color-neutral-900);
 }
@@ -25,14 +26,12 @@
     border: var(--bb-border-width) solid var(--bb-color-neutral-900);
     color: var(--bb-color-neutral-900);
     text-align: center;
-    height: var(--bb-layout-container-height);
-    font-size: var(--bb-font-size-2xl);
-    width: var(--bb-layout-container-height);
-    align-items: center;
-    justify-content: center;
+    font-size: var(--bb-font-size-lg);
+    padding: var(--bb-spacing-md);
     cursor: pointer;
     background: var(--bb-color-background-white);
     margin: 0 var(--bb-spacing-sm);
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }
 
 .bb-editor__add-row-button--group {

@@ -1,4 +1,7 @@
-﻿@code {
+﻿@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime
+
+@code {
     [Parameter]
     public string? Title { get; set; }
 
@@ -7,24 +10,78 @@
     public EventCallback OnClose { get; set; }
 
     [Parameter]
+    public bool IsOpen
+    {
+        get;
+        set
+        {
+            if (value == field)
+            {
+                return;
+            }
+            field = value;
+
+            if (value)
+            {
+                InvokeAsync(ShowDialog);
+            }
+            else
+            {
+                InvokeAsync(CloseDialog);
+            }
+
+
+            IsOpenChanged.InvokeAsync(value);
+        }
+    }
+
+    [Parameter]
+    public EventCallback<bool> IsOpenChanged { get; set; }
+
+    [Parameter]
     [EditorRequired]
     public RenderFragment ChildContent { get; set; } = null!;
+
+    private readonly Guid _diagId = Guid.NewGuid();
 
     protected override Task OnInitializedAsync()
     {
         return Task.CompletedTask;
     }
+
+    private async Task ShowDialog()
+    {
+        var jsObj = await JSRuntime.InvokeAsync<IJSObjectReference>($"document.getElementById", $"dialog{_diagId}");// 'dialog{_diagId}').showModal");
+        await jsObj.InvokeVoidAsync("showModal");
+        await jsObj.DisposeAsync();
+    }
+
+    private async void CloseDialog()
+    {
+        var jsObj = await JSRuntime.InvokeAsync<IJSObjectReference>($"document.getElementById", $"dialog{_diagId}");// 'dialog{_diagId}').showModal");
+        await jsObj.InvokeVoidAsync("close");
+        await jsObj.DisposeAsync();
+    }
 }
 
+<dialog id="@($"dialog{_diagId}")">
+    @if (!string.IsNullOrEmpty(Title))
+    {
+        <h2>@Title</h2>
+    }
+    @ChildContent
+</dialog>
 
-<div class="bb-dialog-overlay">
+<!--
+    <div class="bb-dialog-overlay">
     <div class="bb-dialog">
         <div class="bb-dialog__title"><h2>@(Title ?? String.Empty)</h2></div>
         <div class="bb-dialog__content">
-            @ChildContent
+@ChildContent
         </div>
         <div class="bb-dialog__actions">
             <button class="bb-button bb-button--primary" @onclick="async () => { await OnClose.InvokeAsync(); }">Close</button>
         </div>
     </div>
 </div>
+-->
