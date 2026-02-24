@@ -12,7 +12,7 @@ public class EditorColumnModel : BaseModel
     public string Render()
     {
         var sb = new StringBuilder();
-        sb.Append($"""<div class="{ColumnClass}">""");
+        sb.Append($"""<div class="{CssHelper.SanitizeCssClass(ColumnClass)}">""");
         foreach (var block in Blocks)
         {
             sb.Append(block.Block.Render());
