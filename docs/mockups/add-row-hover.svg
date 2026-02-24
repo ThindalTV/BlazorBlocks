@@ -87,7 +87,7 @@
   <line x1="602" y1="180" x2="724" y2="180"
         stroke="#adb5bd" stroke-width="1.5" stroke-dasharray="5,3"/>
 
-  <!-- Add Group button: circle / pill — .bb-editor__add-row-button--group -->
+  <!-- Add Group button: circle / pill — .bb-editor__add-row-button-group -->
   <rect x="551" y="168" width="50" height="24" rx="12"
         fill="#1b6ec2" stroke="#1861ac" stroke-width="1"/>
   <text x="576" y="184" fill="white" font-size="13" text-anchor="middle" font-weight="bold">+</text>

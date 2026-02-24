@@ -27,10 +27,10 @@
        Left accent stripe (#1b6ec2) + full-width header stripe (#e2e6ea)
        ═══════════════════════════════════════════════════════════════════ -->
 
-  <!-- Group: left accent stripe — border-left: 4px solid #1b6ec2 (--bb-color-primary) -->
+  <!-- Group: left accent stripe — border-left: 4px solid #1b6ec2 (bb-color-primary) -->
   <rect x="20" y="68" width="4" height="348" rx="0" fill="#1b6ec2"/>
 
-  <!-- Group: full-width header stripe — background-color: #e2e6ea (--bb-color-neutral-200) -->
+  <!-- Group: full-width header stripe — background-color: #e2e6ea (bb-color-neutral-200) -->
   <!-- Runs from x=24 (after stripe) to x=580, height 34px -->
   <rect x="24" y="68" width="556" height="34" rx="0"
         fill="#e2e6ea" stroke="#aaa" stroke-width="1"/>
@@ -60,7 +60,7 @@
         fill="#ffffff" stroke="#ccc" stroke-width="1"/>
   <text x="314" y="128" fill="#aaa" font-size="9" font-style="italic">Column 2</text>
 
-  <!-- gap: --bb-spacing-sm (8px) between columns instead of border-left -->
+  <!-- gap: bb-spacing-sm (8px) between columns instead of border-left -->
   <text x="296" y="260" fill="#ccc" font-size="8" text-anchor="middle">gap</text>
 
   <!-- ═══════════════════════════════════════════════════════════════════

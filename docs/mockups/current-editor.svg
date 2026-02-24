@@ -24,7 +24,7 @@
 
   <!-- Group floating tab (inline-block, NOT full-width — this is the problem) -->
   <!-- Uses: position:relative; bottom:-1px; display:inline-block; border-radius top only -->
-  <!-- fill = --bb-color-background-light (#f6f6f6)  stroke = --bb-color-border-medium (#aaa) -->
+  <!-- fill = bb-color-background-light (#f6f6f6)  stroke = bb-color-border-medium (#aaa) -->
   <rect x="20" y="68" width="218" height="28" rx="4"
         fill="#f6f6f6" stroke="#aaa" stroke-width="1"/>
   <!-- Mask the bottom stroke of the tab so it "merges" into the content box border -->
