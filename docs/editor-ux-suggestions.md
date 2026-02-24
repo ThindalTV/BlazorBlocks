@@ -26,6 +26,9 @@ BlazorBlocksEditor
 
 The core problem is that all three levels are currently rendered using the **same visual pattern**: a floating tab-style header above a bordered content box. At a glance, groups, columns, and blocks look like variations of the same thing rather than a clear containment hierarchy. The suggestions below address that.
 
+> **Mockup — current state:**
+> ![Current editor showing hierarchy problem](mockups/current-editor.svg)
+
 ---
 
 ## 1. Differentiate the Three Nesting Levels Visually
@@ -135,6 +138,9 @@ Blocks should feel like _content cards_, not structural containers. The tab-head
 }
 ```
 
+> **Mockup — proposed hierarchy:**
+> ![Proposed differentiated hierarchy showing group accent stripe, column boundary, and block quiet bar](mockups/proposed-hierarchy.svg)
+
 ---
 
 ## 2. Reduce Noise from Always-Visible Add Rows
@@ -168,6 +174,9 @@ An add-row should be a low-profile zone. Show the full button treatment only whe
 ```
 
 This keeps add-rows discoverable and accessible (focus-within ensures keyboard users can still reach them) while dramatically reducing visual noise in complex documents.
+
+> **Mockup — add-row idle vs hover:**
+> ![Add-row button idle state (4px line) vs hover state (full button)](mockups/add-row-hover.svg)
 
 #### Distinguish group add-rows from block add-rows
 
