@@ -1,9 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 540"
      width="760" height="540"
      font-family="'Helvetica Neue', Helvetica, Arial, sans-serif">
-
   <defs>
-    <!-- Right-pointing arrowhead; orient=auto rotates it to follow line direction -->
+    
     <marker id="ah-red" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
       <polygon points="0 0, 10 3.5, 0 7" fill="#c0392b"/>
     </marker>
@@ -11,96 +10,78 @@
       <polygon points="0 0, 10 3.5, 0 7" fill="#c87534"/>
     </marker>
   </defs>
-
-  <!-- ── PAGE BACKGROUND ─────────────────────────────────────────────── -->
+  
   <rect width="760" height="540" fill="#f4f4f4"/>
-
-  <!-- ── BANNER ─────────────────────────────────────────────────────── -->
+  
   <rect width="760" height="52" fill="#c0392b"/>
   <text x="16" y="23" fill="white" font-size="14" font-weight="bold">BEFORE — The Hierarchy Problem</text>
   <text x="16" y="42" fill="rgba(255,255,255,0.88)" font-size="11">Group, Column, and Block all share the same floating-tab chrome — nesting depth is invisible at a glance</text>
-
-  <!-- ── GROUP CONTAINER ──────────────────────────────────────────────── -->
-
-  <!-- Group floating tab (inline-block, NOT full-width — this is the problem) -->
-  <!-- Uses: position:relative; bottom:-1px; display:inline-block; border-radius top only -->
-  <!-- fill = bb-color-background-light (#f6f6f6)  stroke = bb-color-border-medium (#aaa) -->
+  
+  
+  
+  
   <rect x="20" y="68" width="218" height="28" rx="4"
         fill="#f6f6f6" stroke="#aaa" stroke-width="1"/>
-  <!-- Mask the bottom stroke of the tab so it "merges" into the content box border -->
+  
   <rect x="21" y="93" width="216" height="3" fill="#f6f6f6"/>
   <text x="34" y="87" fill="#212529" font-size="11">≡  Group: Full Width   ▾  ✕</text>
-
-  <!-- Group content box: fill=#fff (#bb-color-background-white), stroke=#aaa -->
+  
   <rect x="20" y="94" width="560" height="330" fill="white" stroke="#aaa" stroke-width="1"/>
-
-  <!-- ── COLUMN 1 — no visible boundary ────────────────────────────── -->
-  <!-- Drawn with a faint dashed outline to mark the invisible column area -->
+  
+  
   <rect x="28" y="102" width="258" height="314" rx="2"
         fill="none" stroke="#ddd" stroke-width="1" stroke-dasharray="6,3"/>
   <text x="36" y="117" fill="#c0c0c0" font-size="9" font-style="italic">Column 1 — no visible boundary</text>
-
-  <!-- Block 1 in Column 1 -->
-  <!-- Block floating tab — SAME visual pattern as the group tab above -->
+  
+  
   <rect x="36" y="124" width="178" height="26" rx="3"
         fill="#f6f6f6" stroke="#aaa" stroke-width="1"/>
   <rect x="37" y="147" width="176" height="3" fill="#f6f6f6"/>
   <text x="48" y="141" fill="#212529" font-size="10">≡  Title Block  ▾  ✕</text>
   <rect x="36" y="148" width="242" height="52" fill="white" stroke="#aaa" stroke-width="1"/>
   <text x="48" y="178" fill="#999" font-size="10" font-style="italic">Title content here…</text>
-
-  <!-- Block 2 in Column 1 -->
+  
   <rect x="36" y="222" width="178" height="26" rx="3"
         fill="#f6f6f6" stroke="#aaa" stroke-width="1"/>
   <rect x="37" y="245" width="176" height="3" fill="#f6f6f6"/>
   <text x="48" y="239" fill="#212529" font-size="10">≡  Image Block  ▾  ✕</text>
   <rect x="36" y="246" width="242" height="52" fill="white" stroke="#aaa" stroke-width="1"/>
   <text x="48" y="276" fill="#999" font-size="10" font-style="italic">Image content here…</text>
-
-  <!-- ── COLUMN DIVIDER (border-left on second child only) ─────────── -->
+  
   <line x1="295" y1="102" x2="295" y2="416" stroke="#ccc" stroke-width="1"/>
-
-  <!-- ── COLUMN 2 — no visible boundary ────────────────────────────── -->
+  
   <rect x="302" y="102" width="270" height="314" rx="2"
         fill="none" stroke="#ddd" stroke-width="1" stroke-dasharray="6,3"/>
   <text x="310" y="117" fill="#c0c0c0" font-size="9" font-style="italic">Column 2 — no visible boundary</text>
-
-  <!-- Block 3 in Column 2 -->
+  
   <rect x="310" y="124" width="178" height="26" rx="3"
         fill="#f6f6f6" stroke="#aaa" stroke-width="1"/>
   <rect x="311" y="147" width="176" height="3" fill="#f6f6f6"/>
   <text x="322" y="141" fill="#212529" font-size="10">≡  Text Block  ▾  ✕</text>
   <rect x="310" y="148" width="254" height="52" fill="white" stroke="#aaa" stroke-width="1"/>
   <text x="322" y="178" fill="#999" font-size="10" font-style="italic">Text content here…</text>
-
-  <!-- ── ANNOTATION CALLOUTS (right side, x≥596) ──────────────────── -->
-
-  <!-- ① Group tab — same as block tab -->
+  
+  
   <line x1="596" y1="82" x2="240" y2="82" stroke="#c0392b" stroke-width="1.5" marker-end="url(#ah-red)"/>
   <rect x="596" y="70" width="148" height="24" rx="3" fill="#c0392b"/>
   <text x="604" y="86" fill="white" font-size="10" font-weight="bold">① Group: floating tab</text>
-
-  <!-- ① Block tab — identical to group -->
+  
   <line x1="596" y1="137" x2="216" y2="137" stroke="#c0392b" stroke-width="1.5" marker-end="url(#ah-red)"/>
   <rect x="596" y="125" width="148" height="24" rx="3" fill="#c0392b"/>
   <text x="604" y="141" fill="white" font-size="10" font-weight="bold">① Block: same floating tab</text>
-
-  <!-- ① Identity note -->
+  
   <rect x="596" y="156" width="148" height="32" rx="3" fill="#fff0f0" stroke="#c0392b" stroke-width="1"/>
   <text x="604" y="170" fill="#c0392b" font-size="9">Both use: inline-block,</text>
   <text x="604" y="182" fill="#c0392b" font-size="9">same bg/border — no depth signal</text>
-
-  <!-- ② No column boundary -->
+  
   <line x1="596" y1="265" x2="300" y2="265" stroke="#c87534" stroke-width="1.5" marker-end="url(#ah-orange)"/>
   <rect x="596" y="253" width="148" height="24" rx="3" fill="#c87534"/>
   <text x="604" y="269" fill="white" font-size="10" font-weight="bold">② No column boundary</text>
-
-  <!-- ③ border-left divider only -->
+  
   <line x1="596" y1="330" x2="298" y2="330" stroke="#c87534" stroke-width="1.5" marker-end="url(#ah-orange)"/>
   <rect x="596" y="318" width="148" height="24" rx="3" fill="#c87534"/>
   <text x="604" y="334" fill="white" font-size="10" font-weight="bold">③ 1px border-left only</text>
-
-  <!-- ── LEGEND ───────────────────────────────────────────────────────── -->
+  
   <rect x="20" y="444" width="720" height="82" rx="4"
         fill="#fff3cd" stroke="#ffc107" stroke-width="1.5"/>
   <text x="32" y="462" fill="#856404" font-size="11" font-weight="bold">① Same floating-tab chrome at Group and Block level:</text>
@@ -108,5 +89,4 @@
   <text x="32" y="490" fill="#856404" font-size="10">There is no visual hierarchy — a group with blocks inside it looks the same as a block with sub-content.</text>
   <text x="32" y="506" fill="#856404" font-size="11" font-weight="bold">② ③ Invisible columns:</text>
   <text x="32" y="520" fill="#856404" font-size="10">Columns have no container chrome. Two columns show only a 1px border-left between them; a single column shows nothing at all.</text>
-
 </svg>

@@ -1,7 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 570"
      width="760" height="570"
      font-family="'Helvetica Neue', Helvetica, Arial, sans-serif">
-
   <defs>
     <marker id="ah-blue" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
       <polygon points="0 0, 10 3.5, 0 7" fill="#1b6ec2"/>
@@ -13,79 +12,52 @@
       <polygon points="0 0, 10 3.5, 0 7" fill="#495057"/>
     </marker>
   </defs>
-
-  <!-- ── PAGE BACKGROUND ─────────────────────────────────────────────── -->
+  
   <rect width="760" height="570" fill="#f4f4f4"/>
-
-  <!-- ── BANNER ─────────────────────────────────────────────────────── -->
+  
   <rect width="760" height="52" fill="#1a7a3d"/>
   <text x="16" y="23" fill="white" font-size="14" font-weight="bold">AFTER — Proposed Hierarchy: Three Visually Distinct Levels</text>
   <text x="16" y="42" fill="rgba(255,255,255,0.88)" font-size="11">Group ← Column ← Block each has a unique visual treatment that communicates nesting depth instantly</text>
-
-  <!-- ═══════════════════════════════════════════════════════════════════
-       LEVEL 1 — GROUP
-       Left accent stripe (#1b6ec2) + full-width header stripe (#e2e6ea)
-       ═══════════════════════════════════════════════════════════════════ -->
-
-  <!-- Group: left accent stripe — border-left: 4px solid #1b6ec2 (bb-color-primary) -->
+  
+  
   <rect x="20" y="68" width="4" height="348" rx="0" fill="#1b6ec2"/>
-
-  <!-- Group: full-width header stripe — background-color: #e2e6ea (bb-color-neutral-200) -->
-  <!-- Runs from x=24 (after stripe) to x=580, height 34px -->
+  
+  
   <rect x="24" y="68" width="556" height="34" rx="0"
         fill="#e2e6ea" stroke="#aaa" stroke-width="1"/>
-  <!-- Bottom stroke hidden — merges with content box top -->
+  
   <rect x="25" y="100" width="554" height="2" fill="#e2e6ea"/>
-  <!-- Header text: group controls in a full-width bar -->
+  
   <text x="36" y="89" fill="#212529" font-size="11" font-weight="bold">≡  Group: Full Width</text>
   <text x="510" y="89" fill="#495057" font-size="11">▾  ✕</text>
-
-  <!-- Group content area -->
+  
   <rect x="24" y="100" width="556" height="314" fill="#fafafa" stroke="#aaa" stroke-width="1"/>
-
-  <!-- ═══════════════════════════════════════════════════════════════════
-       LEVEL 2 — COLUMNS
-       background-color: #fff (--bb-color-background-white)
-       border: 1px solid #ccc (--bb-color-border-light)
-       border-radius: 4px (--bb-border-radius-sm)
-       ═══════════════════════════════════════════════════════════════════ -->
-
-  <!-- Column 1 — visible bordered container -->
+  
+  
   <rect x="34" y="112" width="258" height="294" rx="4"
         fill="#ffffff" stroke="#ccc" stroke-width="1"/>
   <text x="42" y="128" fill="#aaa" font-size="9" font-style="italic">Column 1</text>
-
-  <!-- Column 2 — visible bordered container -->
+  
   <rect x="306" y="112" width="266" height="294" rx="4"
         fill="#ffffff" stroke="#ccc" stroke-width="1"/>
   <text x="314" y="128" fill="#aaa" font-size="9" font-style="italic">Column 2</text>
-
-  <!-- gap: bb-spacing-sm (8px) between columns instead of border-left -->
+  
   <text x="296" y="260" fill="#ccc" font-size="8" text-anchor="middle">gap</text>
-
-  <!-- ═══════════════════════════════════════════════════════════════════
-       LEVEL 3 — BLOCKS
-       No floating tab. Instead: thin top bar integrated into the block's border.
-       top bar bg: #f8f9fa (--bb-color-neutral-100)
-       top bar border-bottom: 1px solid #ccc (--bb-color-border-light)
-       block left accent: 3px solid #ccc (--bb-color-border-light)
-       ═══════════════════════════════════════════════════════════════════ -->
-
-  <!-- Block 1 in Column 1 -->
-  <!-- Block border/card -->
+  
+  
+  
   <rect x="42" y="136" width="242" height="74" rx="3" fill="white" stroke="#ccc" stroke-width="1"/>
-  <!-- Block top bar (quiet — no protruding tab, integrated into card) -->
+  
   <rect x="42" y="136" width="242" height="24" rx="3" fill="#f8f9fa"/>
   <rect x="42" y="158" width="242" height="2" fill="#f8f9fa"/>
   <rect x="43" y="137" width="240" height="1" fill="#f8f9fa"/>
-  <!-- Left accent stripe on block: 3px solid #ccc -->
+  
   <rect x="42" y="136" width="3" height="74" rx="0" fill="#ccc"/>
-  <!-- Top bar separator line -->
+  
   <line x1="42" y1="160" x2="284" y2="160" stroke="#ccc" stroke-width="1"/>
   <text x="54" y="152" fill="#495057" font-size="10">≡  Title Block  ▾  ✕</text>
   <text x="54" y="180" fill="#999" font-size="10" font-style="italic">Title content here…</text>
-
-  <!-- Block 2 in Column 1 -->
+  
   <rect x="42" y="224" width="242" height="74" rx="3" fill="white" stroke="#ccc" stroke-width="1"/>
   <rect x="42" y="224" width="242" height="24" rx="3" fill="#f8f9fa"/>
   <rect x="42" y="246" width="242" height="2" fill="#f8f9fa"/>
@@ -94,8 +66,7 @@
   <line x1="42" y1="248" x2="284" y2="248" stroke="#ccc" stroke-width="1"/>
   <text x="54" y="240" fill="#495057" font-size="10">≡  Image Block  ▾  ✕</text>
   <text x="54" y="268" fill="#999" font-size="10" font-style="italic">Image content here…</text>
-
-  <!-- Block 3 in Column 2 -->
+  
   <rect x="314" y="136" width="250" height="74" rx="3" fill="white" stroke="#ccc" stroke-width="1"/>
   <rect x="314" y="136" width="250" height="24" rx="3" fill="#f8f9fa"/>
   <rect x="314" y="158" width="250" height="2" fill="#f8f9fa"/>
@@ -104,61 +75,50 @@
   <line x1="314" y1="160" x2="564" y2="160" stroke="#ccc" stroke-width="1"/>
   <text x="326" y="152" fill="#495057" font-size="10">≡  Text Block  ▾  ✕</text>
   <text x="326" y="180" fill="#999" font-size="10" font-style="italic">Text content here…</text>
-
-  <!-- ── ANNOTATION CALLOUTS ─────────────────────────────────────────── -->
-
-  <!-- GROUP: left accent stripe -->
+  
+  
   <line x1="596" y1="100" x2="26" y2="100" stroke="#1b6ec2" stroke-width="1.5" marker-end="url(#ah-blue)"/>
   <rect x="596" y="84" width="152" height="32" rx="3" fill="#1b6ec2"/>
   <text x="604" y="99" fill="white" font-size="10" font-weight="bold">Group left accent stripe</text>
   <text x="604" y="112" fill="rgba(255,255,255,0.85)" font-size="9">4px solid #1b6ec2 (--bb-color-primary)</text>
-
-  <!-- GROUP: full-width header -->
+  
   <line x1="596" y1="140" x2="582" y2="85" stroke="#1b6ec2" stroke-width="1.5" marker-end="url(#ah-blue)"/>
   <rect x="596" y="128" width="152" height="32" rx="3" fill="#1b6ec2"/>
   <text x="604" y="143" fill="white" font-size="10" font-weight="bold">Group full-width header</text>
   <text x="604" y="156" fill="rgba(255,255,255,0.85)" font-size="9">bg: #e2e6ea (--bb-color-neutral-200)</text>
-
-  <!-- COLUMN: visible boundary -->
+  
   <line x1="596" y1="230" x2="296" y2="230" stroke="#1a7a3d" stroke-width="1.5" marker-end="url(#ah-green)"/>
   <rect x="596" y="218" width="152" height="32" rx="3" fill="#1a7a3d"/>
   <text x="604" y="233" fill="white" font-size="10" font-weight="bold">Column: visible boundary</text>
   <text x="604" y="246" fill="rgba(255,255,255,0.85)" font-size="9">border: 1px solid #ccc (--bb-color-border-light)</text>
-
-  <!-- BLOCK: quiet top bar -->
+  
   <line x1="596" y1="310" x2="285" y2="152" stroke="#495057" stroke-width="1.5" marker-end="url(#ah-slate)"/>
   <rect x="596" y="298" width="152" height="32" rx="3" fill="#495057"/>
   <text x="604" y="313" fill="white" font-size="10" font-weight="bold">Block: quiet integrated bar</text>
   <text x="604" y="326" fill="rgba(255,255,255,0.85)" font-size="9">bg: #f8f9fa (--bb-color-neutral-100)</text>
-
-  <!-- BLOCK: left accent stripe -->
+  
   <line x1="596" y1="356" x2="47" y2="175" stroke="#495057" stroke-width="1.5" marker-end="url(#ah-slate)"/>
   <rect x="596" y="344" width="152" height="32" rx="3" fill="#495057"/>
   <text x="604" y="359" fill="white" font-size="10" font-weight="bold">Block left accent stripe</text>
   <text x="604" y="372" fill="rgba(255,255,255,0.85)" font-size="9">3px solid #ccc (--bb-color-border-light)</text>
-
-  <!-- ── LEVEL HIERARCHY KEY ──────────────────────────────────────────── -->
+  
   <rect x="20" y="434" width="720" height="120" rx="4"
         fill="#e8f4fd" stroke="#1b6ec2" stroke-width="1.5"/>
   <text x="32" y="454" fill="#0c4a8a" font-size="12" font-weight="bold">Visual Hierarchy Key</text>
-
-  <!-- Level 1 swatch -->
+  
   <rect x="32" y="464" width="14" height="40" fill="#1b6ec2"/>
   <rect x="46" y="464" width="80" height="40" fill="#e2e6ea" stroke="#aaa" stroke-width="1"/>
   <text x="140" y="479" fill="#0c4a8a" font-size="10" font-weight="bold">Level 1 — Group</text>
   <text x="140" y="494" fill="#495057" font-size="9">Left accent (#1b6ec2) + full-width header stripe (#e2e6ea)</text>
-
-  <!-- Level 2 swatch -->
+  
   <rect x="32" y="512" width="80" height="34" rx="3" fill="white" stroke="#ccc" stroke-width="1.5"/>
   <text x="140" y="527" fill="#0c4a8a" font-size="10" font-weight="bold">Level 2 — Column</text>
   <text x="140" y="541" fill="#495057" font-size="9">Visible card container: white bg (#fff), border 1px #ccc, gap between columns replaces border-left</text>
-
-  <!-- Level 3 swatch -->
+  
   <rect x="230" y="512" width="80" height="34" rx="3" fill="white" stroke="#ccc" stroke-width="1"/>
   <rect x="230" y="512" width="4" height="34" fill="#ccc"/>
   <rect x="230" y="512" width="80" height="16" rx="3" fill="#f8f9fa"/>
   <rect x="230" y="526" width="80" height="1" fill="#ccc"/>
   <text x="324" y="527" fill="#0c4a8a" font-size="10" font-weight="bold">Level 3 — Block</text>
   <text x="324" y="541" fill="#495057" font-size="9">Quiet top bar (#f8f9fa) + left accent (#ccc). No floating tab — integrated into card border.</text>
-
 </svg>
