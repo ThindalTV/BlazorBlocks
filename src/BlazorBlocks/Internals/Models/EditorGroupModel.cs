@@ -14,7 +14,7 @@ public class EditorGroupModel : BaseModel
     public string Render()
     {
         var sb = new StringBuilder();
-        sb.Append($"<div class=\"{CssClass}\">");
+        sb.Append($"<div class=\"{CssHelper.SanitizeCssClass(CssClass)}\">");
         foreach (var column in Columns)
         {
             sb.Append(column.Render());

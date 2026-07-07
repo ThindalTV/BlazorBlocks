@@ -1,0 +1,5 @@
+{
+  "default_universe": "The Expanse",
+  "universes": ["The Expanse"],
+  "max_agents": 25
+}
