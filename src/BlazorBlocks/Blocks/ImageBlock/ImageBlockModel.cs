@@ -29,8 +29,14 @@ public class ImageBlockModel : BaseBlockModel
     private string RenderImage()
     {
         var heightAttribute = GetHeightAttribute();
-        return $"""<img src="{ImageUrl}" alt="{AltText}" {heightAttribute}/><br />""";
+        var ariaAttribute = GetAriaAttribute();
+        return $"""<img src="{ImageUrl}" alt="{AltText}" {ariaAttribute}{heightAttribute}/><br />""";
     }
+
+    private string GetAriaAttribute() =>
+        string.IsNullOrWhiteSpace(AltText)
+            ? "aria-hidden=\"true\" "
+            : $"aria-label=\"{AltText}\" aria-hidden=\"false\" ";
 
     private string GetHeightAttribute() =>
         Height.HasValue ? $"Height=\"{Height}\" " : string.Empty;
