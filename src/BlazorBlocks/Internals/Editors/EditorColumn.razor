@@ -1,4 +1,4 @@
-﻿@using BlazorBlocks
+@using BlazorBlocks
 @using BlazorBlocks.Customization
 @using BlazorBlocks.Internals
 @using BlazorBlocks.Internals.Components;
@@ -49,11 +49,11 @@
 
     protected async Task DeleteBlock(BaseModel block)
     {
-	    if (block is EditorBlockModel model)
-	    {
-		    Model.RemoveBlock(model);
-		    await Editor.OnModelUpdated.InvokeAsync();
-	    }
+        if (block is EditorBlockModel model)
+        {
+            Model.RemoveBlock(model);
+            await Editor.OnModelUpdated.InvokeAsync();
+        }
     }
 
     private bool _dragging;
@@ -68,7 +68,7 @@
     {
         DropService.DraggedBlockChanged += (dragging) =>
         {
-	        _dragging = dragging;
+            _dragging = dragging;
             StateHasChanged();
         };
     }
@@ -82,7 +82,7 @@
             return;
         }
 
-        if(dropped.ParentColumn is not EditorColumnModel previousColumn)
+        if (dropped.ParentColumn is not EditorColumnModel previousColumn)
         {
             return;
         }
@@ -124,23 +124,19 @@
 
 }
 
-@if (AddNewBlockDialogOpen)
-{
-    <Dialog Title="Add new block" OnClose="() => { AddNewBlockDialogOpen = false; }">
-        @foreach (var blockType in BlockRegistrationService.Blocks)
+<Dialog @bind-IsOpen="AddNewBlockDialogOpen" Title="Add new block" OnClose="() => { AddNewBlockDialogOpen = false; }">
+    @foreach (var blockType in BlockRegistrationService.Blocks)
+    {
+        @if (blockType.Image == null)
         {
-            @if (blockType.Image == null)
-            {
-                <button @onclick="() => AddBlock(blockType)">@blockType.Name</button>
-            }
-            else
-            {
-                <img @onclick="() => AddBlock(blockType)" src="@blockType.Image" />
-            }
+            <button @onclick="() => AddBlock(blockType)">@blockType.Name</button>
         }
-    </Dialog>
-
-}
+        else
+        {
+            <img @onclick="() => AddBlock(blockType)" src="@blockType.Image" />
+        }
+    }
+</Dialog>
 
 <div class="@Model.ColumnClass bb-editor__column">
     @for (var index = 0; index < Model.Blocks.Count; index++)
