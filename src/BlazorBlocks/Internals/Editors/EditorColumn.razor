@@ -22,7 +22,7 @@
 
     protected bool AddNewBlockDialogOpen { get; set; }
 
-    protected async Task AddBlock(BlockRegistration blockType)
+    private async Task AddBlock(BlockRegistration blockType)
     {
         var blockModel = Activator.CreateInstance(blockType.BlockModel) as BaseBlockModel;
         if (blockModel == null) throw new InvalidOperationException($"Attempting to create a block model that is not a EditorBlockBaseModel. (It is {blockType.BlockModel.Name})");

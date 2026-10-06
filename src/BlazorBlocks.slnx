@@ -4,6 +4,7 @@
   </Folder>
   <Folder Name="/Solution Items/">
     <File Path="../README.md" />
+    <File Path="global.json" />
   </Folder>
   <Folder Name="/Tests/">
     <Project Path="Tests/BlazorBlocks.Tests.Model/BlazorBlocks.Tests.Model.csproj" Id="2f61703f-56dc-47de-a83c-383f2e6c7638" />

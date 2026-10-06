@@ -1,26 +1,29 @@
-﻿using BlazorBlocks.Customization;
+using BlazorBlocks.Customization;
 
 namespace BlazorBlocks.Services.Registrations;
 
-public abstract record BlockRegistration
+abstract record BlockRegistration
 {
-    public string Name { get; }
+    public abstract string Name { get; }
+    public abstract string? Image { get; }
+    public abstract Type BlockModel { get; }
+    public abstract Type EditorBlock { get; }
+}
 
-    public string? Image { get; }
+record BlockRegistration<TModel, TEditor> : BlockRegistration
+    where TModel : BaseBlockModel
+    where TEditor : BlockEditor<TModel>
+{
+    public override string Name { get; }
 
-    public Type BlockModel { get; }
-    public Type EditorBlock { get; }
+    public override string? Image { get; }
 
-    public BlockRegistration(string name, string? image, Type modelType, Type editorType)
+    public override Type BlockModel => typeof(TModel);
+    public override Type EditorBlock => typeof(TEditor);
+
+    public BlockRegistration(string name, string? image = null)
     {
-        if (!modelType.IsSubclassOf(typeof(BaseBlockModel)))
-        {
-            throw new ArgumentException($"{nameof(modelType)} is not derived from {nameof(BaseBlockModel)}.");
-        }
-
         Name = name;
         Image = image;
-        BlockModel = modelType;
-        EditorBlock = editorType;
     }
 }

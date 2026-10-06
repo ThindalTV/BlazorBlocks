@@ -1,4 +1,4 @@
-﻿@using BlazorBlocks.Customization
+@using BlazorBlocks.Customization
 @using BlazorBlocks.Internals.Support
 
 @code {
@@ -7,8 +7,6 @@
 
     [Parameter, EditorRequired]
     public required BaseBlockModel Model { get; set; }
-
-    public string BlockName => Model.EditorName;
 
     public Type BlockType => Model.BlockType;
 
