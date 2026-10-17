@@ -80,7 +80,7 @@ Items marked **(seen)** were reproduced in the running sample. Everything else c
 - **Debug logging ships in the library.** `Load()` calls `Console.WriteLine` throughout, including the garbled message from #20 **(seen in the browser console)**.
 - **Deleting has no confirmation and no undo** (the code has a `// Add warning dialog here` comment at [BlazorBlocksEditor.razor:63](src/BlazorBlocks/BlazorBlocksEditor.razor#L63)).
 - **Every column renders its own copy of the "Add block" dialog**: the sample's DOM had 4 of them for 4 columns **(seen)**.
-- ~~**Bootstrap leftovers (#14)**~~ — done on branch `remove-bootstrap-remnants`: editors use `bb-field`, the vendored Bootstrap/open-iconic assets and the unused `NavMenu` are deleted. (The `btn` classes in the group dialog were already gone.)
+- ~~**Bootstrap leftovers (#14)**~~ — done: editors use `bb-field`, the vendored Bootstrap/open-iconic assets and the unused `NavMenu` are deleted. (The `btn` classes in the group dialog were already gone.)
 - **The public API exposes internals.** `BlazorBlocksModel.Groups` returns types from `BlazorBlocks.Internals.Models`, and `CssHelper`, `ObjectDroppedResult`, `DragObjectType`, `AddBlockRow` and others are all public. The models also contain logic (`Render()`, `Load()`, `GetJson()`), which went against the "Models must not contain logic" guideline from the now-removed `.github/copilot-instructions.md`.
 - **The registration API is awkward:** four `AddBlazorBlocks` overloads, told apart only by list type and by booleans with inconsistent defaults (`includeDefaultBlocks = false` in one, `includeDefaults = true` in another). `BlockRegistration` also takes untyped `Type` values.
 - **The JSON format isn't stable.** The type discriminator is the CLR class name, so renaming a class, or two plugins using the same class name, breaks stored content. There's no format version, and the display name (`EditorName`) gets saved into the data.
@@ -90,7 +90,7 @@ Items marked **(seen)** were reproduced in the running sample. Everything else c
 
 - **CSS:** the same rules appear both in `blazorblocks-editor.css` and in the component `.razor.css` files, and there are dead rules (the old custom dialog, drop zones, block headers). `.bb-padding-x-sm` uses the `md` spacing. The Title editor's CSS targets `.bb-title-editor__control`, but its markup uses `title-control` plus inline styles. The drag handle hard-codes `fill="#000000"`.
 - **Dead code:** an unused `DragService` injection in `BlockContainer`; `_dragging`, `ActiveDraggableClass` and `SetReadyToDrop` in `EditorColumn`; commented-out dialog markup; VS-generated `ExcludeFromSingleFile` items in the csproj.
-- **Sample leftovers:** an unused `NavMenu` (with Counter/Fetch data links and a "BlazorBaseBlocks" brand), an "About" link to docs.microsoft.com, unreferenced Bootstrap and open-iconic assets, an include for an empty `CustomBlocks\TestBlock\` folder, and an unnecessary `#pragma`.
+- **Sample leftovers:** an "About" link to docs.microsoft.com, an include for an empty `CustomBlocks\TestBlock\` folder, and an unnecessary `#pragma`.
 - `TitleBlockModel` is `partial` for no reason, and `Model.Groups?.Count` uses `?.` on a list that is never null.
 
 ## 4. Repo & process debt
@@ -114,7 +114,7 @@ Items marked **(seen)** were reproduced in the running sample. Everything else c
 | #23 Type-info cache ignores options | Low impact as written: the cache belongs to each instance and isn't static. It disappears with the redesign. | Phase 1 |
 | #20 Operator precedence in log string | Real, trivial | Phase 0 (delete the logging) |
 | #12 Drag & drop | Mostly implemented | Phase 2: add a keyboard alternative and change notifications, then close |
-| #14 Remove Bootstrap | About 90% done | Phase 3 |
+| #14 Remove Bootstrap | Done (PR closes it) | — |
 | #6 Editor styling | A UX review already exists on a branch | Phase 3 |
 | #15 More control over rows/columns | Partly possible today with a custom `GroupRegistration` | Responsive defaults in Phase 3; the rest after 1.0 |
 | #16 Markdown block | — | Phase 4 (should-have, as an extension package) |
@@ -189,7 +189,7 @@ Estimates are focused dev-days for one person who already knows the code.
 ### Phase 3: Look, layout & CSS (4–6 days)
 
 - Implement the high- and medium-priority items from the UX review (#6): a group header stripe, colour accents per nesting level, a styled dialog, empty-state placeholders, a chevron collapse icon and drag-handle states.
-- Finish removing Bootstrap (#14) from the library and the sample.
+- ~~Finish removing Bootstrap (#14) from the library and the sample.~~ Done.
 - **Clean up the CSS:**
   - Scope it all under `.bb-editor` or a `.bb-content` wrapper.
   - Remove the global `*` reset from the output stylesheet.
