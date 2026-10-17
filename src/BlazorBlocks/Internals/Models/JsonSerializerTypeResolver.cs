@@ -11,7 +11,10 @@ internal sealed class JsonSerializerTypeResolver : DefaultJsonTypeInfoResolver
     private readonly IReadOnlyList<BlockRegistration> _blockRegistrations;
     private readonly JsonPolymorphismOptions _polymorphismOptions;
 
-    private readonly Dictionary<Type, JsonTypeInfo> _types = new Dictionary<Type, JsonTypeInfo>();
+    // Keyed by options as well as type: a JsonTypeInfo is bound to the options it was created for.
+    private readonly Dictionary<(Type, JsonSerializerOptions), JsonTypeInfo> _types = new();
+    private readonly object _typesLock = new();
+
     public JsonSerializerTypeResolver(IReadOnlyList<BlockRegistration> blockRegistrations)
     {
         _blockRegistrations = blockRegistrations;
@@ -33,26 +36,29 @@ internal sealed class JsonSerializerTypeResolver : DefaultJsonTypeInfoResolver
 
     public override JsonTypeInfo GetTypeInfo(Type type, JsonSerializerOptions options)
     {
-        if(_types.TryGetValue(type, out var typeInfo))
+        lock (_typesLock)
         {
-            return typeInfo;
-        }
+            if (_types.TryGetValue((type, options), out var typeInfo))
+            {
+                return typeInfo;
+            }
 
-        var jsonTypeInfo = base.GetTypeInfo(type, options);
+            var jsonTypeInfo = base.GetTypeInfo(type, options);
 
-        if (!_blockRegistrations.Any())
-        {
+            if (!_blockRegistrations.Any())
+            {
+                return jsonTypeInfo;
+            }
+
+            Type baseBlockType = typeof(BaseBlockModel);
+            if (jsonTypeInfo.Type == baseBlockType && jsonTypeInfo.PolymorphismOptions == null && !jsonTypeInfo.IsReadOnly)
+            {
+                jsonTypeInfo.PolymorphismOptions = _polymorphismOptions;
+            }
+
+            _types[(type, options)] = jsonTypeInfo;
+
             return jsonTypeInfo;
         }
-
-        Type baseBlockType = typeof(BaseBlockModel);
-        if (jsonTypeInfo.Type == baseBlockType && jsonTypeInfo.PolymorphismOptions == null && !jsonTypeInfo.IsReadOnly)
-        {
-            jsonTypeInfo.PolymorphismOptions = _polymorphismOptions;
-        }
-
-        _types.Add(type, jsonTypeInfo);
-
-        return jsonTypeInfo;
     }
 }

@@ -15,11 +15,21 @@ namespace BlazorBlocks;
 /// </summary>
 public static class BlockRegistrationService
 {
+    private static readonly object RegistrationLock = new();
     private static readonly List<BlockRegistration> RegisteredBlocks = [];
     private static readonly List<GroupRegistration> RegisteredGroups = [];
 
-    internal static IReadOnlyList<BlockRegistration> Blocks => RegisteredBlocks;
-    internal static IReadOnlyList<GroupRegistration> Groups => RegisteredGroups;
+    /// <summary>Gets a snapshot of the registered blocks.</summary>
+    internal static IReadOnlyList<BlockRegistration> Blocks
+    {
+        get { lock (RegistrationLock) { return RegisteredBlocks.ToArray(); } }
+    }
+
+    /// <summary>Gets a snapshot of the registered groups.</summary>
+    internal static IReadOnlyList<GroupRegistration> Groups
+    {
+        get { lock (RegistrationLock) { return RegisteredGroups.ToArray(); } }
+    }
 
     /// <summary>
     /// Registers a block.
@@ -27,7 +37,10 @@ public static class BlockRegistrationService
     /// <param name="block">The block to register.</param>
     private static void RegisterBlock(BlockRegistration block)
     {
-        RegisteredBlocks.Add(block);
+        lock (RegistrationLock)
+        {
+            RegisteredBlocks.Add(block);
+        }
     }
 
     private static void RegisterBlock<TModel, TEditor>(string name, string? image)
@@ -44,7 +57,10 @@ public static class BlockRegistrationService
     /// <param name="group">The group to register.</param>
     private static void RegisterGroup(GroupRegistration group)
     {
-        RegisteredGroups.Add(group);
+        lock (RegistrationLock)
+        {
+            RegisteredGroups.Add(group);
+        }
     }
 
     /// <summary>
