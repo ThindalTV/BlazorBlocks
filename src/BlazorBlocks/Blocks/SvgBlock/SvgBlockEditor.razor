@@ -1,0 +1,40 @@
+@using BlazorBlocks.Customization
+@using Microsoft.AspNetCore.Components.Forms
+@inherits BlockEditor<SvgBlockModel>
+
+<h3>SVG</h3>
+<div class="bb-field">
+    <label class="bb-field__label" for="svgMarkup">SVG markup</label>
+    <textarea id="svgMarkup" rows="8" spellcheck="false" @bind="Model.Markup" @bind:after="OnValuesChanged" @bind:event="oninput"></textarea>
+</div>
+<div class="bb-field">
+    <label class="bb-field__label" for="svgFile">Load from file</label>
+    <InputFile id="svgFile" OnChange="OnFileSelected" accept=".svg,image/svg+xml" />
+    @if (_error is not null)
+    {
+        <div class="bb-field__error" role="alert">@_error</div>
+    }
+</div>
+<div class="bb-field">
+    <label class="bb-field__label" for="svgAlt">Alt text</label>
+    <input type="text" id="svgAlt" @bind="Model.AltText" @bind:after="OnValuesChanged" />
+</div>
+@code {
+    private string? _error;
+
+    private async Task OnFileSelected(InputFileChangeEventArgs e)
+    {
+        _error = null;
+
+        if (e.File.Size > SvgBlockModel.MaxUploadBytes)
+        {
+            _error = $"The file is larger than {SvgBlockModel.MaxUploadBytes / 1024} KB.";
+            return;
+        }
+
+        using var reader = new StreamReader(e.File.OpenReadStream(SvgBlockModel.MaxUploadBytes));
+        Model.Markup = await reader.ReadToEndAsync();
+
+        await OnValuesChanged();
+    }
+}

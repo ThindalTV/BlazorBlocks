@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\BlazorBlocks\BlazorBlocks.csproj" />
+    <ProjectReference Include="..\..\Blocks\Markdown\BlazorBlocks.Blocks.Markdown\BlazorBlocks.Blocks.Markdown.csproj" />
   </ItemGroup>
 
 </Project>

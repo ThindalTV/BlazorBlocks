@@ -1,0 +1,8 @@
+@using BlazorBlocks.Customization
+@inherits BlockEditor<MarkdownBlockModel>
+
+<h3>Markdown</h3>
+<div class="bb-field">
+    <label class="bb-field__label" for="markdownText">Markdown</label>
+    <textarea id="markdownText" rows="10" spellcheck="false" @bind="Model.Markdown" @bind:after="OnValuesChanged" @bind:event="oninput"></textarea>
+</div>

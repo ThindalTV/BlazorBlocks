@@ -2,6 +2,7 @@ using BlazorBlocks.Blocks.CarouselBlock;
 using BlazorBlocks.Blocks.ImageBlock;
 using BlazorBlocks.Blocks.QuoteBlock;
 using BlazorBlocks.Blocks.RawTextBlock;
+using BlazorBlocks.Blocks.SvgBlock;
 using BlazorBlocks.Blocks.TitleBlock;
 using BlazorBlocks.Customization;
 using BlazorBlocks.Internals.Support;
@@ -207,6 +208,7 @@ public static class BlockRegistrationService
         RegisterBlock<CarouselBlockModel, CarouselBlockEditor, CarouselBlockRenderer>("Carousel", null);
         RegisterBlock<TitleBlockModel, TitleEditorBlock, TitleBlockRenderer>("Title", null);
         RegisterBlock<ImageBlockModel, ImageBlockEditor, ImageBlockRenderer>("Image", null);
+        RegisterBlock<SvgBlockModel, SvgBlockEditor, SvgBlockRenderer>("SVG", null);
         RegisterBlock<RawTextBlockModel, RawTextEditorBlock, RawTextBlockRenderer>("Raw Text",
             "https://icon-sets.iconify.design/logo-iconify.svg");
     }
