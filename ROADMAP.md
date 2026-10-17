@@ -13,7 +13,6 @@
   3. **No CI.** Only the Pages workflow exists. Nothing builds or tests on a PR.
   4. **Not packaged.** No NuGet metadata, no `Directory.Build.props`, no release workflow, README still says "clone the repo".
   5. **Editor accessibility is only partly done** (see §3).
-- **Size of the job:** roughly **10–14 focused dev-days** to `1.0.0`, down from 20–30.
 
 ---
 
@@ -64,8 +63,6 @@
 ### Important: fix before 1.0 or soon after
 
 - **Debug logging ships in the library:** `Load()` still has `Console.WriteLine` calls ([BlazorBlocksModel.cs:90](src/BlazorBlocks/BlazorBlocksModel.cs#L90) and below).
-- **Raw Text is still a default block.** It is raw HTML. Move it behind an explicit opt-in registration and mark it "trusted input only".
-- **No plain body-text block.** Markdown covers it as an extension, but the core set has no safe way to write a paragraph. Decide whether to add a small core "Text" block.
 - **JSON format isn't versioned or documented.** The discriminator is the CLR class name, there's no root `version`, and the format isn't written down. Renaming a class breaks stored content. Do this before the first package ships.
 - **Public API surface:** review what is `public` (the document model lives in `Internals.Models`; `CssHelper`, `ObjectDroppedResult`, `DragObjectType` and others). There are still several `AddBlazorBlocks` overloads with inconsistent boolean defaults, and `BlockRegistration` takes untyped `Type`s.
 - **Responsive check:** verify the default group layouts stack below `md` and that images can't overflow their column. Scope the output CSS so adding it to a Bootstrap/Tailwind page restyles nothing outside `.bb-` markup.
@@ -77,7 +74,7 @@
 ## 4. What "1.0" means
 
 1. **Easy to adopt.** `dotnet add package BlazorBlocks`, one registration call, `<BlazorBlocksEditor>` on a page, save and load JSON, render HTML. Shown in the README and works in WebAssembly and in a Blazor Web App with interactive server rendering.
-2. **Safe by default.** Every built-in block encodes its output; raw HTML is opt-in and labelled as trusted-input only.
+2. **Safe by default.** Every built-in block encodes its output, except Raw Text, which deliberately emits raw HTML and is documented as trusted input only.
 3. **Content survives.** Every block round-trips; unknown blocks load as placeholders and save back unchanged; the format carries a version and is documented.
 4. **No dead ends in the editor.** Works with mouse and keyboard and tells the host about every change.
 5. **Responsive by default**, and the CSS stays inside BlazorBlocks' own markup.
@@ -86,43 +83,40 @@
 
 ## 5. Roadmap
 
-Estimates are focused dev-days for one person who already knows the code.
-
-### Phase 1: Safety and format (3–4 days)
+### Phase 1: Safety and format
 
 *The remaining breaking changes. Do them before the first package exists.*
 
 - Unknown-block placeholder that preserves and re-emits its JSON (B2), with editor text "Unknown block: x" and no output.
 - Move the image `Height` to a property (B4).
 - JSON format: explicit type IDs instead of CLR class names, a root `version` field, document it.
-- Raw Text → opt-in "HTML" block; remove it from the defaults.
 - Remove the `Console.WriteLine` calls.
 - Tests: round trip per block, unknown block, hostile-input encoding per block.
 - **Exit:** a page with a removed block type opens and saves unchanged; the format is documented.
 
-### Phase 2: CI and packaging (1–2 days)
+### Phase 2: CI and packaging
 
 - Build/test workflow on every PR and push to `main`; keep `dotnet pack` output as an artifact.
 - `Directory.Build.props` (shared settings, warnings as errors), NuGet metadata on the three library projects (version `1.0.0-preview.1`, MIT, readme, repository URL, symbols), XML docs.
 - Bump packages to current patches. Delete merged branches.
 - **Checkpoint: publish `1.0.0-preview.1`.**
 
-### Phase 3: Editor correctness and accessibility (3–4 days)
+### Phase 3: Editor correctness and accessibility
 
 - Audit `OnModelUpdated` so every change fires it (B5); add tests.
 - Keyboard alternative to dragging: move up, move down, move to another column.
-- Real `<button>`s with labels everywhere, `aria-expanded` on collapse, per-instance input IDs, labels on Quote and HTML inputs.
+- Real `<button>`s with labels everywhere, `aria-expanded` on collapse, per-instance input IDs, labels on Quote and Raw Text inputs.
 - bUnit tests: render a model, add group/block, delete, reopen a dialog after Esc, change notifications.
 - Fix remaining Blazor anti-patterns (parameter writes, `async void`) if any are still present.
 
-### Phase 4: Look, layout and CSS (2–3 days)
+### Phase 4: Look, layout and CSS
 
 - Verify and fix responsive output at 375, 768 and 1440 px (stacking groups, images capped at column width).
 - Scope the output stylesheet; remove any global resets/element rules; de-duplicate and delete dead CSS.
 - Pick up the remaining items from the UX review on `docs/editor-ux-suggestions` that matter, or drop the branch.
 - **Exit:** adding `blazorblocks.css` to a Bootstrap or Tailwind page changes nothing outside BlazorBlocks content.
 
-### Phase 5: API review, docs, release (2–3 days)
+### Phase 5: API review, docs, release
 
 - Public API pass: shrink `public` to what is intended, collapse the `AddBlazorBlocks` overloads, move the document model out of `Internals`.
 - README: install, registration, which CSS to link, interactive render mode requirement, save/load, rendering output safely, writing a custom block, theming with `--bb-*`.
@@ -130,14 +124,13 @@ Estimates are focused dev-days for one person who already knows the code.
 - Release workflow: a `v*` tag packs, pushes to NuGet and creates a GitHub release; start a CHANGELOG.
 - **Release `1.0.0-rc.1`, then `1.0.0`.**
 
-### Totals
+### Milestones
 
-| Milestone | Phases | Effort |
-|---|---|---|
-| `1.0.0-preview.1` on NuGet | 1–2 | ~4–6 days |
-| Feature-complete | 3–4 | +5–7 days |
-| `1.0.0` | 5 | +2–3 days |
-| **Total** | | **~10–14 days** |
+| Milestone | Phases |
+|---|---|
+| `1.0.0-preview.1` on NuGet | 1–2 |
+| Feature-complete | 3–4 |
+| `1.0.0` | 5 |
 
 ## 6. After 1.0
 
@@ -155,14 +148,4 @@ Settled:
 
 Open:
 
-1. **Add a core "Text" block** (plain, encoded, blank lines become paragraphs), or tell people to use the Markdown package for body text?
-2. **HTML block:** opt-in and trusted-input only (recommended, no dependency), or sanitised?
-3. **Registry:** keep it static for 1.0 (now thread-safe), or move to a DI-scoped registry first? Moving it later is a breaking change.
-
----
-
-## Appendix: how this update was checked
-
-- `dotnet test` on the solution after removing the carousel: 66 + 9 + 6 passed, 0 failed.
-- Read `BlockRegistrationService`, `JsonSerializerTypeResolver`, `ImageBlockModel`, `Dialog.razor`, the layout CSS, the csproj files, the workflow folder and the GitHub issue list.
-- **Not verified:** anything in the running editor (drag & drop, dialogs, responsive layout, accessibility tree), Blazor Web App hosting, performance on large documents.
+1. **Registry:** keep it static for 1.0 (now thread-safe), or move to a DI-scoped registry first? Moving it later is a breaking change.
