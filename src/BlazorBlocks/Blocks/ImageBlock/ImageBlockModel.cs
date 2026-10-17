@@ -36,7 +36,7 @@ public class ImageBlockModel : BaseBlockModel
 
     public string? AltText { get; set; } = string.Empty;
 
-    public int? Height;
+    public int? Height { get; set; }
 
     /// <summary>The value for the <c>src</c> attribute, or null when the block has no usable image.</summary>
     [JsonIgnore]
