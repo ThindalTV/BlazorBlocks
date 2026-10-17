@@ -1,3 +1,4 @@
+using BlazorBlocks.Blocks.UnknownBlock;
 using BlazorBlocks.Customization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -27,6 +28,11 @@ public sealed class BlockHtmlRenderer : IAsyncDisposable
     /// <summary>Renders the renderer component registered for the model's type.</summary>
     public Task<string> RenderBlockAsync(BaseBlockModel model)
     {
+        if (model is UnknownBlockModel)
+        {
+            return Task.FromResult(string.Empty);
+        }
+
         var rendererType = BlockRegistrationService.Blocks
             .FirstOrDefault(r => r.BlockModel == model.GetType())?.RendererBlock
             ?? throw new InvalidOperationException(

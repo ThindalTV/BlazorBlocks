@@ -1,4 +1,8 @@
-﻿namespace BlazorBlocks.Tests.Model;
+﻿using System.Text.Json.Nodes;
+using BlazorBlocks.Blocks.QuoteBlock;
+using BlazorBlocks.Blocks.UnknownBlock;
+
+namespace BlazorBlocks.Tests.Model;
 
 public class LoadTests
 {
@@ -11,13 +15,59 @@ public class LoadTests
 
         // Arrange
         string t2 =
-"""{"Groups":[{"Columns":[{"ColumnClass":"bb-layout-column--6","Blocks":[{"Block":{"$modelType":"QuoteBlockModel","EditorName":"Quote","Quote":"abc123"}}]},{"ColumnClass":"bb-layout-column--6","Blocks":[]}],"GroupTypeName":"2 columns","CssClass":"bb-layout-grid"},{"Columns":[{"ColumnClass":"bb-layout-column--4","Blocks":[{"Block":{"$modelType":"RawTextBlockModel","EditorName":"Raw Text","Content":"Here\u0027s some \u003Cb\u003ERaw\u003C/b\u003E text"}}]},{"ColumnClass":"bb-layout-column--8","Blocks":[{"Block":{"$modelType":"ImageBlockModel","EditorName":"Image","ImageUrl":"https://static3.bigstockphoto.com/3/8/3/large1500/383884268.jpg","AltText":""}}]}],"GroupTypeName":"1\u002B2 columns","CssClass":"bb-layout-grid"}]}""";
+"""{"Groups":[{"Columns":[{"ColumnClass":"bb-layout-column--6","Blocks":[{"Block":{"$modelType":"QuoteBlockModel","EditorName":"Quote","Quote":"abc123"}}]},{"ColumnClass":"bb-layout-column--6","Blocks":[]}],"GroupTypeName":"2 columns","CssClass":"bb-layout-grid"},{"Columns":[{"ColumnClass":"bb-layout-column--4","Blocks":[{"Block":{"$modelType":"RawTextBlockModel","EditorName":"Raw Text","Content":"Here's some <b>Raw</b> text"}}]},{"ColumnClass":"bb-layout-column--8","Blocks":[{"Block":{"$modelType":"ImageBlockModel","EditorName":"Image","ImageUrl":"https://static3.bigstockphoto.com/3/8/3/large1500/383884268.jpg","AltText":""}}]}],"GroupTypeName":"1+2 columns","CssClass":"bb-layout-grid"}]}""";
 
         // Act
         model.Load(t2);
         var html = await model.GetHtmlAsync();
-        
+
         // Assert
         Assert.NotNull(html);
+    }
+
+    private const string WithRemovedBlock =
+"""{"Groups":[{"Columns":[{"ColumnClass":"bb-layout-column--6","Blocks":[{"Block":{"$modelType":"QuoteBlockModel","Quote":"abc123"}},{"Block":{"$modelType":"GoneBlockModel","Text":"keep me","Nested":{"a":[1,2,3]}}}]}],"GroupTypeName":"1 column","CssClass":"bb-layout-grid"}]}""";
+
+    [Fact]
+    public void UnknownBlockType_LoadsAsPlaceholder()
+    {
+        TestRegistration.EnsureRegistered();
+        var model = new BlazorBlocksModel();
+
+        model.Load(WithRemovedBlock);
+
+        var blocks = model.Groups[0].Columns[0].Blocks;
+        Assert.IsType<QuoteBlockModel>(blocks[0].Block);
+        var unknown = Assert.IsType<UnknownBlockModel>(blocks[1].Block);
+        Assert.Equal("GoneBlockModel", unknown.OriginalType);
+    }
+
+    [Fact]
+    public void UnknownBlockType_IsWrittenBackUnchanged()
+    {
+        TestRegistration.EnsureRegistered();
+        var model = new BlazorBlocksModel();
+        model.Load(WithRemovedBlock);
+
+        var saved = JsonNode.Parse(model.GetJson())!;
+        var original = JsonNode.Parse(WithRemovedBlock)!;
+
+        Assert.True(JsonNode.DeepEquals(
+            original["Groups"]![0]!["Columns"]![0]!["Blocks"]![1],
+            saved["Groups"]![0]!["Columns"]![0]!["Blocks"]![1]));
+    }
+
+    [Fact]
+    public async Task UnknownBlockType_IsSkippedInRenderedOutput()
+    {
+        TestRegistration.EnsureRegistered();
+        var model = new BlazorBlocksModel();
+        model.Load(WithRemovedBlock);
+
+        var html = await model.GetHtmlAsync();
+
+        Assert.Contains("abc123", html);
+        Assert.DoesNotContain("keep me", html);
+        Assert.DoesNotContain("Unknown", html);
     }
 }
