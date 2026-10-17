@@ -1,21 +1,17 @@
 /* BlazorBlocks - Layout Grid System */
 /* Semantic grid system for organizing content in columns */
 
-/* Ensure border-box sizing for proper column width calculation */
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-}
+/* This file is loaded on the host's own pages, so every selector must start with a bb- class. */
 
 .bb-layout-grid {
+    box-sizing: border-box;
     display: flex;
     flex-wrap: wrap;
     margin-right: calc(var(--bb-spacing-gutter) * -1);
     margin-left: calc(var(--bb-spacing-gutter) * -1);
 }
 
-/* Base column styles */
+/* Base column styles: full width, so columns stack on narrow screens */
 [class*="bb-layout-column"] {
     position: relative;
     width: 100%;
@@ -24,22 +20,33 @@
     box-sizing: border-box; /* Explicitly ensure padding is included in width */
 }
 
-/* Semantic width modifiers (based on 12-column grid) */
-.bb-layout-column--1 { flex: 0 0 8.333333%; max-width: 8.333333%; }
-.bb-layout-column--2 { flex: 0 0 16.666667%; max-width: 16.666667%; }
-.bb-layout-column--3 { flex: 0 0 25%; max-width: 25%; }
-.bb-layout-column--4 { flex: 0 0 33.333333%; max-width: 33.333333%; }
-.bb-layout-column--5 { flex: 0 0 41.666667%; max-width: 41.666667%; }
-.bb-layout-column--6 { flex: 0 0 50%; max-width: 50%; }
-.bb-layout-column--7 { flex: 0 0 58.333333%; max-width: 58.333333%; }
-.bb-layout-column--8 { flex: 0 0 66.666667%; max-width: 66.666667%; }
-.bb-layout-column--9 { flex: 0 0 75%; max-width: 75%; }
-.bb-layout-column--10 { flex: 0 0 83.333333%; max-width: 83.333333%; }
-.bb-layout-column--11 { flex: 0 0 91.666667%; max-width: 91.666667%; }
-.bb-layout-column--12 { flex: 0 0 100%; max-width: 100%; }
+/* Content must never be wider than its column */
+.bb-layout-grid img {
+    max-width: 100%;
+    object-fit: contain; /* keeps the aspect ratio when a fixed height is set */
+}
 
-/* Responsive column modifiers (medium breakpoint: 768px and up) */
+.bb-layout-grid .bb-svg svg {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Semantic width modifiers (based on 12-column grid), applied from the medium breakpoint (768px) up */
 @media (min-width: 768px) {
+    .bb-layout-column--1 { flex: 0 0 8.333333%; max-width: 8.333333%; }
+    .bb-layout-column--2 { flex: 0 0 16.666667%; max-width: 16.666667%; }
+    .bb-layout-column--3 { flex: 0 0 25%; max-width: 25%; }
+    .bb-layout-column--4 { flex: 0 0 33.333333%; max-width: 33.333333%; }
+    .bb-layout-column--5 { flex: 0 0 41.666667%; max-width: 41.666667%; }
+    .bb-layout-column--6 { flex: 0 0 50%; max-width: 50%; }
+    .bb-layout-column--7 { flex: 0 0 58.333333%; max-width: 58.333333%; }
+    .bb-layout-column--8 { flex: 0 0 66.666667%; max-width: 66.666667%; }
+    .bb-layout-column--9 { flex: 0 0 75%; max-width: 75%; }
+    .bb-layout-column--10 { flex: 0 0 83.333333%; max-width: 83.333333%; }
+    .bb-layout-column--11 { flex: 0 0 91.666667%; max-width: 91.666667%; }
+    .bb-layout-column--12 { flex: 0 0 100%; max-width: 100%; }
+
+    /* Same widths under the explicit "md" name */
     .bb-layout-column--md-1 { flex: 0 0 8.333333%; max-width: 8.333333%; }
     .bb-layout-column--md-2 { flex: 0 0 16.666667%; max-width: 16.666667%; }
     .bb-layout-column--md-3 { flex: 0 0 25%; max-width: 25%; }

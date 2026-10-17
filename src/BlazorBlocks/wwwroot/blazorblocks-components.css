@@ -5,7 +5,8 @@
    Buttons & Actions
    ======================================== */
 
-button,
+/* Bare elements are only styled inside the editor and its dialogs. :where() keeps specificity at that of the bare element. */
+:where(.bb-editor, .bb-dialog) button,
 .bb-button {
     display: inline-block;
     font-weight: var(--bb-font-weight-normal);
@@ -28,14 +29,14 @@ button,
     color: var(--bb-color-neutral-700);
 }
 
-button:hover,
+:where(.bb-editor, .bb-dialog) button:hover,
 .bb-button:hover {
     background-color: var(--bb-color-neutral-200);
     border-color: var(--bb-color-neutral-400);
     color: var(--bb-color-neutral-700);
 }
 
-button:focus,
+:where(.bb-editor, .bb-dialog) button:focus,
 .bb-button:focus {
     outline: 0;
     box-shadow: var(--bb-shadow-focus);
@@ -103,10 +104,10 @@ button:focus,
 
 .bb-input,
 .bb-textarea,
-input[type="text"],
-input[type="number"],
-textarea,
-select {
+:where(.bb-editor, .bb-dialog) input[type="text"],
+:where(.bb-editor, .bb-dialog) input[type="number"],
+:where(.bb-editor, .bb-dialog) textarea,
+:where(.bb-editor, .bb-dialog) select {
     display: block;
     width: 100%;
     padding: 0.375rem var(--bb-spacing-gutter);
@@ -123,10 +124,10 @@ select {
 
 .bb-input:focus,
 .bb-textarea:focus,
-input[type="text"]:focus,
-input[type="number"]:focus,
-textarea:focus,
-select:focus {
+:where(.bb-editor, .bb-dialog) input[type="text"]:focus,
+:where(.bb-editor, .bb-dialog) input[type="number"]:focus,
+:where(.bb-editor, .bb-dialog) textarea:focus,
+:where(.bb-editor, .bb-dialog) select:focus {
     color: var(--bb-color-neutral-600);
     background-color: var(--bb-color-background-white);
     border-color: var(--bb-color-focus-border);

@@ -138,6 +138,7 @@
             Model.Blocks.Insert(dropped.Index, droppedBlock);
         }
 
+        await Editor.OnModelUpdated.InvokeAsync();
         await InvokeAsync(StateHasChanged);
     }
 
