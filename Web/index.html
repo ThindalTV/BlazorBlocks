@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BlazorBlocks</title>
+  <meta name="description" content="BlazorBlocks is a block-based page editor for Blazor.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="#">BlazorBlocks</a>
+      <nav>
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#get-started">Get started</a>
+        <a href="https://github.com/ThindalTV/BlazorBlocks">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <h1>A block-based page editor for Blazor</h1>
+        <p class="lead">Let your users build structured pages by arranging blocks in a visual editor. You decide which blocks exist and how content is stored and rendered.</p>
+        <p>
+          <a class="button primary" href="#get-started">Get started</a>
+          <a class="button" href="https://github.com/ThindalTV/BlazorBlocks">View on GitHub</a>
+        </p>
+        <p class="notice">Pre-release: BlazorBlocks is a working prototype and is not on NuGet yet.</p>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="wrap">
+        <h2>Features</h2>
+        <div class="grid">
+          <article><h3>Drag &amp; drop</h3><p>Rearrange groups and blocks, including moving blocks between columns.</p></article>
+          <article><h3>Flexible layouts</h3><p>Six built-in group layouts: 1, 2, 3 and 4 columns, plus 1+2 and 1+2+full.</p></article>
+          <article><h3>Built-in blocks</h3><p>Title, Raw Text, Image, Quote and Carousel, ready to use.</p></article>
+          <article><h3>Live preview</h3><p>See the rendered HTML of the page while you edit.</p></article>
+          <article><h3>JSON round trip</h3><p>Export the whole page to JSON and load it back whenever you need.</p></article>
+          <article><h3>Extensible</h3><p>Register your own block types with a model and an editor component.</p></article>
+          <article><h3>Themeable</h3><p>Style it with <code>--bb-*</code> CSS custom properties and <code>bb-</code> prefixed classes.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="how-it-works" class="alt">
+      <div class="wrap">
+        <h2>How it works</h2>
+        <p>Content is organised in three levels.</p>
+        <ol class="levels">
+          <li><strong>Groups</strong> are the layout containers on a page.</li>
+          <li><strong>Columns</strong> live inside a group.</li>
+          <li><strong>Blocks</strong> live inside columns and hold the actual content.</li>
+        </ol>
+        <p>Your app persists the result as JSON and renders it as HTML.</p>
+      </div>
+    </section>
+
+    <section id="get-started">
+      <div class="wrap">
+        <h2>Get started</h2>
+        <p>BlazorBlocks targets .NET 10. Until a release is on NuGet, clone the repository and reference the project.</p>
+        <pre><code>git clone https://github.com/ThindalTV/BlazorBlocks.git</code></pre>
+        <p>Register the services in <code>Program.cs</code>:</p>
+        <pre><code>builder.Services.AddBlazorBlocks();</code></pre>
+        <p>Then add the editor to a page:</p>
+        <pre><code>&lt;BlazorBlocksEditor Model="_model" OnModelUpdated="OnModelUpdated" /&gt;</code></pre>
+        <h3>Custom blocks</h3>
+        <p>Register your own model and editor component:</p>
+        <pre><code>builder.Services.AddBlazorBlocks()
+    .AddBlazorBlockEditor&lt;SampleBlockModel, SampleBlockEditor&gt;("Sample");</code></pre>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>BlazorBlocks is open source under the <a href="https://github.com/ThindalTV/BlazorBlocks/blob/main/LICENSE">MIT License</a>.
+      <a href="https://github.com/ThindalTV/BlazorBlocks/issues">Report an issue</a></p>
+    </div>
+  </footer>
+</body>
+</html>
