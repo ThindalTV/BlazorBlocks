@@ -44,44 +44,53 @@
 
     private readonly Guid _diagId = Guid.NewGuid();
 
-    protected override Task OnInitializedAsync()
-    {
-        return Task.CompletedTask;
-    }
+    private string DialogElementId => $"dialog{_diagId}";
+    private string TitleElementId => $"dialog-title{_diagId}";
 
     private async Task ShowDialog()
     {
-        var jsObj = await JSRuntime.InvokeAsync<IJSObjectReference>($"document.getElementById", $"dialog{_diagId}");// 'dialog{_diagId}').showModal");
+        var jsObj = await JSRuntime.InvokeAsync<IJSObjectReference>($"document.getElementById", DialogElementId);
         await jsObj.InvokeVoidAsync("showModal");
         await jsObj.DisposeAsync();
     }
 
     private async void CloseDialog()
     {
-        var jsObj = await JSRuntime.InvokeAsync<IJSObjectReference>($"document.getElementById", $"dialog{_diagId}");// 'dialog{_diagId}').showModal");
+        var jsObj = await JSRuntime.InvokeAsync<IJSObjectReference>($"document.getElementById", DialogElementId);
         await jsObj.InvokeVoidAsync("close");
         await jsObj.DisposeAsync();
     }
+
+    // Close button, backdrop click and Escape all end up here.
+    private async Task RequestClose()
+    {
+        await OnClose.InvokeAsync();
+        IsOpen = false;
+    }
+
+    // Raised by the browser when the dialog closes, including via Escape.
+    private async Task OnNativeClose()
+    {
+        if (IsOpen)
+        {
+            await RequestClose();
+        }
+    }
 }
 
-<dialog id="@($"dialog{_diagId}")">
-    @if (!string.IsNullOrEmpty(Title))
-    {
-        <h2>@Title</h2>
-    }
-    @ChildContent
-</dialog>
-
-<!--
-    <div class="bb-dialog-overlay">
-    <div class="bb-dialog">
-        <div class="bb-dialog__title"><h2>@(Title ?? String.Empty)</h2></div>
-        <div class="bb-dialog__content">
-@ChildContent
-        </div>
-        <div class="bb-dialog__actions">
-            <button class="bb-button bb-button--primary" @onclick="async () => { await OnClose.InvokeAsync(); }">Close</button>
+<dialog id="@DialogElementId" class="bb-dialog" aria-labelledby="@TitleElementId" @onclose="OnNativeClose" @onclick="RequestClose">
+    @* Clicks inside the surface must not reach the dialog element, which treats them as backdrop clicks. *@
+    <div class="bb-dialog__surface" @onclick:stopPropagation="true">
+        <header class="bb-dialog__header">
+            <h2 id="@TitleElementId" class="bb-dialog__title">@Title</h2>
+            <button type="button" class="bb-dialog__close" aria-label="Close" @onclick="RequestClose">
+                <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
+                    <path d="M3 3l10 10M13 3L3 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+            </button>
+        </header>
+        <div class="bb-dialog__body">
+            @ChildContent
         </div>
     </div>
-</div>
--->
+</dialog>

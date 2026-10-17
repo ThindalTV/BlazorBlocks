@@ -1,0 +1,11 @@
+@inherits BlazorBlocks.Customization.BlockRenderer<CarouselBlockModel>
+<div class="bb-carousel">
+    @foreach (var item in Model.Items.Where(i => i.ImageUrl is not null))
+    {
+        <div class="bb-carousel__item">
+            <img src="@item.ImageUrl" alt="@item.AltText" title="@item.Caption" />
+            <div class="bb-carousel__item-caption">@item.Caption</div>
+            <div class="bb-carousel__item-description">@item.Description</div>
+        </div>
+    }
+</div>
