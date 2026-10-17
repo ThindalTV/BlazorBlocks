@@ -35,7 +35,8 @@ public class BlazorBlocksModel : BaseModel
         var blocks = BlockRegistrationService.Blocks;
         if (_jsonSerializerOptions == null || _optionsBlockCount != blocks.Count)
         {
-            _jsonSerializerOptions = new JsonSerializerOptions() { TypeInfoResolver = new JsonSerializerTypeResolver(blocks) };
+            _jsonSerializerOptions = new JsonSerializerOptions();
+            _jsonSerializerOptions.Converters.Add(new BlockJsonConverter(blocks));
             _optionsBlockCount = blocks.Count;
         }
 
