@@ -15,7 +15,8 @@ public class BlazorBlocksModel : BaseModel
     /// </summary>
     public List<EditorGroupModel> Groups { get; set; }
 
-    private readonly JsonSerializerOptions _jsonSerializerOptions;
+    private JsonSerializerOptions? _jsonSerializerOptions;
+    private int _optionsBlockCount = -1;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BlazorBlocksModel"/> class.
@@ -23,7 +24,22 @@ public class BlazorBlocksModel : BaseModel
     public BlazorBlocksModel()
     {
         Groups = [];
-        _jsonSerializerOptions = new JsonSerializerOptions() { TypeInfoResolver = new JsonSerializerTypeResolver(BlockRegistrationService.Blocks) };
+    }
+
+    /// <summary>
+    /// Gets the serializer options, built on first use so blocks registered after construction are included.
+    /// Rebuilt if the set of registered blocks has changed since they were last built.
+    /// </summary>
+    private JsonSerializerOptions GetJsonSerializerOptions()
+    {
+        var blocks = BlockRegistrationService.Blocks;
+        if (_jsonSerializerOptions == null || _optionsBlockCount != blocks.Count)
+        {
+            _jsonSerializerOptions = new JsonSerializerOptions() { TypeInfoResolver = new JsonSerializerTypeResolver(blocks) };
+            _optionsBlockCount = blocks.Count;
+        }
+
+        return _jsonSerializerOptions;
     }
 
     /// <summary>
@@ -62,7 +78,7 @@ public class BlazorBlocksModel : BaseModel
     /// <returns>The JSON string.</returns>
     public string GetJson()
     {
-        return JsonSerializer.Serialize(this, _jsonSerializerOptions);
+        return JsonSerializer.Serialize(this, GetJsonSerializerOptions());
     }
 
     /// <summary>
@@ -79,10 +95,9 @@ public class BlazorBlocksModel : BaseModel
         }
 
         Console.WriteLine("Validated, deserializing");
-        var model = JsonSerializer.Deserialize<BlazorBlocksModel>(data, _jsonSerializerOptions);
+        var model = JsonSerializer.Deserialize<BlazorBlocksModel>(data, GetJsonSerializerOptions());
 
-
-        Console.WriteLine("Model is " + model == null ? "null" : "not null" + ", setting groups");
+        Console.WriteLine("Model is " + (model == null ? "null" : "not null") + ", setting groups");
 
         Groups = model?.Groups ?? [];
 

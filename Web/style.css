@@ -1,0 +1,80 @@
+:root {
+  --bg: #ffffff;
+  --bg-alt: #f4f1fb;
+  --text: #1c1b22;
+  --muted: #5d5a6b;
+  --accent: #512bd4;
+  --accent-text: #ffffff;
+  --card: #ffffff;
+  --border: #ddd8ee;
+  --code-bg: #1e1b2e;
+  --code-text: #ece9f8;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14121d;
+    --bg-alt: #1b1829;
+    --text: #ece9f8;
+    --muted: #a9a4c0;
+    --accent: #9b82f3;
+    --accent-text: #14121d;
+    --card: #1f1b30;
+    --border: #322d4a;
+    --code-bg: #0d0b15;
+    --code-text: #ece9f8;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+}
+
+.wrap { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+
+a { color: var(--accent); }
+
+.site-header { border-bottom: 1px solid var(--border); }
+.site-header .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding-top: 12px; padding-bottom: 12px; }
+.brand { font-weight: 700; font-size: 1.2rem; text-decoration: none; color: var(--text); }
+nav a { margin-left: 16px; text-decoration: none; }
+nav a:hover { text-decoration: underline; }
+
+section { padding: 48px 0; }
+section.alt { background: var(--bg-alt); }
+h1 { font-size: clamp(2rem, 6vw, 3rem); line-height: 1.15; margin: 0 0 16px; }
+h2 { font-size: 1.8rem; margin: 0 0 20px; }
+h3 { margin: 0 0 6px; }
+
+.hero { padding: 72px 0 56px; background: var(--bg-alt); }
+.lead { font-size: 1.2rem; color: var(--muted); max-width: 640px; }
+.notice { color: var(--muted); font-size: 0.9rem; }
+
+.button {
+  display: inline-block;
+  padding: 10px 18px;
+  margin: 0 8px 8px 0;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+}
+.button.primary { background: var(--accent); color: var(--accent-text); }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+.grid article { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+.grid p { margin: 0; color: var(--muted); }
+
+.levels li { margin-bottom: 6px; }
+
+pre { background: var(--code-bg); color: var(--code-text); padding: 14px 16px; border-radius: 8px; overflow-x: auto; }
+code { font-family: ui-monospace, Consolas, monospace; font-size: 0.92em; }
+p code { background: var(--bg-alt); padding: 1px 5px; border-radius: 4px; }
+
+footer { border-top: 1px solid var(--border); padding: 24px 0; color: var(--muted); font-size: 0.9rem; }
