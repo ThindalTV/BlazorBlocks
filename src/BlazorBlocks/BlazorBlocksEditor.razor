@@ -25,7 +25,6 @@
 
     private async Task NewGroupSelected(GroupRegistration groupReg, int addIndex)
     {
-        await Task.CompletedTask;
         HideDialog();
 
         // For now, assume we always add the same group type
@@ -42,6 +41,7 @@
         }
 
         Model.AddGroup(insertGroup, addIndex);
+        await OnModelUpdated.InvokeAsync();
     }
 
     private async Task AddClicked(int index)
@@ -102,6 +102,7 @@
             Model.Groups.Insert(dropObject.Index, droppedGroup);
         }
 
+        await OnModelUpdated.InvokeAsync();
         await InvokeAsync(StateHasChanged);
     }
 }

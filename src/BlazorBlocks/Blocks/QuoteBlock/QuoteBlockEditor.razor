@@ -4,4 +4,4 @@
 @code {
 
 }
-Quote: <input type="text" @bind="Model.Quote" />
+Quote: <input type="text" @bind="Model.Quote" @bind:after="OnValuesChanged" />
