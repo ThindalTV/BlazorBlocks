@@ -22,6 +22,9 @@
     <Content Update="Blocks\RawTextBlock\RawTextEditorBlock.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
+    <Content Update="Blocks\SvgBlock\SvgBlockEditor.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
     <Content Update="Blocks\TitleBlock\TitleEditorBlock.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>

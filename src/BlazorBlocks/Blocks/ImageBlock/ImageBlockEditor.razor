@@ -1,19 +1,69 @@
 ﻿@using BlazorBlocks.Customization
+@using Microsoft.AspNetCore.Components.Forms
 @inherits BlockEditor<ImageBlockModel>
 
 <h3>Image</h3>
 <div class="bb-field">
+    <label class="bb-field__label" for="imageSource">Image source</label>
+    <select id="imageSource" @bind="Model.Source" @bind:after="OnValuesChanged">
+        <option value="@ImageSourceMode.Url">Url</option>
+        <option value="@ImageSourceMode.Embedded">Upload (embedded as base64)</option>
+    </select>
+</div>
+<div class="bb-field">
 	<label class="bb-field__label" for="imageHeight">Image height</label>
     <input type="number" id="imageHeight" @bind="Model.Height" @bind:after="OnValuesChanged" />
 </div>
-<div class="bb-field">
-    <label class="bb-field__label" for="imageSrc">Image Url</label>
-    <input type="text" id="imageSrc" @bind="Model.ImageUrl" @bind:after="OnValuesChanged" />
-</div>
+@if (Model.Source == ImageSourceMode.Embedded)
+{
+    <div class="bb-field">
+        <label class="bb-field__label" for="imageFile">Image file</label>
+        <InputFile id="imageFile" OnChange="OnFileSelected" accept="image/png,image/jpeg,image/gif,image/webp,image/svg+xml" />
+        @if (_error is not null)
+        {
+            <div class="bb-field__error" role="alert">@_error</div>
+        }
+        else if (Model.ResolvedSource is not null)
+        {
+            <div class="bb-field__hint">Embedded @Model.EmbeddedContentType, @(Model.EmbeddedData!.Length * 3 / 4 / 1024) KB</div>
+        }
+    </div>
+}
+else
+{
+    <div class="bb-field">
+        <label class="bb-field__label" for="imageSrc">Image Url</label>
+        <input type="text" id="imageSrc" @bind="Model.ImageUrl" @bind:after="OnValuesChanged" />
+    </div>
+}
 <div class="bb-field">
     <label class="bb-field__label" for="imageAlt">Image Alt</label>
     <input type="text" id="imageAlt" @bind="Model.AltText" @bind:after="OnValuesChanged" />
 </div>
 @code {
+    private string? _error;
 
+    private async Task OnFileSelected(InputFileChangeEventArgs e)
+    {
+        _error = null;
+        var file = e.File;
+
+        if (!ImageBlockModel.IsEmbeddableType(file.ContentType))
+        {
+            _error = "Unsupported file type. Use PNG, JPEG, GIF, WebP or SVG.";
+            return;
+        }
+
+        if (file.Size > ImageBlockModel.MaxEmbeddedBytes)
+        {
+            _error = $"The image is larger than {ImageBlockModel.MaxEmbeddedBytes / 1024} KB.";
+            return;
+        }
+
+        using var buffer = new MemoryStream();
+        await file.OpenReadStream(ImageBlockModel.MaxEmbeddedBytes).CopyToAsync(buffer);
+        Model.SetEmbeddedImage(file.ContentType, buffer.ToArray());
+
+        await OnValuesChanged();
+    }
 }

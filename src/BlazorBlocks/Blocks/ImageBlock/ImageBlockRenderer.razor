@@ -1,10 +1,10 @@
 @inherits BlazorBlocks.Customization.BlockRenderer<ImageBlockModel>
-@if (string.IsNullOrEmpty(Model.ImageUrl))
+@if (Model.ResolvedSource is not { } src)
 {
     <text>No image</text>
 }
 else
 {
     var hasAlt = !string.IsNullOrWhiteSpace(Model.AltText);
-    <img src="@Model.ImageUrl" alt="@(Model.AltText ?? "")" aria-label="@(hasAlt ? Model.AltText : null)" aria-hidden="@(hasAlt ? "false" : "true")" height="@Model.Height" /><br />
+    <img src="@src" alt="@(Model.AltText ?? "")" aria-label="@(hasAlt ? Model.AltText : null)" aria-hidden="@(hasAlt ? "false" : "true")" height="@Model.Height" /><br />
 }

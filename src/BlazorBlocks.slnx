@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/Blocks/Markdown/">
+    <Project Path="Blocks/Markdown/BlazorBlocks.Blocks.Markdown/BlazorBlocks.Blocks.Markdown.csproj" />
+    <Project Path="Blocks/Markdown/BlazorBlocks.Blocks.Markdown.Tests/BlazorBlocks.Blocks.Markdown.Tests.csproj" />
+  </Folder>
   <Folder Name="/Samples/">
     <Project Path="Samples/BlazorBlocks.Sample.WASM/BlazorBlocks.Sample.WASM.csproj" />
   </Folder>
