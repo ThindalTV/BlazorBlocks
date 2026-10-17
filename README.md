@@ -20,7 +20,7 @@ Editors add, remove, collapse and drag & drop groups and blocks, edit each block
 
 - Drag and drop groups and blocks, including moving blocks between columns
 - Six built-in group layouts
-- Built-in blocks: Title, Raw Text, Image, Quote and Carousel
+- Built-in blocks: Title, Raw Text, Image, and Quote
 - Live HTML preview of the page being edited
 - JSON import and export of the whole page
 - Custom block types: register your own model and editor component

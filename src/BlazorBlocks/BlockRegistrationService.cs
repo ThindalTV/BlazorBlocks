@@ -1,4 +1,3 @@
-using BlazorBlocks.Blocks.CarouselBlock;
 using BlazorBlocks.Blocks.ImageBlock;
 using BlazorBlocks.Blocks.QuoteBlock;
 using BlazorBlocks.Blocks.RawTextBlock;
@@ -221,7 +220,6 @@ public static class BlockRegistrationService
     private static void AddDefaultBlocks()
     {
         RegisterBlock<QuoteBlockModel, QuoteBlockEditor, QuoteBlockRenderer>("Quote", null);
-        RegisterBlock<CarouselBlockModel, CarouselBlockEditor, CarouselBlockRenderer>("Carousel", null);
         RegisterBlock<TitleBlockModel, TitleEditorBlock, TitleBlockRenderer>("Title", null);
         RegisterBlock<ImageBlockModel, ImageBlockEditor, ImageBlockRenderer>("Image", null);
         RegisterBlock<SvgBlockModel, SvgBlockEditor, SvgBlockRenderer>("SVG", null);

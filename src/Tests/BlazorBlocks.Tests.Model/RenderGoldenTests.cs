@@ -1,4 +1,3 @@
-using BlazorBlocks.Blocks.CarouselBlock;
 using BlazorBlocks.Blocks.ImageBlock;
 using BlazorBlocks.Blocks.QuoteBlock;
 using BlazorBlocks.Blocks.RawTextBlock;
@@ -93,40 +92,6 @@ public class RenderGoldenTests : IAsyncLifetime
     public async Task Image_WithHeight_AddsHeightAttribute() =>
         Assert.Equal("""<img src="u.png" alt="A" aria-label="A" aria-hidden="false" height="120" /><br>""",
             await Render(new ImageBlockModel { ImageUrl = "u.png", AltText = "A", Height = 120 }));
-
-    // ---- Carousel ----
-
-    [Fact]
-    public async Task Carousel_Empty() =>
-        Assert.Equal("""<div class="bb-carousel"></div>""", await Render(new CarouselBlockModel()));
-
-    [Fact]
-    public async Task Carousel_SkipsItemsWithoutImageUrl()
-    {
-        var model = new CarouselBlockModel { Items = [new CarouselItem { Caption = "no image" }] };
-        Assert.Equal("""<div class="bb-carousel"></div>""", await Render(model));
-    }
-
-    [Fact]
-    public async Task Carousel_RendersItems()
-    {
-        var model = new CarouselBlockModel
-        {
-            Items =
-            [
-                new CarouselItem { ImageUrl = "a.png", AltText = "Alt A", Caption = "Cap A", Description = "Desc A" },
-                new CarouselItem { ImageUrl = "b.png", AltText = "Alt B", Caption = "Cap B", Description = "Desc B" },
-            ]
-        };
-
-        var html = Normalize(await Render(model));
-
-        Assert.Contains("""<img src="a.png" alt="Alt A" title="Cap A" />""", html);
-        Assert.Contains("""<div class="bb-carousel__item-caption">Cap A</div>""", html);
-        Assert.Contains("""<div class="bb-carousel__item-description">Desc A</div>""", html);
-        Assert.Contains("""<img src="b.png" alt="Alt B" title="Cap B" />""", html);
-        Assert.Equal(2, html.Split("bb-carousel__item\"").Length - 1);
-    }
 
     // ---- Column / group wrappers ----
 
