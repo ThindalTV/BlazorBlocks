@@ -13,31 +13,4 @@ public class ImageBlockModel : BaseBlockModel
     public ImageBlockModel() : base(typeof(ImageBlockEditor))
     {
     }
-
-    public override string Render()
-    {
-        if (string.IsNullOrEmpty(ImageUrl))
-        {
-            return RenderNoImage();
-        }
-
-        return RenderImage();
-    }
-
-    private static string RenderNoImage() => "No image";
-
-    private string RenderImage()
-    {
-        var heightAttribute = GetHeightAttribute();
-        var ariaAttribute = GetAriaAttribute();
-        return $"""<img src="{ImageUrl}" alt="{AltText}" {ariaAttribute}{heightAttribute}/><br />""";
-    }
-
-    private string GetAriaAttribute() =>
-        string.IsNullOrWhiteSpace(AltText)
-            ? "aria-hidden=\"true\" "
-            : $"aria-label=\"{AltText}\" aria-hidden=\"false\" ";
-
-    private string GetHeightAttribute() =>
-        Height.HasValue ? $"Height=\"{Height}\" " : string.Empty;
 }

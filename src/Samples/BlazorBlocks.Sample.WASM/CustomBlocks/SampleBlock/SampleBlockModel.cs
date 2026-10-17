@@ -10,11 +10,6 @@ public class SampleBlockModel : BaseBlockModel
 
     public SampleBlockModel() : base(typeof(SampleBlockEditor))
     {
-        
-    }
 
-    public override string Render()
-    {
-        return $"""<div><h1 style="color: red">Sample block</h1> {Content}</div>""";
     }
 }

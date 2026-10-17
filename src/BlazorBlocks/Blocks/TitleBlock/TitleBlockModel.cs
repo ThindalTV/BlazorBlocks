@@ -21,19 +21,4 @@ public partial class TitleBlockModel : BaseBlockModel
     public TitleBlockModel() : base(typeof(TitleEditorBlock))
     {
     }
-
-    public override string Render()
-    {
-        var tag = GetHtmlTag();
-        return $"<{tag}>{Title}</{tag}>";
-    }
-
-    private string GetHtmlTag() => TitleSize switch
-    {
-        TitleSizeEnum.Huge => "h1",
-        TitleSizeEnum.Big => "h2",
-        TitleSizeEnum.Medium => "h3",
-        TitleSizeEnum.Small => "h4",
-        _ => "h1"
-    };
 }

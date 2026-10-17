@@ -9,7 +9,7 @@
 
 	<div style="display:flex;">
 		<div style="width: 50%; margin-right: 10px;">
-			<BlazorBlocksEditor Model="@_blazorBlocksModel" OnModelUpdated="() => OnModelUpdated()" />
+			<BlazorBlocksEditor Model="@_blazorBlocksModel" OnModelUpdated="OnModelUpdated" />
 		</div>
 		<div style="border-left: 1px solid #000; width: 50%; margin-left: 10px; padding-left: 10px;">
 			<h2>Rendered HTML</h2>
@@ -42,23 +42,22 @@
 	string t2 =
 	"""{"Groups":[{"Columns":[{"ColumnClass":"bb-layout-column--6","Blocks":[{"Block":{"$modelType":"QuoteBlockModel","EditorName":"Quote","Quote":"abc123"}}]},{"ColumnClass":"bb-layout-column--6","Blocks":[]}],"GroupTypeName":"2 columns","CssClass":"bb-layout-grid"},{"Columns":[{"ColumnClass":"bb-layout-column--4","Blocks":[{"Block":{"$modelType":"RawTextBlockModel","EditorName":"Raw Text","Content":"Here\u0027s some \u003Cb\u003ERaw\u003C/b\u003E text"}}]},{"ColumnClass":"bb-layout-column--8","Blocks":[{"Block":{"$modelType":"ImageBlockModel","EditorName":"Image","ImageUrl":"https://static3.bigstockphoto.com/3/8/3/large1500/383884268.jpg","AltText":""}}]}],"GroupTypeName":"1\u002B2 columns","CssClass":"bb-layout-grid"}]}""";
 #pragma warning restore CS0414 // Field is assigned but never used
-	protected override void OnInitialized()
+	[Inject] private BlockHtmlRenderer HtmlRenderer { get; set; } = default!;
+
+	protected override async Task OnInitializedAsync()
 	{
-		base.OnInitialized();
+		await base.OnInitializedAsync();
 		// Read in and save some default blocks for testing
 		_blazorBlocksModel.Load(t2);
 
 		_serialized = _blazorBlocksModel.GetJson();
 
-		OnModelUpdated();
-
-		StateHasChanged();
+		await OnModelUpdated();
 	}
 
-	protected void ReRender()
+	protected async Task ReRender()
 	{
-		_renderContent = _blazorBlocksModel.GetHtml();
-		StateHasChanged();
+		_renderContent = await _blazorBlocksModel.GetHtmlAsync(HtmlRenderer);
 	}
 
 	protected void Import()
@@ -72,9 +71,9 @@
 		_serialized = _blazorBlocksModel.GetJson();
 	}
 
-	private void OnModelUpdated()
+	private async Task OnModelUpdated()
 	{
-		_renderContent = _blazorBlocksModel.GetHtml();
+		_renderContent = await _blazorBlocksModel.GetHtmlAsync(HtmlRenderer);
 		_serialized = _blazorBlocksModel.GetJson();
 	}
 }
