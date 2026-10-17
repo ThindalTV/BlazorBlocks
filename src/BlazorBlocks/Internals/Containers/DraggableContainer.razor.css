@@ -18,6 +18,19 @@
     position: relative;
 }
 
+/* The sidebar normally borrows its right edge from the content's left border; a collapsed group has no content border, so close the sidebar itself. */
+.bb-draggable__sidebar:has(+ .bb-draggable__content--collapsed) {
+    border-right: var(--bb-border-width) solid var(--bb-color-border-medium);
+    border-radius: var(--bb-border-radius-md);
+}
+
+/* Same for a block header, which overlaps the content's top border to look attached. */
+.bb-draggable__header:has(+ .bb-draggable__content--collapsed) {
+    bottom: 0;
+    border-bottom: var(--bb-border-width) solid var(--bb-color-border-medium);
+    border-radius: var(--bb-border-radius-md);
+}
+
 .bb-draggable--group {
     display: flex;
     flex-direction: row;
