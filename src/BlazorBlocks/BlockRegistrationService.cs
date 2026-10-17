@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 namespace BlazorBlocks;
 
 /// <summary>
-/// Service for registering blocks and rows in BlazorBlocks.
+/// Service for registering blocks and groups in BlazorBlocks.
 /// </summary>
 public static class BlockRegistrationService
 {
@@ -66,7 +66,7 @@ public static class BlockRegistrationService
     }
 
     /// <summary>
-    /// Adds the default blocks and rows to the service collection.
+    /// Adds the default blocks and groups to the service collection.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The updated service collection.</returns>
@@ -176,7 +176,7 @@ public static class BlockRegistrationService
     }
 
     /// <summary>
-    /// Adds the default rows to the service.
+    /// Adds the default groups to the service.
     /// </summary>
     /// <remarks>
     /// Uses bb- prefixed class names for all rendered HTML output to ensure framework compatibility.

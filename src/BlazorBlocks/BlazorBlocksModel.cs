@@ -6,7 +6,7 @@ namespace BlazorBlocks;
 
 /// <summary>
 /// The model used for the BlazorBlocks editor.
-/// It contains properties and methods for managing the editor rows and serializing/deserializing the model to JSON/HTML.
+/// It contains properties and methods for managing the editor groups and serializing/deserializing the model to JSON/HTML.
 /// </summary>
 public class BlazorBlocksModel : BaseModel
 {
