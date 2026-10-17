@@ -12,7 +12,7 @@
 .bb-editor__add-row-sides {
     /*flex: 1;*/
     height: 50%;
-    border-bottom: var(--bb-border-width) solid var(--bb-color-neutral-900);
+    border-bottom: var(--bb-border-width) solid var(--bb-color-border-light);
 }
 
 .bb-editor__add-row-left {
@@ -23,23 +23,27 @@
 }
 
 .bb-editor__add-row-button {
-    border: var(--bb-border-width) solid var(--bb-color-neutral-900);
-    color: var(--bb-color-neutral-900);
+    border: var(--bb-border-width) solid var(--bb-color-border-light);
+    border-radius: var(--bb-border-radius-md);
+    color: var(--bb-color-neutral-600);
     text-align: center;
-    font-size: var(--bb-font-size-lg);
-    padding: var(--bb-spacing-md);
+    font-size: 0.875rem;
+    padding: var(--bb-spacing-xs) var(--bb-spacing-md);
     cursor: pointer;
     background: var(--bb-color-background-white);
     margin: 0 var(--bb-spacing-sm);
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    transition: background-color var(--bb-transition-fast), border-color var(--bb-transition-fast);
 }
 
-.bb-editor__add-row-button--group {
-    border-radius: var(--bb-border-radius-circle);
+.bb-editor__add-row-button:hover {
+    background-color: var(--bb-color-neutral-100);
+    border-color: var(--bb-color-border-dark);
+    color: var(--bb-color-neutral-700);
 }
 
-.bb-editor__add-row-button--block {
-    border-radius: 0;
+.bb-editor__add-row-button:focus-visible {
+    outline: none;
+    box-shadow: var(--bb-shadow-focus);
 }
 
 .bb-editor__add-row-right {

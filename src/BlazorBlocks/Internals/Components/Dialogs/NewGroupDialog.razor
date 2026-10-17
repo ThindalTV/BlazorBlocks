@@ -1,12 +1,28 @@
 ﻿@using BlazorBlocks
+@using BlazorBlocks.Internals
 @using BlazorBlocks.Services
 @using BlazorBlocks.Services.Registrations
-    <Dialog Title="Add new group" OnClose="HideDialog" @bind-IsOpen="Visible">
+<Dialog Title="Add new group" OnClose="HideDialog" @bind-IsOpen="Visible">
+    <div class="bb-dialog-tiles">
         @foreach (var groupRegistration in BlockRegistrationService.Groups)
         {
-            <button class="btn btn-info me-2" @onclick="() => ItemClicked(groupRegistration)">@groupRegistration.Name</button>
+            <button type="button" class="bb-dialog-tile" @onclick="() => ItemClicked(groupRegistration)">
+                <div class="bb-dialog-tile__preview" aria-hidden="true">
+                    @foreach (var row in GroupPreview.GetRows(groupRegistration))
+                    {
+                        <div class="bb-dialog-tile__preview-row">
+                            @foreach (var span in row)
+                            {
+                                <span style="flex: @span"></span>
+                            }
+                        </div>
+                    }
+                </div>
+                <span>@groupRegistration.Name</span>
+            </button>
         }
-    </Dialog>
+    </div>
+</Dialog>
 @code {
 
     [Parameter, EditorRequired] public bool Visible { get; set; }

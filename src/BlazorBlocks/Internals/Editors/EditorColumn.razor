@@ -125,17 +125,18 @@
 }
 
 <Dialog @bind-IsOpen="AddNewBlockDialogOpen" Title="Add new block" OnClose="() => { AddNewBlockDialogOpen = false; }">
-    @foreach (var blockType in BlockRegistrationService.Blocks)
-    {
-        @if (blockType.Image == null)
+    <div class="bb-dialog-tiles">
+        @foreach (var blockType in BlockRegistrationService.Blocks)
         {
-            <button @onclick="() => AddBlock(blockType)">@blockType.Name</button>
+            <button type="button" class="bb-dialog-tile" @onclick="() => AddBlock(blockType)">
+                @if (!string.IsNullOrEmpty(blockType.Image))
+                {
+                    <img class="bb-dialog-tile__image" src="@blockType.Image" alt="" />
+                }
+                <span>@blockType.Name</span>
+            </button>
         }
-        else
-        {
-            <img @onclick="() => AddBlock(blockType)" src="@blockType.Image" />
-        }
-    }
+    </div>
 </Dialog>
 
 <div class="@Model.ColumnClass bb-editor__column">
