@@ -40,6 +40,8 @@ export async function create(host, dotNetRef, html, options) {
         target: textarea,
         license_key: options.licenseKey,
         height: expanded ? '100%' : options.height,
+        // A modal <dialog> makes everything outside it inert, so menus and dialogs must not mount under document.body.
+        ui_container: host.closest('dialog') ?? undefined,
         menubar: false,
         branding: false,
         promotion: false,
@@ -58,6 +60,8 @@ export async function create(host, dotNetRef, html, options) {
                 clearTimeout(timer);
                 push();
             });
+            // A pending debounce must not fire after the component (and its DotNetObjectReference) is gone.
+            ed.on('remove', () => clearTimeout(timer));
         }
     });
 
