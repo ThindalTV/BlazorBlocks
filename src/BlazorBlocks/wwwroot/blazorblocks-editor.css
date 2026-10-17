@@ -4,6 +4,17 @@
 /* Import rendered output styles for preview compatibility */
 @import url('blazorblocks.css');
 
+/* Editor-only controls (buttons, form fields). Not part of the rendered output stylesheet. */
+@import url('blazorblocks-components.css');
+
+/* Border-box sizing for the editor and its dialogs only, never the host page */
+:where(.bb-editor, .bb-dialog),
+:where(.bb-editor, .bb-dialog) *,
+:where(.bb-editor, .bb-dialog) *::before,
+:where(.bb-editor, .bb-dialog) *::after {
+    box-sizing: border-box;
+}
+
 
 /* ========================================
    Editor Root
@@ -23,6 +34,14 @@
 
 .bb-editor__column:not(:first-child) {
     border-left: var(--bb-border-width) solid var(--bb-color-border-light);
+}
+
+/* Columns stack below the medium breakpoint, so separate them from above instead of from the left */
+@media (max-width: 767.98px) {
+    .bb-editor__column:not(:first-child) {
+        border-left: 0;
+        border-top: var(--bb-border-width) solid var(--bb-color-border-light);
+    }
 }
 
 .bb-editor__column-add-block {
