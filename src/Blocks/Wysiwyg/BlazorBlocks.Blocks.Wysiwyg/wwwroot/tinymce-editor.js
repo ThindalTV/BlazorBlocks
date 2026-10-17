@@ -29,10 +29,17 @@ export async function create(host, dotNetRef, html, options) {
     textarea.value = html ?? '';
     host.appendChild(textarea);
 
+    // In an expanded (near-fullscreen) dialog the editor fills the window instead of using the fixed height.
+    // The offset leaves room for the dialog margin, its header, padding and the block's own heading.
+    const expanded = host.closest('.bb-dialog--expanded') !== null;
+    if (expanded) {
+        host.style.height = 'calc(100vh - 14.5rem)';
+    }
+
     const [editor] = await tinymce.init({
         target: textarea,
         license_key: options.licenseKey,
-        height: options.height,
+        height: expanded ? '100%' : options.height,
         menubar: false,
         branding: false,
         promotion: false,

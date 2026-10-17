@@ -9,6 +9,22 @@
     max-height: calc(100vh - 2rem);
 }
 
+/* Fills the window minus a margin; the body takes the remaining height so editors can stretch. */
+.bb-dialog--expanded {
+    width: calc(100vw - 2rem);
+    height: calc(100vh - 2rem);
+    max-width: none;
+}
+
+.bb-dialog--expanded .bb-dialog__surface {
+    height: 100%;
+}
+
+.bb-dialog--expanded .bb-dialog__body {
+    flex: 1;
+    min-height: 0;
+}
+
 .bb-dialog::backdrop {
     background-color: rgba(0, 0, 0, 0.45);
 }
