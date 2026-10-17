@@ -18,7 +18,5 @@ public abstract class BaseBlockModel
         Parameters = new Dictionary<string, object>() { { "Model", this } };
     }
 
-    public abstract string Render();
-
     public virtual Task OnValuesChanged() => Task.CompletedTask;
 }

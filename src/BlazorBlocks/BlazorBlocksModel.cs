@@ -45,15 +45,31 @@ public class BlazorBlocksModel : BaseModel
     /// <summary>
     /// Gets the HTML representation of the editor model.
     /// </summary>
+    /// <param name="renderer">
+    /// The renderer to use, typically the injected <see cref="BlockHtmlRenderer"/> so block renderers can use dependency injection.
+    /// When omitted, a standalone renderer without services is used for this call.
+    /// </param>
     /// <returns>The HTML string.</returns>
-    public string GetHtml()
+    public async Task<string> GetHtmlAsync(BlockHtmlRenderer? renderer = null)
     {
-        var sb = new StringBuilder();
-        foreach (var group in Groups)
+        var ownedRenderer = renderer is null ? BlockHtmlRenderer.CreateStandalone() : null;
+        try
         {
-            sb.Append(group.Render());
+            renderer ??= ownedRenderer!;
+            var sb = new StringBuilder();
+            foreach (var group in Groups)
+            {
+                sb.Append(await group.RenderAsync(renderer));
+            }
+            return sb.ToString();
         }
-        return sb.ToString();
+        finally
+        {
+            if (ownedRenderer is not null)
+            {
+                await ownedRenderer.DisposeAsync();
+            }
+        }
     }
 
     /// <summary>

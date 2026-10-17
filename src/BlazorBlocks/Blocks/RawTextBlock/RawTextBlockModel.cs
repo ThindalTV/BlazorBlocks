@@ -10,9 +10,4 @@ public class RawTextBlockModel : BaseBlockModel
     public RawTextBlockModel() : base(typeof(RawTextEditorBlock))
     {
     }
-
-    public override string Render()
-    {
-        return $"<div>{Content}</div>";
-    }
 }

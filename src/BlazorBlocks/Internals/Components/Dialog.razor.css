@@ -1,39 +1,146 @@
-﻿.bb-dialog-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 100;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.bb-dialog {
+﻿.bb-dialog {
+    padding: 0;
+    border: var(--bb-border-width) solid var(--bb-color-border-light);
+    border-radius: var(--bb-border-radius-md);
     background-color: var(--bb-color-background-white);
-    padding: var(--bb-spacing-md);
+    color: var(--bb-color-neutral-700);
+    font-family: var(--bb-font-family);
+    width: min(28rem, calc(100vw - 2rem));
+    max-height: calc(100vh - 2rem);
 }
 
-.bb-dialog__title h2 {
-    margin: 0;
-    font-size: var(--bb-font-size-xl);
-    font-weight: var(--bb-font-weight-normal);
+/* Fills the window minus a margin; the body takes the remaining height so editors can stretch. */
+.bb-dialog--expanded {
+    width: calc(100vw - 2rem);
+    height: calc(100vh - 2rem);
+    max-width: none;
+}
+
+.bb-dialog--expanded .bb-dialog__surface {
+    height: 100%;
+}
+
+.bb-dialog--expanded .bb-dialog__body {
+    flex: 1;
+    min-height: 0;
+}
+
+.bb-dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.45);
+}
+
+.bb-dialog__surface {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 2rem);
+}
+
+.bb-dialog__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--bb-spacing-md);
+    padding: var(--bb-spacing-sm) var(--bb-spacing-md);
+    border-bottom: var(--bb-border-width) solid var(--bb-color-neutral-200);
 }
 
 .bb-dialog__title {
-    border-bottom: #000 var(--bb-border-width) dashed;
-    padding-bottom: 0;
-    margin-bottom: var(--bb-spacing-md);
+    margin: 0;
+    font-size: var(--bb-font-size-lg);
+    font-weight: var(--bb-font-weight-normal);
 }
 
-.bb-dialog__content * {
-    margin: var(--bb-spacing-md);
+.bb-dialog__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border: none;
+    border-radius: var(--bb-border-radius-sm);
+    background: transparent;
+    color: var(--bb-color-neutral-600);
+    cursor: pointer;
 }
 
-.bb-dialog__actions {
-    padding-top: var(--bb-spacing-md);
-    margin-top: var(--bb-spacing-md);
-    border-top: var(--bb-border-width) solid var(--bb-color-border-light);
+.bb-dialog__close:hover {
+    background-color: var(--bb-color-neutral-200);
+}
+
+.bb-dialog__close:focus-visible {
+    outline: none;
+    box-shadow: var(--bb-shadow-focus);
+}
+
+.bb-dialog__body {
+    padding: var(--bb-spacing-md);
+    overflow-y: auto;
+}
+
+/* ---- Tile grid, used by the add group / add block dialogs ---- */
+
+.bb-dialog__body ::deep .bb-dialog-tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+    gap: var(--bb-spacing-sm);
+}
+
+.bb-dialog__body ::deep .bb-dialog-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: var(--bb-spacing-sm);
+    margin: 0;
+    padding: var(--bb-spacing-sm);
+    border: var(--bb-border-width) solid var(--bb-color-border-light);
+    border-radius: var(--bb-border-radius-md);
+    background-color: var(--bb-color-background-white);
+    color: inherit;
+    font: inherit;
+    font-size: 0.875rem;
+    text-align: center;
+    cursor: pointer;
+}
+
+.bb-dialog__body ::deep .bb-dialog-tile:hover {
+    background-color: var(--bb-color-neutral-100);
+    border-color: var(--bb-color-border-dark);
+}
+
+.bb-dialog__body ::deep .bb-dialog-tile:focus-visible {
+    outline: none;
+    box-shadow: var(--bb-shadow-focus);
+}
+
+.bb-dialog__body ::deep .bb-dialog-tile__image {
+    display: block;
+    width: 100%;
+    height: 2.5rem;
+    object-fit: contain;
+}
+
+/* Layout preview: rows of grey boxes whose widths follow the column spans. */
+
+.bb-dialog__body ::deep .bb-dialog-tile__preview {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.bb-dialog__body ::deep .bb-dialog-tile__preview-row {
+    display: flex;
+    gap: 3px;
+    height: 1.25rem;
+}
+
+.bb-dialog__body ::deep .bb-dialog-tile__preview-row > span {
+    min-width: 0;
+    border-radius: 2px;
+    background-color: var(--bb-color-neutral-300);
+}
+
+.bb-dialog__body ::deep .bb-dialog-tile:hover .bb-dialog-tile__preview-row > span {
+    background-color: var(--bb-color-neutral-400);
 }

@@ -2,19 +2,12 @@
 
 public class LoadTests
 {
-    // Registration is process-wide static state, so register the default blocks only once.
-    private static readonly Lazy<bool> Registered = new(() =>
-    {
-        new Microsoft.Extensions.DependencyInjection.ServiceCollection().AddBlazorBlocks();
-        return true;
-    });
-
     [Fact]
-    public void LoadSemiComplicatedJson()
+    public async Task LoadSemiComplicatedJson()
     {
         // Model is created BEFORE the blocks are registered (issue #19).
         BlazorBlocksModel model = new BlazorBlocksModel();
-        _ = Registered.Value;
+        TestRegistration.EnsureRegistered();
 
         // Arrange
         string t2 =
@@ -22,7 +15,7 @@ public class LoadTests
 
         // Act
         model.Load(t2);
-        var html = model.GetHtml();
+        var html = await model.GetHtmlAsync();
         
         // Assert
         Assert.NotNull(html);

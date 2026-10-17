@@ -1,0 +1,91 @@
+.workspace {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+    align-items: start;
+}
+
+@media (max-width: 960px) {
+    .workspace {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.panel {
+    background: #fff;
+    border: 1px solid #d9dee5;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(20, 33, 61, 0.08);
+    overflow: hidden;
+}
+
+.workspace + .panel {
+    margin-top: 1.5rem;
+}
+
+.panel__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    box-sizing: border-box;
+    min-height: 3.25rem;
+    padding: 0.5rem 1rem;
+    background: #f7f9fb;
+    border-bottom: 1px solid #d9dee5;
+}
+
+.panel__title {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #495057;
+}
+
+.panel__actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.panel__body {
+    padding: 1rem;
+}
+
+.preview-body {
+    min-height: 12rem;
+}
+
+.preview-empty {
+    color: #8a929b;
+    font-style: italic;
+}
+
+.json-panel > summary {
+    cursor: pointer;
+    list-style: none;
+}
+
+.json-panel > summary::-webkit-details-marker {
+    display: none;
+}
+
+.json-panel > summary .panel__title::before {
+    content: "\25B8";
+    display: inline-block;
+    margin-right: 0.5rem;
+    transition: transform 0.15s ease-in-out;
+}
+
+.json-panel[open] > summary .panel__title::before {
+    transform: rotate(90deg);
+}
+
+.json-panel textarea {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.85rem;
+    resize: vertical;
+}

@@ -10,9 +10,4 @@ public class QuoteBlockModel : BaseBlockModel
     public QuoteBlockModel() : base(typeof(QuoteBlockEditor))
     {
     }
-
-    public override string Render()
-    {
-        return $"""<blockquote>{Quote}</blockquote>""";
-    }
 }

@@ -9,13 +9,13 @@ public class EditorColumnModel : BaseModel
 
     public List<EditorBlockModel> Blocks { get; set; } = [];
 
-    public string Render()
+    public async Task<string> RenderAsync(BlockHtmlRenderer renderer)
     {
         var sb = new StringBuilder();
         sb.Append($"""<div class="{CssHelper.SanitizeCssClass(ColumnClass)}">""");
         foreach (var block in Blocks)
         {
-            sb.Append(block.Block.Render());
+            sb.Append(await renderer.RenderBlockAsync(block.Block));
         }
         sb.Append("</div>");
         return sb.ToString();

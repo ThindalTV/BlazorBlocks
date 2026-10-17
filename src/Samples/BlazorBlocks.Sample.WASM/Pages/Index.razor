@@ -1,36 +1,48 @@
 @page "/"
 
-
-<div class="content">
-	<hr />
-
-	<button @onclick="ReRender" class="bb-button bb-button--primary">Render HTML</button> <br />
-
-
-	<div style="display:flex;">
-		<div style="width: 50%; margin-right: 10px;">
-			<BlazorBlocksEditor Model="@_blazorBlocksModel" OnModelUpdated="() => OnModelUpdated()" />
+<div class="workspace">
+	<section class="panel">
+		<div class="panel__header">
+			<h2 class="panel__title">Editor</h2>
 		</div>
-		<div style="border-left: 1px solid #000; width: 50%; margin-left: 10px; padding-left: 10px;">
-			<h2>Rendered HTML</h2>
-			@((MarkupString)(_renderContent ?? ""))
+		<div class="panel__body">
+			<BlazorBlocksEditor Model="@_blazorBlocksModel" OnModelUpdated="OnModelUpdated" />
 		</div>
-	</div>
+	</section>
 
-	<hr /><hr /><hr /><hr />
-
-
-	<div class="bb-layout-grid">
-		Serialization controls:
-		<div class="bb-padding-xl" style="border: 1px solid #000;">
-
-			<button @onclick="() => Import()" class="bb-button bb-button--primary">Load from json</button>
-			<button @onclick="() => Export()" class="bb-button bb-button--primary bb-align-right">Export to json</button><br />
-			<InputTextArea class="bb-input" @bind-Value="@_serialized" rows="10" cols="100" />
+	<section class="panel">
+		<div class="panel__header">
+			<h2 class="panel__title">Rendered HTML</h2>
+			<div class="panel__actions">
+				<button @onclick="ReRender" class="bb-button bb-button--primary">Re-render</button>
+			</div>
 		</div>
-	</div>
-
+		<div class="panel__body preview-body">
+			@if (string.IsNullOrWhiteSpace(_renderContent))
+			{
+				<p class="preview-empty">Nothing to render yet.</p>
+			}
+			else
+			{
+				@((MarkupString)_renderContent)
+			}
+		</div>
+	</section>
 </div>
+
+<details class="panel json-panel">
+	<summary class="panel__header">
+		<h2 class="panel__title">Serialization (JSON)</h2>
+	</summary>
+	<div class="panel__body">
+		<div class="panel__actions" style="margin-bottom: 0.75rem;">
+			<button @onclick="() => Import()" class="bb-button bb-button--primary">Load from JSON</button>
+			<button @onclick="() => Export()" class="bb-button bb-button--primary">Export to JSON</button>
+		</div>
+		<InputTextArea class="bb-input" @bind-Value="@_serialized" rows="10" />
+	</div>
+</details>
+
 @code {
 	#pragma warning disable CS0414 // Field is assigned but never used
 
@@ -40,25 +52,24 @@
 	string? _serialized;
 
 	string t2 =
-	"""{"Groups":[{"Columns":[{"ColumnClass":"bb-layout-column--6","Blocks":[{"Block":{"$modelType":"QuoteBlockModel","EditorName":"Quote","Quote":"abc123"}}]},{"ColumnClass":"bb-layout-column--6","Blocks":[]}],"GroupTypeName":"2 columns","CssClass":"bb-layout-grid"},{"Columns":[{"ColumnClass":"bb-layout-column--4","Blocks":[{"Block":{"$modelType":"RawTextBlockModel","EditorName":"Raw Text","Content":"Here\u0027s some \u003Cb\u003ERaw\u003C/b\u003E text"}}]},{"ColumnClass":"bb-layout-column--8","Blocks":[{"Block":{"$modelType":"ImageBlockModel","EditorName":"Image","ImageUrl":"https://static3.bigstockphoto.com/3/8/3/large1500/383884268.jpg","AltText":""}}]}],"GroupTypeName":"1\u002B2 columns","CssClass":"bb-layout-grid"}]}""";
+	"""{"Groups":[{"Columns":[{"ColumnClass":"bb-layout-column--6","Blocks":[{"Block":{"$modelType":"QuoteBlockModel","EditorName":"Quote","Quote":"abc123"}}]},{"ColumnClass":"bb-layout-column--6","Blocks":[]}],"GroupTypeName":"2 columns","CssClass":"bb-layout-grid"},{"Columns":[{"ColumnClass":"bb-layout-column--4","Blocks":[{"Block":{"$modelType":"RawTextBlockModel","EditorName":"Raw Text","Content":"Here's some <b>Raw</b> text"}}]},{"ColumnClass":"bb-layout-column--8","Blocks":[{"Block":{"$modelType":"ImageBlockModel","EditorName":"Image","ImageUrl":"https://static3.bigstockphoto.com/3/8/3/large1500/383884268.jpg","AltText":""}}]}],"GroupTypeName":"1+2 columns","CssClass":"bb-layout-grid"}]}""";
 #pragma warning restore CS0414 // Field is assigned but never used
-	protected override void OnInitialized()
+	[Inject] private BlockHtmlRenderer HtmlRenderer { get; set; } = default!;
+
+	protected override async Task OnInitializedAsync()
 	{
-		base.OnInitialized();
+		await base.OnInitializedAsync();
 		// Read in and save some default blocks for testing
 		_blazorBlocksModel.Load(t2);
 
 		_serialized = _blazorBlocksModel.GetJson();
 
-		OnModelUpdated();
-
-		StateHasChanged();
+		await OnModelUpdated();
 	}
 
-	protected void ReRender()
+	protected async Task ReRender()
 	{
-		_renderContent = _blazorBlocksModel.GetHtml();
-		StateHasChanged();
+		_renderContent = await _blazorBlocksModel.GetHtmlAsync(HtmlRenderer);
 	}
 
 	protected void Import()
@@ -72,9 +83,9 @@
 		_serialized = _blazorBlocksModel.GetJson();
 	}
 
-	private void OnModelUpdated()
+	private async Task OnModelUpdated()
 	{
-		_renderContent = _blazorBlocksModel.GetHtml();
+		_renderContent = await _blazorBlocksModel.GetHtmlAsync(HtmlRenderer);
 		_serialized = _blazorBlocksModel.GetJson();
 	}
 }

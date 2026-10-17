@@ -22,6 +22,14 @@
     left: 0;
 }
 
+.bb-block__expanded-note {
+    margin: 0;
+    padding: var(--bb-spacing-md);
+    color: var(--bb-color-neutral-600);
+    font-size: 0.875rem;
+    text-align: center;
+}
+
 .bb-editor__column-drop-zone--active {
     border-top: var(--bb-border-width) dashed green;
     border-bottom: var(--bb-border-width) dashed green;

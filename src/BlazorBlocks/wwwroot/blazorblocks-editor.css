@@ -117,46 +117,4 @@
     margin-left: var(--bb-spacing-sm);
 }
 
-/* ========================================
-   Dialog
-   ======================================== */
-
-.bb-dialog-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 100;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.bb-dialog {
-    background-color: var(--bb-color-background-white);
-    padding: var(--bb-spacing-md);
-}
-
-.bb-dialog__title h2 {
-    margin: 0;
-    font-size: var(--bb-font-size-xl);
-    font-weight: var(--bb-font-weight-normal);
-}
-
-.bb-dialog__title {
-    border-bottom: #000 var(--bb-border-width) dashed;
-    padding-bottom: 0;
-    margin-bottom: var(--bb-spacing-md);
-}
-
-.bb-dialog__content * {
-    margin: var(--bb-spacing-md);
-}
-
-.bb-dialog__actions {
-    padding-top: var(--bb-spacing-md);
-    margin-top: var(--bb-spacing-md);
-    border-top: var(--bb-border-width) solid var(--bb-color-border-light);
-}
+/* Dialog styles live in Internals/Components/Dialog.razor.css */

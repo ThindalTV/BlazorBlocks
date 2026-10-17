@@ -1,0 +1,10 @@
+@inherits BlazorBlocks.Customization.BlockRenderer<SvgBlockModel>
+@if (SvgSanitizer.Sanitize(Model.Markup, out var error) is { } svg)
+{
+    var hasAlt = !string.IsNullOrWhiteSpace(Model.AltText);
+    <div class="bb-svg" role="@(hasAlt ? "img" : null)" aria-label="@(hasAlt ? Model.AltText : null)" aria-hidden="@(hasAlt ? null : "true")">@((MarkupString)svg)</div>
+}
+else if (error is not null)
+{
+    <div class="bb-svg bb-svg--invalid" role="alert">Invalid SVG: @error</div>
+}

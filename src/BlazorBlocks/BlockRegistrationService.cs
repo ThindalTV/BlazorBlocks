@@ -2,11 +2,13 @@ using BlazorBlocks.Blocks.CarouselBlock;
 using BlazorBlocks.Blocks.ImageBlock;
 using BlazorBlocks.Blocks.QuoteBlock;
 using BlazorBlocks.Blocks.RawTextBlock;
+using BlazorBlocks.Blocks.SvgBlock;
 using BlazorBlocks.Blocks.TitleBlock;
 using BlazorBlocks.Customization;
 using BlazorBlocks.Internals.Support;
 using BlazorBlocks.Services.Registrations;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace BlazorBlocks;
 
@@ -43,11 +45,12 @@ public static class BlockRegistrationService
         }
     }
 
-    private static void RegisterBlock<TModel, TEditor>(string name, string? image)
+    private static void RegisterBlock<TModel, TEditor, TRenderer>(string name, string? image)
         where TModel : BaseBlockModel
         where TEditor : BlockEditor<TModel>
+        where TRenderer : BlockRenderer<TModel>
     {
-        var blockRegistration = new BlockRegistration<TModel, TEditor>(name, image);
+        var blockRegistration = new BlockRegistration<TModel, TEditor, TRenderer>(name, image);
         RegisterBlock(blockRegistration);
     }
 
@@ -102,13 +105,16 @@ public static class BlockRegistrationService
     }
 
     /// <summary>
-    /// Registers a custom block editor for a specific block model type.
+    /// Registers a custom block: its model, the editor used while editing, and the renderer that produces the public HTML.
     /// </summary>
     /// <typeparam name="TBlockModel">
     /// The type of the block model. Must inherit from <see cref="BaseBlockModel"/>.
     /// </typeparam>
     /// <typeparam name="TBlockEditor">
     /// The type of the block editor. Must inherit from <see cref="BlockEditor{T}"/> where T is <typeparamref name="TBlockModel"/>.
+    /// </typeparam>
+    /// <typeparam name="TBlockRenderer">
+    /// The type of the block renderer. Must inherit from <see cref="BlockRenderer{T}"/> where T is <typeparamref name="TBlockModel"/>.
     /// </typeparam>
     /// <param name="services">
     /// The <see cref="IServiceCollection"/> to which the block editor will be added.
@@ -122,12 +128,13 @@ public static class BlockRegistrationService
     /// <returns>
     /// The updated <see cref="IServiceCollection"/>.
     /// </returns>
-    public static IServiceCollection AddBlazorBlockEditor<TBlockModel, TBlockEditor>(this IServiceCollection services, string blockName, string? blockIcon = null)
+    public static IServiceCollection AddBlazorBlock<TBlockModel, TBlockEditor, TBlockRenderer>(this IServiceCollection services, string blockName, string? blockIcon = null)
         where TBlockModel : BaseBlockModel
         where TBlockEditor : BlockEditor<TBlockModel>
+        where TBlockRenderer : BlockRenderer<TBlockModel>
     {
         // Create blockregistration
-        var reg = new BlockRegistration<TBlockModel, TBlockEditor>(blockName, blockIcon);
+        var reg = new BlockRegistration<TBlockModel, TBlockEditor, TBlockRenderer>(blockName, blockIcon);
         RegisterBlock(reg);
         return services;
     }
@@ -160,6 +167,11 @@ public static class BlockRegistrationService
         if (!IsRegistered<DragService>(services))
         {
             services.AddScoped<DragService>();
+        }
+
+        if (!IsRegistered<BlockHtmlRenderer>(services))
+        {
+            services.AddScoped(sp => new BlockHtmlRenderer(sp, sp.GetService<ILoggerFactory>()));
         }
         return services;
     }
@@ -208,11 +220,12 @@ public static class BlockRegistrationService
     /// </summary>
     private static void AddDefaultBlocks()
     {
-        RegisterBlock<QuoteBlockModel, QuoteBlockEditor>("Quote", null);
-        RegisterBlock<CarouselBlockModel, CarouselBlockEditor>("Carousel", null);
-        RegisterBlock<TitleBlockModel, TitleEditorBlock>("Title", null);
-        RegisterBlock<ImageBlockModel, ImageBlockEditor>("Image", null);
-        RegisterBlock<RawTextBlockModel, RawTextEditorBlock>("Raw Text",
+        RegisterBlock<QuoteBlockModel, QuoteBlockEditor, QuoteBlockRenderer>("Quote", null);
+        RegisterBlock<CarouselBlockModel, CarouselBlockEditor, CarouselBlockRenderer>("Carousel", null);
+        RegisterBlock<TitleBlockModel, TitleEditorBlock, TitleBlockRenderer>("Title", null);
+        RegisterBlock<ImageBlockModel, ImageBlockEditor, ImageBlockRenderer>("Image", null);
+        RegisterBlock<SvgBlockModel, SvgBlockEditor, SvgBlockRenderer>("SVG", null);
+        RegisterBlock<RawTextBlockModel, RawTextEditorBlock, RawTextBlockRenderer>("Raw Text",
             "https://icon-sets.iconify.design/logo-iconify.svg");
     }
 }

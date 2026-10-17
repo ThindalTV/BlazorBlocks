@@ -1,0 +1,16 @@
+@inherits BlazorBlocks.Customization.BlockRenderer<TitleBlockModel>
+@switch (Model.TitleSize)
+{
+    case TitleSizeEnum.Big:
+        <h2>@Model.Title</h2>
+        break;
+    case TitleSizeEnum.Medium:
+        <h3>@Model.Title</h3>
+        break;
+    case TitleSizeEnum.Small:
+        <h4>@Model.Title</h4>
+        break;
+    default:
+        <h1>@Model.Title</h1>
+        break;
+}

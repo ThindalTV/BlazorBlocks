@@ -22,6 +22,25 @@
 
     protected bool AddNewBlockDialogOpen { get; set; }
 
+    // The block whose editor is currently shown in the expanded dialog instead of inline.
+    private EditorBlockModel? _expandedBlock;
+    private bool _expandedDialogOpen;
+
+    private void ExpandBlock(BaseModel block)
+    {
+        if (block is EditorBlockModel model)
+        {
+            _expandedBlock = model;
+            _expandedDialogOpen = true;
+        }
+    }
+
+    private void CollapseExpandedBlock()
+    {
+        _expandedDialogOpen = false;
+        _expandedBlock = null;
+    }
+
     private async Task AddBlock(BlockRegistration blockType)
     {
         var blockModel = Activator.CreateInstance(blockType.BlockModel) as BaseBlockModel;
@@ -125,16 +144,25 @@
 }
 
 <Dialog @bind-IsOpen="AddNewBlockDialogOpen" Title="Add new block" OnClose="() => { AddNewBlockDialogOpen = false; }">
-    @foreach (var blockType in BlockRegistrationService.Blocks)
+    <div class="bb-dialog-tiles">
+        @foreach (var blockType in BlockRegistrationService.Blocks)
+        {
+            <button type="button" class="bb-dialog-tile" @onclick="() => AddBlock(blockType)">
+                @if (!string.IsNullOrEmpty(blockType.Image))
+                {
+                    <img class="bb-dialog-tile__image" src="@blockType.Image" alt="" />
+                }
+                <span>@blockType.Name</span>
+            </button>
+        }
+    </div>
+</Dialog>
+
+@* The dialog element is always rendered; only its content depends on the expanded block, so the editor exists once. *@
+<Dialog @bind-IsOpen="_expandedDialogOpen" Expanded="true" Title="@(_expandedBlock?.Block.EditorName)" OnClose="CollapseExpandedBlock">
+    @if (_expandedBlock is not null)
     {
-        @if (blockType.Image == null)
-        {
-            <button @onclick="() => AddBlock(blockType)">@blockType.Name</button>
-        }
-        else
-        {
-            <img @onclick="() => AddBlock(blockType)" src="@blockType.Image" />
-        }
+        <BlockContainer Model="@_expandedBlock.Block" />
     }
 </Dialog>
 
@@ -147,9 +175,16 @@
         <DraggableContainer Model="@block"
                             ObjectType="DragObjectType.Block"
                             Title="@block.Block.EditorName"
-                            Draggable="true" OnDelete="(model) => DeleteBlock(model)" ParentModel="@Model"
+                            Draggable="true" OnDelete="(model) => DeleteBlock(model)" OnExpand="ExpandBlock" ParentModel="@Model"
                             AdditionalCssClasses="bb-draggable--block">
-            <BlockContainer Model="@block.Block" />
+            @if (block == _expandedBlock)
+            {
+                <p class="bb-block__expanded-note">Editing in expanded view</p>
+            }
+            else
+            {
+                <BlockContainer Model="@block.Block" />
+            }
         </DraggableContainer>
     }
     <AddBlockRow ObjectType="DragObjectType.Block" OnDropped="BlockDropped" OnClicked="AddBlockClicked" Index="@Model.Blocks.Count" />

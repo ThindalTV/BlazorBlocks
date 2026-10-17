@@ -18,6 +18,19 @@
     position: relative;
 }
 
+/* The sidebar normally borrows its right edge from the content's left border; a collapsed group has no content border, so close the sidebar itself. */
+.bb-draggable__sidebar:has(+ .bb-draggable__content--collapsed) {
+    border-right: var(--bb-border-width) solid var(--bb-color-border-medium);
+    border-radius: var(--bb-border-radius-md);
+}
+
+/* Same for a block header, which overlaps the content's top border to look attached. */
+.bb-draggable__header:has(+ .bb-draggable__content--collapsed) {
+    bottom: 0;
+    border-bottom: var(--bb-border-width) solid var(--bb-color-border-medium);
+    border-radius: var(--bb-border-radius-md);
+}
+
 .bb-draggable--group {
     display: flex;
     flex-direction: row;
@@ -85,6 +98,44 @@
     border-radius: var(--bb-border-radius-sm);
     transition: background-color var(--bb-transition-fast);
     flex-shrink: 0;
+}
+
+.bb-confirm__message {
+    margin: 0 0 var(--bb-spacing-md);
+}
+
+.bb-confirm__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--bb-spacing-sm);
+}
+
+.bb-draggable__action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 2px;
+    border: none;
+    border-radius: var(--bb-border-radius-sm);
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    transition: background-color var(--bb-transition-fast);
+    flex-shrink: 0;
+}
+
+.bb-draggable__action:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.bb-draggable__action:focus-visible {
+    outline: none;
+    box-shadow: var(--bb-shadow-focus);
+}
+
+.bb-draggable__action svg {
+    display: block;
 }
 
 .bb-draggable__header .collapseButton:hover,
@@ -155,6 +206,8 @@
     border-radius: 0 var(--bb-border-radius-md) var(--bb-border-radius-md) 0;
     border-left: var(--bb-border-width) solid var(--bb-color-border-medium);
     flex: 1;
+    /* The sidebar keeps its own height (a tab-like look), but an empty group must not end up shorter than it. */
+    align-self: stretch;
     margin-left: calc(var(--bb-border-width) * -1);
 }
 
