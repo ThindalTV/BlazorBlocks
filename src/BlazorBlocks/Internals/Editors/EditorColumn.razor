@@ -172,7 +172,8 @@
         var block = Model.Blocks[index];
 
         <AddBlockRow ObjectType="DragObjectType.Block" OnDropped="BlockDropped" Index="@index" OnClicked="AddBlockClicked" />
-        <DraggableContainer Model="@block"
+        <DraggableContainer @key="block"
+                            Model="@block"
                             ObjectType="DragObjectType.Block"
                             Title="@block.Block.EditorName"
                             Draggable="true" OnDelete="(model) => DeleteBlock(model)" OnExpand="ExpandBlock" ParentModel="@Model"
