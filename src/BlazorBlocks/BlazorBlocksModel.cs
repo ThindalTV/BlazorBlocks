@@ -88,27 +88,21 @@ public class BlazorBlocksModel : BaseModel
     /// <param name="data">The JSON string representing the editor model.</param>
     public void Load(string data)
     {
-        Console.WriteLine("Loading");
         if (string.IsNullOrWhiteSpace(data))
         {
             Groups = [];
             return;
         }
 
-        Console.WriteLine("Validated, deserializing");
         var model = JsonSerializer.Deserialize<BlazorBlocksModel>(data, GetJsonSerializerOptions());
-
-        Console.WriteLine("Model is " + (model == null ? "null" : "not null") + ", setting groups");
 
         Groups = model?.Groups ?? [];
 
-        Console.WriteLine("Setting parents");
         SetGroupParents(Groups);
     }
 
     private void SetGroupParents(List<EditorGroupModel> groups)
     {
-        Console.WriteLine("Number of groups is " + groups.Count);
         foreach (var group in groups)
         {
             group.ParentModel = this;
@@ -118,7 +112,6 @@ public class BlazorBlocksModel : BaseModel
 
     private static void SetColumnParents(EditorGroupModel parent, List<EditorColumnModel> groupColumns)
     {
-        Console.WriteLine("Setting column parents. columncount is " + groupColumns.Count);
         foreach (var column in groupColumns)
         {
             column.ParentModel = parent;
