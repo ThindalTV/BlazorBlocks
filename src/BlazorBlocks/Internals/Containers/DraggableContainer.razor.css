@@ -206,6 +206,8 @@
     border-radius: 0 var(--bb-border-radius-md) var(--bb-border-radius-md) 0;
     border-left: var(--bb-border-width) solid var(--bb-color-border-medium);
     flex: 1;
+    /* The sidebar keeps its own height (a tab-like look), but an empty group must not end up shorter than it. */
+    align-self: stretch;
     margin-left: calc(var(--bb-border-width) * -1);
 }
 
