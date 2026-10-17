@@ -2,17 +2,17 @@
 @inherits BlockEditor<ImageBlockModel>
 
 <h3>Image</h3>
-<div class="form-group">
-	<label for="imageHeight">Image height</label>
-    <input class="form-control" type="number" id="imageHeight" @bind="Model.Height" @bind:after="OnValuesChanged" />
+<div class="bb-field">
+	<label class="bb-field__label" for="imageHeight">Image height</label>
+    <input type="number" id="imageHeight" @bind="Model.Height" @bind:after="OnValuesChanged" />
 </div>
-<div class="form-group">
-    <label for="imageSrc">Image Url</label>
-    <input class="form-control" type="text" id="imageSrc" @bind="Model.ImageUrl" @bind:after="OnValuesChanged" />
+<div class="bb-field">
+    <label class="bb-field__label" for="imageSrc">Image Url</label>
+    <input type="text" id="imageSrc" @bind="Model.ImageUrl" @bind:after="OnValuesChanged" />
 </div>
-<div class="form-group">
-    <label for="imageAlt">Image Alt</label>
-    <input class="form-control" type="text" id="imageAlt" @bind="Model.AltText" @bind:after="OnValuesChanged" />
+<div class="bb-field">
+    <label class="bb-field__label" for="imageAlt">Image Alt</label>
+    <input type="text" id="imageAlt" @bind="Model.AltText" @bind:after="OnValuesChanged" />
 </div>
 @code {
 
