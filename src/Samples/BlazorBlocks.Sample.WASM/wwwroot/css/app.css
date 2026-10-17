@@ -1,5 +1,6 @@
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 0;
 }
 
 h1:focus {
@@ -12,10 +13,6 @@ a {
 
 a:hover {
     color: #005a9c;
-}
-
-.content {
-    padding-top: 1.1rem;
 }
 
 #blazor-error-ui {
@@ -79,23 +76,3 @@ a:hover {
     .loading-progress-text:after {
         content: var(--blazor-load-percentage-text, "Loading");
     }
-
-/* Sample app specific layout */
-.page {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
-
-main {
-    flex: 1;
-}
-
-.top-row {
-    background-color: #f7f7f7;
-    border-bottom: 1px solid #d6d5d5;
-    justify-content: flex-end;
-    height: 3.5rem;
-    display: flex;
-    align-items: center;
-}

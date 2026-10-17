@@ -1,13 +1,14 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="page">
-    <main>
-        <div class="top-row bb-padding-x-lg">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+    <header class="app-header">
+        <div class="app-header__inner">
+            <span class="app-header__brand">BlazorBlocks</span>
+            <span class="app-header__tag">Test bench</span>
         </div>
+    </header>
 
-        <article class="content bb-padding-x-lg">
-            @Body
-        </article>
+    <main class="app-main">
+        @Body
     </main>
 </div>
