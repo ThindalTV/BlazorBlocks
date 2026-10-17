@@ -9,6 +9,10 @@
     [EditorRequired]
     public EventCallback OnClose { get; set; }
 
+    /// <summary>Makes the dialog fill the window (minus a margin), for editors that need room.</summary>
+    [Parameter]
+    public bool Expanded { get; set; }
+
     [Parameter]
     public bool IsOpen
     {
@@ -78,7 +82,7 @@
     }
 }
 
-<dialog id="@DialogElementId" class="bb-dialog" aria-labelledby="@TitleElementId" @onclose="OnNativeClose" @onclick="RequestClose">
+<dialog id="@DialogElementId" class="bb-dialog@(Expanded ? " bb-dialog--expanded" : "")" aria-labelledby="@TitleElementId" @onclose="OnNativeClose" @onclick="RequestClose">
     @* Clicks inside the surface must not reach the dialog element, which treats them as backdrop clicks. *@
     <div class="bb-dialog__surface" @onclick:stopPropagation="true">
         <header class="bb-dialog__header">

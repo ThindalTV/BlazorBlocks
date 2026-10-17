@@ -19,7 +19,14 @@
 
                 <span class="bb-draggable__title">@Title</span>
 
-                <span @onclick="() => OnDelete.InvokeAsync(Model)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 14.828L12.001 12m2.828-2.828L12.001 12m0 0L9.172 9.172M12.001 12l2.828 2.828M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10"/></svg></span>
+                @if (OnExpand.HasDelegate)
+                {
+                    <button type="button" class="bb-draggable__action" title="Edit in expanded view" aria-label="Edit in expanded view" @onclick="() => OnExpand.InvokeAsync(Model)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14 3h7m0 0v7m0-7l-8 8M10 21H3m0 0v-7m0 7l8-8"/></svg>
+                    </button>
+                }
+
+                <span @onclick="RequestDelete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 14.828L12.001 12m2.828-2.828L12.001 12m0 0L9.172 9.172M12.001 12l2.828 2.828M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10"/></svg></span>
             </div>
         </div>
     }
@@ -34,7 +41,7 @@
 			}
 			<CollapseButton Collapsed="@(Model?.Collapsed ?? false)" OnCollapseClicked="OnCollapseClicked"/>
 			<span class="bb-draggable__title bb-draggable__title--vertical">@Title</span>
-			<span @onclick="() => OnDelete.InvokeAsync(Model)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 14.828L12.001 12m2.828-2.828L12.001 12m0 0L9.172 9.172M12.001 12l2.828 2.828M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10"/></svg></span>
+			<span @onclick="RequestDelete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 14.828L12.001 12m2.828-2.828L12.001 12m0 0L9.172 9.172M12.001 12l2.828 2.828M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10"/></svg></span>
 		</div>
 	}
     <div class="bb-draggable__content @((Model?.Collapsed ?? false) ? "bb-draggable__content--collapsed" : "")">
@@ -43,7 +50,33 @@
 
 </div>
 
+<Dialog @bind-IsOpen="_confirmingDelete" Title="@DeleteTitle" OnClose="CancelDelete">
+    <p class="bb-confirm__message">@DeleteMessage</p>
+    <div class="bb-confirm__actions">
+        <button type="button" class="bb-button bb-button--secondary" @onclick="CancelDelete">Cancel</button>
+        <button type="button" class="bb-button bb-button--primary" @onclick="ConfirmDelete">Delete</button>
+    </div>
+</Dialog>
+
 @code {
+	private bool _confirmingDelete;
+
+	private string DeleteTitle => ObjectType == DragObjectType.Block ? "Delete block?" : "Delete group?";
+
+	private string DeleteMessage => ObjectType == DragObjectType.Block
+		? $"The {Title} block will be removed."
+		: "The group and every block in it will be removed.";
+
+	private void RequestDelete() => _confirmingDelete = true;
+
+	private void CancelDelete() => _confirmingDelete = false;
+
+	private async Task ConfirmDelete()
+	{
+		_confirmingDelete = false;
+		await OnDelete.InvokeAsync(Model);
+	}
+
 	[Parameter, EditorRequired]
 	public required RenderFragment ChildContent { get; set; }
 
@@ -64,6 +97,10 @@
 
 	[Parameter]
 	public EventCallback<BaseModel> OnDelete { get; set; }
+
+	/// <summary>When set, blocks show a button that raises this callback to edit them in an expanded view.</summary>
+	[Parameter]
+	public EventCallback<BaseModel> OnExpand { get; set; }
 
 	[Parameter]
 	public string? AdditionalCssClasses { get; set; }
