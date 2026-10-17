@@ -1,6 +1,8 @@
 ﻿using System.Text.Json.Nodes;
+using BlazorBlocks.Blocks.ImageBlock;
 using BlazorBlocks.Blocks.QuoteBlock;
 using BlazorBlocks.Blocks.UnknownBlock;
+using BlazorBlocks.Internals.Models;
 
 namespace BlazorBlocks.Tests.Model;
 
@@ -23,6 +25,25 @@ public class LoadTests
 
         // Assert
         Assert.NotNull(html);
+    }
+
+    [Fact]
+    public void ImageHeight_SurvivesSaveAndLoad()
+    {
+        TestRegistration.EnsureRegistered();
+        var source = new BlazorBlocksModel();
+        var group = new EditorGroupModel();
+        source.Groups = [group];
+        var column = new EditorColumnModel();
+        group.Columns = [column];
+        column.Blocks = [new EditorBlockModel { Block = new ImageBlockModel { ImageUrl = "u.png", Height = 120 } }];
+
+        var json = source.GetJson();
+        var loaded = new BlazorBlocksModel();
+        loaded.Load(json);
+
+        var image = Assert.IsType<ImageBlockModel>(loaded.Groups[0].Columns[0].Blocks[0].Block);
+        Assert.Equal(120, image.Height);
     }
 
     private const string WithRemovedBlock =
