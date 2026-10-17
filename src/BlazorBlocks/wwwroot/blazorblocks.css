@@ -8,8 +8,5 @@
 /* Import layout system */
 @import url('blazorblocks-layout.css');
 
-/* Import interactive components (buttons, forms) */
-@import url('blazorblocks-components.css');
-
 /* Import utility classes */
 @import url('blazorblocks-utilities.css');
